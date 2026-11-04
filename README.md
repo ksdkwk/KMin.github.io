@@ -2,7 +2,7 @@
 
 纯静态个人博客 / 成果展示站，零依赖、零构建，直接托管在 **GitHub Pages** 上。
 
-线上地址：<https://ksdkwk.github.io/>
+线上地址：<https://ksdkwk.github.io/KMin.github.io/>
 
 ---
 
