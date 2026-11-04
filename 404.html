@@ -20,11 +20,11 @@
         var l = localStorage.getItem('kmin-lang');
         if (l === 'en') { d.setAttribute('data-lang', 'en'); d.setAttribute('lang', 'en'); }
       } catch (e) {}
+      // 仓库名为 <用户>.github.io，是 GitHub Pages 的「用户主页仓库」，
+      // 站点挂在域名根路径下，因此所有绝对地址直接用 / 开头。
+      // 若以后绑自定义域名，根路径同样是 /，无需改动。
       document.addEventListener('DOMContentLoaded', function () {
-        // 计算站点根路径：兼容 用户名.github.io/KMin/ 与自定义域名
-        var REPO = 'KMin';
-        var seg = location.pathname.split('/').filter(Boolean)[0];
-        var base = (seg && seg.toLowerCase() === REPO.toLowerCase()) ? '/' + seg + '/' : '/';
+        var base = '/';
         var links = document.querySelectorAll('[data-home]');
         for (var i = 0; i < links.length; i++) {
           links[i].setAttribute('href', base + (links[i].getAttribute('data-home') || ''));

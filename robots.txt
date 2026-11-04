@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ksdkwk.github.io/KMin/sitemap.xml
+Sitemap: https://ksdkwk.github.io/sitemap.xml
