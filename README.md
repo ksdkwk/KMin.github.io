@@ -58,7 +58,6 @@ python -m http.server 8000
 npx serve .
 ```
 
-打开 <http://localhost:8000/>。
 
 > `404.html` 用绝对路径 `/` 跳回首页，本地预览时链接指向本地服务根，属正常现象。
 
