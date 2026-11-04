@@ -2,7 +2,7 @@
 
 纯静态个人博客 / 成果展示站，零依赖、零构建，直接托管在 **GitHub Pages** 上。
 
-线上地址：<https://ksdkwk.github.io/KMin/>
+线上地址：<https://ksdkwk.github.io/>
 
 ---
 
@@ -15,14 +15,16 @@
 | 托管 | GitHub Pages（纯静态文件直出） |
 | 兼容性 | Chrome / Edge / Firefox / Safari 最近两个大版本，尊重 `prefers-reduced-motion` |
 
-遵循 GitHub Pages 的官方限制：不含服务端逻辑；全部资源使用相对路径，仓库部署在子路径 `/KMin/` 下也能正常访问。
+遵循 GitHub Pages 的官方限制：不含服务端逻辑；全部资源使用相对路径，本地预览与线上部署都能正常访问。
+
+> 仓库名为 `KMin.github.io`，是 GitHub Pages 的**用户主页仓库**，站点直接挂在域名根路径 `https://ksdkwk.github.io/` 下，不是子路径。若仓库改回普通名字（如 `KMin`），地址会变成 `https://ksdkwk.github.io/KMin/`，届时需同步修改 `index.html` 的 canonical / og:url 与 `robots.txt`。
 
 ---
 
 ## 二、目录结构
 
 ```
-KMin/
+KMin.github.io/
 ├─ index.html           # 主页面（单页 + 锚点导航）
 ├─ 404.html             # GitHub Pages 自定义 404
 ├─ .nojekyll            # 关闭 Jekyll 处理，避免下划线目录被忽略
@@ -58,7 +60,7 @@ npx serve .
 
 打开 <http://localhost:8000/>。
 
-> `404.html` 中的路径写死为 `/KMin/`，本地预览时链接指向线上路径，属正常现象。
+> `404.html` 用绝对路径 `/` 跳回首页，本地预览时链接指向本地服务根，属正常现象。
 
 ---
 
@@ -66,7 +68,7 @@ npx serve .
 
 ### 方式 A：仓库根目录（当前采用）
 
-1. 仓库：`https://github.com/ksdkwk/KMin`
+1. 仓库：`https://github.com/ksdkwk/KMin.github.io`
 2. 推送到 `main` 分支：
 
 ```bash
@@ -78,7 +80,7 @@ git push -u origin main
 3. 仓库 **Settings → Pages**
 4. **Source** 选 `Deploy from a branch`
 5. **Branch** 选 `main`，目录选 `/ (root)`，点 **Save**
-6. 等待 1–3 分钟，访问 `https://ksdkwk.github.io/KMin/`
+6. 等待 1–3 分钟，访问 `https://ksdkwk.github.io/`（用户主页仓库，根路径即站点）
 
 ### 方式 B：`gh-pages` 分支
 
