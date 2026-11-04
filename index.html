@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KMin · 个人主页与数字花园</title>
+  <meta name="description" content="KMin 的个人主页：开源作品、免费资源清单与顺手好用的工具，全部整理在一处。" />
+  <meta name="author" content="KMin" />
+  <meta name="theme-color" content="#f6f0e1" />
+  <link rel="canonical" href="https://ksdkwk.github.io/KMin/" />
+  <meta property="og:title" content="KMin · 个人主页与数字花园" />
+  <meta property="og:description" content="开源作品、免费资源清单与顺手好用的工具。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ksdkwk.github.io/KMin/" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = localStorage.getItem('kmin-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        d.setAttribute('data-theme', t);
+        var l = localStorage.getItem('kmin-lang');
+        if (l === 'zh' || l === 'en') {
+          d.setAttribute('data-lang', l);
+          d.setAttribute('lang', l === 'zh' ? 'zh-CN' : 'en');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">跳到主要内容</a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="KMin">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" />
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>KMin</strong>
+          <small>KSDKWK.GITHUB.IO</small>
+        </span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="主导航">
+        <a class="nav-link is-active" href="#home" data-i18n="nav.home">首页</a>
+        <a class="nav-link" href="#resources" data-i18n="nav.resources">资源</a>
+        <a class="nav-link" href="#tools" data-i18n="nav.tools">工具</a>
+        <a class="nav-link" href="#notes" data-i18n="nav.notes">笔记</a>
+        <a class="nav-link" href="#about" data-i18n="nav.about">关于</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchBtn" type="button" data-i18n-aria="ui.search" aria-label="搜索">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="6.5" />
+            <path d="m16 16 4.5 4.5" />
+          </svg>
+        </button>
+
+        <button class="icon-btn" id="themeBtn" type="button" data-i18n-aria="ui.theme" aria-label="切换主题">
+          <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.2" />
+            <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" />
+          </svg>
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" />
+          </svg>
+        </button>
+
+        <div class="lang" id="lang">
+          <button class="lang-btn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="ui.lang" aria-label="切换语言">
+            <span class="lang-code" id="langCode">CN</span>
+            <svg class="lang-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 9.5 6 6 6-6" />
+            </svg>
+          </button>
+          <ul class="lang-menu" id="langMenu" role="listbox" aria-labelledby="langBtn">
+            <li role="none">
+              <button class="lang-opt" type="button" role="option" data-lang-opt="zh" aria-selected="true">
+                <span class="lang-flag">CN</span><span class="lang-name">中文</span>
+              </button>
+            </li>
+            <li role="none">
+              <button class="lang-opt" type="button" role="option" data-lang-opt="en" aria-selected="false">
+                <span class="lang-flag">US</span><span class="lang-name">English</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="primaryNav" data-i18n-aria="ui.menu" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <noscript>
+      <p class="noscript">本站的列表内容由 JavaScript 渲染，请启用 JavaScript 后查看。<br />List content is rendered with JavaScript. Please enable it to view the full site.</p>
+    </noscript>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-card reveal">
+          <div class="hero-copy">
+            <p class="eyebrow">
+              <span class="eyebrow-line" aria-hidden="true"></span>
+              <span data-i18n="hero.eyebrow">KMIN · 个人主页与数字花园</span>
+            </p>
+            <h1 class="hero-title" data-i18n-html="hero.title">把热爱的事，<mark class="hl">做成作品</mark>。</h1>
+            <p class="hero-desc" data-i18n="hero.desc">这里是我的数字花园：开源作品、免费资源清单，还有那些真的每天在用的工具，全都整理在一处。</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#resources">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m4 8 8-4 8 4-8 4-8-4Z" /><path d="m4 8v8l8 4 8-4V8" /><path d="M12 12v8" />
+                </svg>
+                <span data-i18n="hero.cta1">逛逛资源库</span>
+              </a>
+              <a class="btn btn-ghost" href="#about" data-i18n="hero.cta2">了解我</a>
+            </div>
+            <p class="hero-meta" data-i18n-html="hero.meta">已收录 <b data-count="resources">21</b> 条资源 · 持续维护 <b>4</b> 年 · 最近更新 <b>2025-11</b></p>
+          </div>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="orbit"></div>
+            <div class="float-card fc-1">
+              <span class="fc-icon">$</span>
+              <span class="fc-label" data-i18n="hero.fc1">免费额度</span>
+              <span class="fc-value">¥ 0 <em data-i18n="hero.fc1.unit">/ 月</em></span>
+            </div>
+            <div class="float-card fc-2">
+              <span class="fc-icon">✓</span>
+              <span class="fc-label" data-i18n="hero.fc2">收录条目</span>
+              <span class="fc-value" data-count="resources">21</span>
+            </div>
+            <div class="float-card fc-3">
+              <span class="fc-icon">◷</span>
+              <span class="fc-label" data-i18n="hero.fc3">最近同步</span>
+              <span class="fc-value"><b data-count="sync">12</b> <span data-i18n="hero.fc3.unit">分钟前</span></span>
+            </div>
+            <div class="verify-badge" data-i18n="hero.badge">KMin 认证</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats-wrap" aria-label="站点数据">
+      <div class="container">
+        <div class="stats-bar reveal">
+          <span class="live">
+            <i class="dot" aria-hidden="true"></i>
+            <span data-i18n="stats.live">数据活着</span>
+            <span class="live-sep">·</span>
+            <b><span data-count="sync">12</span> <span data-i18n="stats.syncUnit">分钟前同步</span></b>
+          </span>
+          <span class="bar-sep" aria-hidden="true"></span>
+          <span class="stat"><b data-count="resources">21</b> <span data-i18n="stats.resources">收录条目</span></span>
+          <span class="bar-sep" aria-hidden="true"></span>
+          <span class="stat"><b data-count="tools">13</b> <span data-i18n="stats.tools">工具推荐</span></span>
+          <span class="bar-sep" aria-hidden="true"></span>
+          <span class="stat"><b data-count="projects">6</b> <span data-i18n="stats.projects">开源作品</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUICK NAV ============ -->
+    <section class="section" id="start">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 data-i18n="start.title">从这里开始</h2>
+          <p data-i18n="start.desc">四个入口覆盖站点主要内容，卡片上的数字会随内容自动更新。</p>
+        </div>
+        <div class="quick-grid">
+          <a class="quick-card reveal" href="#resources">
+            <span class="quick-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m4 8 8-4 8 4-8 4-8-4Z" /><path d="m4 8v8l8 4 8-4V8" />
+              </svg>
+            </span>
+            <h3 data-i18n="start.c1.title">资源导航</h3>
+            <p data-i18n="start.c1.desc">免费 API、服务器、镜像站与域名，标注现在还能不能薅。</p>
+            <span class="pill"><b data-count="resources">21</b> <span data-i18n="start.c1.unit">条收录</span></span>
+          </a>
+          <a class="quick-card reveal" href="#tools">
+            <span class="quick-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 5.5a4 4 0 0 0 5 5L10 20a2.8 2.8 0 0 1-4-4Z" /><path d="M17.5 2.5 21 6" />
+              </svg>
+            </span>
+            <h3 data-i18n="start.c2.title">工具推荐</h3>
+            <p data-i18n="start.c2.desc">真正每天在用的软件与在线工具，标了免费额度或开源。</p>
+            <span class="pill"><b data-count="tools">13</b> <span data-i18n="start.c2.unit">个工具</span></span>
+          </a>
+          <a class="quick-card reveal" href="#notes">
+            <span class="quick-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 4h11l3 3v13H5Z" /><path d="M9 9h6M9 13h6M9 17h4" />
+              </svg>
+            </span>
+            <h3 data-i18n="start.c3.title">最新笔记</h3>
+            <p data-i18n="start.c3.desc">折腾过程、踩坑复盘与阶段性总结，想到就写。</p>
+            <span class="pill"><b data-count="posts">6</b> <span data-i18n="start.c3.unit">篇笔记</span></span>
+          </a>
+          <a class="quick-card reveal" href="#about">
+            <span class="quick-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8.5" r="3.6" /><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" />
+              </svg>
+            </span>
+            <h3 data-i18n="start.c4.title">关于我</h3>
+            <p data-i18n="start.c4.desc">在做什么、会什么、怎么联系，一站看完。</p>
+            <span class="pill"><b>4</b> <span data-i18n="start.c4.unit">年折腾</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESOURCES ============ -->
+    <section class="section" id="resources">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 data-i18n="res.title">资源导航</h2>
+          <p data-i18n="res.desc">能用、稳定、现在还能薅的才收录；失效或名额已满的会直接标出来。</p>
+        </div>
+        <div class="chips reveal" id="resourceFilters" role="group" aria-label="资源分类"></div>
+        <div class="card-grid" id="resourceGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLS ============ -->
+    <section class="section" id="tools">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 data-i18n="tools.title">工具推荐</h2>
+          <p data-i18n="tools.desc">只推每天真的在用的，能免费或开源的一律标明。</p>
+        </div>
+        <div class="chips reveal" id="toolFilters" role="group" aria-label="工具分类"></div>
+        <div class="tool-grid" id="toolGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ NOTES ============ -->
+    <section class="section" id="notes">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 data-i18n="notes.title">最新笔记</h2>
+          <p data-i18n="notes.desc">记录折腾过程、踩坑复盘和阶段性总结。</p>
+        </div>
+        <div class="post-list" id="postList"></div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 data-i18n="about.title">关于我</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-card reveal">
+            <div class="about-top">
+              <span class="avatar" aria-hidden="true">KM</span>
+              <div>
+                <h3 class="about-name">KMin</h3>
+                <p class="about-role" data-i18n="about.role">写代码的 / 折腾免费额度的</p>
+              </div>
+            </div>
+            <p class="about-bio" data-i18n="about.bio1">你好，我是 KMin。白天写代码，晚上折腾各种免费额度和自建服务。</p>
+            <p class="about-bio" data-i18n="about.bio2">这个站点用来存放心得和资源，顺便当作自己的数字名片。内容会持续更新，欢迎在 GitHub 上找我。</p>
+            <div class="about-links">
+              <a class="btn btn-sm btn-primary" href="https://github.com/ksdkwk" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+                <span>GitHub</span>
+              </a>
+              <a class="btn btn-sm btn-ghost" href="mailto:hello@example.com">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m3.5 7 8.5 6 8.5-6" /></svg>
+                <span data-i18n="about.mail">发邮件</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="about-side">
+            <div class="panel reveal">
+              <h4 data-i18n="about.now.title">现在在做什么</h4>
+              <ul class="timeline" id="timeline"></ul>
+            </div>
+            <div class="panel reveal">
+              <h4 data-i18n="about.skills.title">会用一点的东西</h4>
+              <div class="tag-cloud" id="skillTags"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" />
+            </svg>
+          </span>
+          <span class="brand-text"><strong>KMin</strong><small>KSDKWK.GITHUB.IO</small></span>
+        </a>
+        <p data-i18n="footer.tagline">手写 HTML / CSS / JS，托管在 GitHub Pages，零依赖、零服务器。</p>
+      </div>
+      <nav class="footer-nav" aria-label="页脚导航">
+        <a href="#home" data-i18n="nav.home">首页</a>
+        <a href="#resources" data-i18n="nav.resources">资源</a>
+        <a href="#tools" data-i18n="nav.tools">工具</a>
+        <a href="#notes" data-i18n="nav.notes">笔记</a>
+        <a href="#about" data-i18n="nav.about">关于</a>
+      </nav>
+      <p class="copyright"><span>© <span id="year">2025</span> KMin</span><span class="dot-sep">·</span><span data-i18n="footer.license">内容遵循 MIT 许可</span></p>
+    </div>
+  </footer>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-backdrop" data-close-search></div>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-labelledby="searchInput">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+        <input id="searchInput" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="search.placeholder" placeholder="搜索资源、工具或笔记…" />
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <p class="search-hint" data-i18n="search.hint">输入关键词即时过滤，回车打开第一条结果。</p>
+    </div>
+  </div>
+
+  <button class="to-top" id="toTop" type="button" data-i18n-aria="ui.top" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M12 5 6.5 10.5M12 5l5.5 5.5" /></svg>
+  </button>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 · 页面走丢了 | KMin</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#f6f0e1" />
+  <!-- 404 页面完全自包含：不依赖外部 CSS，站在任何路径下都不会丢样式 -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='3' y='3' width='58' height='58' rx='15' fill='%23ffc93c' stroke='%231b1a17' stroke-width='4'/%3E%3Cpath d='M32 15v34M32 15l-8.5 8.5M32 15l8.5 8.5M32 49l-8.5-8.5M32 49l8.5-8.5' fill='none' stroke='%231b1a17' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <script>
+    (function () {
+      var d = document.documentElement;
+      try {
+        var t = localStorage.getItem('kmin-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        d.setAttribute('data-theme', t);
+        var l = localStorage.getItem('kmin-lang');
+        if (l === 'en') { d.setAttribute('data-lang', 'en'); d.setAttribute('lang', 'en'); }
+      } catch (e) {}
+      document.addEventListener('DOMContentLoaded', function () {
+        // 计算站点根路径：兼容 用户名.github.io/KMin/ 与自定义域名
+        var REPO = 'KMin';
+        var seg = location.pathname.split('/').filter(Boolean)[0];
+        var base = (seg && seg.toLowerCase() === REPO.toLowerCase()) ? '/' + seg + '/' : '/';
+        var links = document.querySelectorAll('[data-home]');
+        for (var i = 0; i < links.length; i++) {
+          links[i].setAttribute('href', base + (links[i].getAttribute('data-home') || ''));
+        }
+      });
+    })();
+  </script>
+  <style>
+    :root {
+      --font-sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-serif: "Noto Serif SC", "Songti SC", "Source Han Serif SC", Georgia, serif;
+      --bg: #f7f2e5; --bg-soft: #fdfaf2; --surface: #ffffff;
+      --ink: #1b1a17; --ink-soft: #5c574c; --ink-mute: #8d867a;
+      --line: #1b1a17; --line-soft: rgba(27, 26, 23, 0.14);
+      --accent: #ffc93c; --accent-deep: #f2b023;
+    }
+    html[data-theme="dark"] {
+      --bg: #16150f; --bg-soft: #1d1c15; --surface: #201f18;
+      --ink: #f3ecda; --ink-soft: #bdb5a1; --ink-mute: #8f8877;
+      --line: #f3ecda; --line-soft: rgba(243, 236, 218, 0.18);
+      --accent: #ffc93c; --accent-deep: #ffd966;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--line-soft) 1px, transparent 1px);
+      background-size: 22px 22px;
+      line-height: 1.7;
+    }
+    .nf { display: grid; place-items: center; min-height: 100vh; padding: 40px 20px; }
+    .nf-card {
+      width: min(560px, 100%);
+      padding: clamp(32px, 6vw, 56px);
+      text-align: center;
+      border: 2px solid var(--line);
+      border-radius: 34px;
+      background: var(--bg-soft);
+      box-shadow: 8px 8px 0 var(--line);
+    }
+    .nf-code {
+      font-family: var(--font-serif);
+      font-size: clamp(4.5rem, 16vw, 7rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 0 0 6px;
+    }
+    .nf-title { font-size: clamp(1.2rem, 3vw, 1.6rem); margin: 0 0 14px; font-weight: 800; }
+    .nf-text { color: var(--ink-soft); font-size: 15px; line-height: 1.8; margin: 0 0 28px; }
+    .nf-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .nf-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 13px 26px;
+      border: 2px solid var(--line);
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--surface);
+      box-shadow: 3px 3px 0 var(--line);
+      transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .nf-btn.is-primary { background: var(--accent); color: #1b1a17; }
+    .nf-btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--line); }
+    .nf-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+    .nf-btn:focus-visible { outline: 3px solid var(--accent-deep); outline-offset: 3px; }
+    .nf-foot { margin-top: 22px; font-size: 12.5px; color: var(--ink-mute); }
+    [data-lang="zh"] .en, [data-lang="en"] .zh { display: none; }
+  </style>
+</head>
+<body>
+  <main class="nf">
+    <div class="nf-card">
+      <p class="nf-code">404</p>
+      <h1 class="nf-title">
+        <span class="zh">页面走丢了</span>
+        <span class="en">Page not found</span>
+      </h1>
+      <p class="nf-text">
+        <span class="zh">你要找的内容可能已经搬家，或者链接拼错了。回首页重新找找看。</span>
+        <span class="en">What you are looking for may have moved, or the link is mistyped. Head back home and try again.</span>
+      </p>
+      <div class="nf-actions">
+        <a class="nf-btn is-primary" data-home="" href="/">
+          <span class="zh">回到首页</span><span class="en">Back home</span>
+        </a>
+        <a class="nf-btn" data-home="#resources" href="/#resources">
+          <span class="zh">逛逛资源库</span><span class="en">Browse resources</span>
+        </a>
+      </div>
+      <p class="nf-foot">KMin · KSDKWK.GITHUB.IO</p>
+    </div>
+  </main>
+</body>
+</html>
