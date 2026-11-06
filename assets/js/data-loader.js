@@ -13,6 +13,19 @@
 (function () {
   'use strict';
 
+  // 解析自身 <script src=".../data-loader.js?v=xxx"> 里的版本号
+  (function () {
+    var scripts = document.getElementsByTagName('script');
+    for (var i = scripts.length - 1; i >= 0; i--) {
+      var s = scripts[i];
+      if (s.src && s.src.indexOf('data-loader.js') !== -1) {
+        var m = s.src.match(/[?&]v=([^&]+)/);
+        if (m) window.KMIN_DATA_VERSION = m[1];
+        break;
+      }
+    }
+  })();
+
   var FILES = {
     site: 'data/site.json',
     categories: 'data/categories.json',
@@ -24,11 +37,29 @@
     about: 'data/about.json'
   };
 
+  /**
+   * 给请求地址加上防缓存参数。
+   * 浏览器会缓存 data/*.json，内容更新后用户可能还看到旧数据；
+   * 这里用「部署时间戳」做参数，同一次部署内复用，部署后自动失效。
+   */
+  function cacheBust(url) {
+    // 版本号由 HTML 里的 <script>data-loader.js?v=xxx</script> 注入，
+    // 见文件末尾对自身 src 的解析（document.currentScript 在异步场景不可靠）
+    var tag = window.KMIN_DATA_VERSION || '';
+    if (!tag) {
+      var d = new Date();
+      tag = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+    }
+    return url + (url.indexOf('?') === -1 ? '?' : '&') + 'v=' + encodeURIComponent(tag);
+  }
+
   /** 同步读取一个 JSON 文件；失败时返回 null 而不是抛错 */
   function readJSON(url) {
     try {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', url, false);
+      // 加 no-store 让浏览器每次都向服务器确认，配合 cacheBust 彻底避免陈旧数据
+      xhr.open('GET', cacheBust(url), false);
+      xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.send(null);
 
       // 本地 file:// 下 status 可能是 0，也要接受
