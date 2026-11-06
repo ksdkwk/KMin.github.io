@@ -1,0 +1,91 @@
+# ==============================================================================
+# 自动构建并部署到 GitHub Pages
+#
+# 流程：
+#   1. 你 push content/ 下的 Markdown（或直接改代码）
+#   2. 本工作流自动运行 node build-content.js，把 Markdown 编译成 data/*.json
+#   3. 把站点文件发布到 GitHub Pages
+#
+# 结果：日常维护只需提交 .md，不用在本地跑构建命令。
+# 线上仍是纯静态文件（HTML + CSS + JS + JSON），无后端、无数据库。
+# ==============================================================================
+
+name: Build & Deploy to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # 支持在 Actions 页面手动触发
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # ---------- 构建 ----------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 从 Markdown 编译数据
+        run: node build-content.js
+
+      - name: 校验生成结果
+        run: |
+          echo "=== 生成的 JSON ==="
+          ls -la data/
+          echo ""
+          echo "=== 各类型条数 ==="
+          node -e "
+          const fs = require('fs');
+          ['resources','baipiao','charity','tools','posts'].forEach(f => {
+            const p = 'data/' + f + '.json';
+            if (fs.existsSync(p)) {
+              console.log(f.padEnd(12) + JSON.parse(fs.readFileSync(p,'utf8')).length + ' 条');
+            }
+          });
+          "
+
+      # 把要部署的文件挑出来放到 _site/
+      # 只放运行站点真正需要的东西，源码和工具链不上传
+      - name: 组装站点目录
+        run: |
+          mkdir -p _site
+          cp -r assets data _site/
+          cp *.html robots.txt .nojekyll _site/ 2>/dev/null || true
+          echo "=== 部署内容 ==="
+          find _site -maxdepth 1 | sort
+          echo ""
+          echo "总大小: $(du -sh _site | cut -f1)"
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+
+      - name: 打包站点
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  # ---------- 部署 ----------
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

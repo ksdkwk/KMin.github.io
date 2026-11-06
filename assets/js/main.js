@@ -1010,10 +1010,27 @@
   }
 
   /** 判断某条目是否属于某个分类：优先比标签，其次比 pageCat（白嫖/公益专用） */
+  /**
+   * 判断某条目是否属于某个分类。不同数据类型的归属方式不同：
+   *   - 资源：靠 tags 里的「分类标签」中文名匹配
+   *   - 白嫖 / 公益站：靠 pageCat 存的是分类 id
+   *   - 工具：靠 category 字段（id），没有 tags 概念
+   */
   function countByCategory(item, cat, groupKey) {
+    // 工具：直接用 category 字段比较
+    if (groupKey === 'tool') {
+      return item.category === cat.id;
+    }
+
+    // 白嫖 / 公益站：pageCat 存分类 id
+    if (item.pageCat) {
+      return item.pageCat === cat.id;
+    }
+
+    // 资源：靠 tags 里的分类中文名
     var labelZh = pick(cat.label, 'zh');
     if (tagArray(item).indexOf(labelZh) !== -1) return true;
-    if (item.pageCat && item.pageCat === cat.id) return true;
+
     return false;
   }
 

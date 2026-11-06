@@ -285,40 +285,64 @@ YAML 比 JSON 宽松，但仍有坑：
 
 ---
 
-## 十、GitHub Pages 部署
+## 十、GitHub Pages 部署（已配置自动构建）
 
-### 方式一：手动（当前方式）
+### 工作方式
+
+仓库里有 `.github/workflows/deploy.yml`，每次 push 到 `main` 会自动：
+
+1. 检出代码
+2. 运行 `node build-content.js` 把 Markdown 编译成 JSON
+3. 把站点打包发布到 GitHub Pages
+
+**你只需要提交 `content/` 下的 Markdown，不用在本地跑构建命令。**
+
+### 日常维护流程
+
+```bash
+# 1. 编辑 Markdown
+#    content/resources/r-xxx.md 等
+
+# 2. 提交并推送
+git add content/
+git commit -m "content: 新增 xxx"
+git push
+
+# 3. 等 1-2 分钟，线上自动更新
+```
+
+GitHub Actions 页面可以看到构建进度：仓库 → **Actions** 标签页。
+
+### 首次启用需要改一个设置
+
+工作流使用 `actions/deploy-pages` 部署，需要把仓库的 Pages 来源改成 Actions：
+
+1. 打开仓库 **Settings → Pages**
+2. **Source** 从 `Deploy from a branch` 改成 **`GitHub Actions`**
+3. 保存
+
+> 如果不改这一步，工作流会跑但部署失败，提示 "Get Pages site failed"。
+
+### 本地预览（可选）
+
+改了内容想先在本地看效果：
 
 ```bash
 node build-content.js          # 先编译
-git add .
-git commit -m "content: 更新资源"
-git push
+python -m http.server 8000     # 起服务
+# 打开 http://localhost:8000/
 ```
-在仓库 **Settings → Pages** 里设 `main` 分支 `/ (root)`。推送后约 1 分钟生效。
 
-### 方式二：GitHub Actions 自动编译（推荐以后用）
+### 两种模式对比
 
-在 `.github/workflows/build.yml` 放一个工作流，每次 push 时自动跑 `node build-content.js` 并部署。
-这样你只需要提交 `content/`，不用手动编译。
+| | 手动模式（之前） | 自动模式（现在） |
+| --- | --- | --- |
+| 改完要跑构建吗 | 要 | 不要 |
+| 提交哪些目录 | `content/` + `data/` | 只提交 `content/` |
+| 部署触发 | 提交 `data/` 变更 | push 任意改动 |
+| 适合 | 本地调试 | 日常维护 |
 
-```yaml
-name: Build & Deploy
-on:
-  push:
-    branches: [main]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - run: node build-content.js
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: '.' }
-      - uses: actions/deploy-pages@v4
-```
+> `data/*.json` 仍保留在仓库里，是为了本地预览方便。线上由 Actions 重新生成，即使忘了本地编译也不影响。
 
 ---
 
