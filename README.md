@@ -25,32 +25,35 @@
 
 ```
 KMin.github.io/
-├─ index.html           # 首页（Hero + 数据条 + 四个入口 + 各类内容预览）
-├─ resources.html       # 资源页：全部资源 + 6 类筛选 + 状态统计
-├─ baipiao.html         # 白嫖页：免费额度/活动/抽奖，带有效期
-├─ charity.html         # 公益站页：公益镜像/API/工具，标注维护方
-├─ tools.html           # 工具页：全部工具 + 分类筛选（支持 ?cat=dev 直达）
-├─ notes.html           # 笔记页：全部笔记 + 标签筛选
-├─ about.html           # 关于页：个人介绍 + 时间线 + 技能 + 站点信息
-├─ 404.html             # GitHub Pages 自定义 404
-├─ .nojekyll            # 关闭 Jekyll 处理，避免下划线目录被忽略
-├─ robots.txt
-├─ README.md
-└─ assets/
-   ├─ css/
-   │  └── style.css     # 全部样式（设计令牌 / 组件 / 响应式 / 暗色主题 / 页面级样式）
-   ├── js/
-   │   ├── data.js      # ★ 唯一内容数据源
-   │   └── main.js      # 渲染与交互（按 body[data-page] 分发）
-   └── img/
-      └── favicon.svg
+├─ data/                 ★ 所有内容数据（改内容只动这里）
+│  ├─ site.json          站点统计与更新日期
+│  ├─ categories.json    分类定义
+│  ├─ resources.json     资源
+│  ├─ tools.json         工具
+│  ├─ baipiao.json       白嫖福利
+│  ├─ charity.json       公益站
+│  ├─ posts.json         笔记
+│  └─ about.json         关于页数据
+├─ docs/
+│  └─ 内容维护指南.md     ★ 改内容前先看这个
+├─ assets/
+│  ├─ css/style.css      样式
+│  ├─ js/data-loader.js  数据加载器
+│  └─ js/main.js         渲染与交互
+├─ index.html            首页
+├─ resources.html        资源页
+├─ baipiao.html          白嫖页
+├─ charity.html          公益站页
+├─ tools.html            工具页
+├─ notes.html            笔记页
+├─ about.html            关于页
+├─ 404.html
+└─ .nojekyll
 ```
 
-**维护原则**：内容与表现分离。新增一条资源 / 工具 / 笔记，只改 `assets/js/data.js`，5 个页面会自动同步，不用动 HTML。
+**维护方式**：内容与代码完全分离。所有资讯存在 `data/*.json`，增删改只需编辑对应 JSON，页面自动渲染。详细字段说明见 [docs/内容维护指南.md](docs/内容维护指南.md)。
 
-首页只预览前几条（资源 6 条、工具 4 条、笔记 4 条），完整内容在各自独立页面。首页的条数由容器上的 `data-limit` 控制，删掉该属性即可显示全部。
-
-统计数字默认按数组真实长度自动计算；`data.js` 的 `meta.stats` 里给某个键写具体数字即可覆盖为该展示值。
+> 重要：因为使用 JSON 文件，本地预览**必须起静态服务**（`python -m http.server 8000`），不能直接双击 HTML —— 浏览器会拦截 file:// 下的数据请求。
 
 ---
 

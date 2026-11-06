@@ -624,15 +624,26 @@
     var descText = pick(item.desc, state.lang);
     var nameText = pick(item.name, state.lang);
 
-    // 头部只显示主分类标签，完整标签放到卡片底部（避免上下重复）
-    var headTags = contentTags.slice(0, 1).map(function (tg) {
+    // 去重，避免数据里同一标签写两次导致卡片上重复显示
+    contentTags = contentTags.filter(function (tg, idx) {
+      return contentTags.indexOf(tg) === idx;
+    });
+
+    // 头部只显示主分类标签，完整标签放到卡片底部
+    var headTag = contentTags[0];
+    var headTags = headTag
+      ? '<button type="button" class="pill-tag" data-tag="' + esc(headTag) + '">' + esc(headTag) + '</button>'
+      : '';
+
+    // 底部标签：去掉与头部重复的那一个
+    var footTags = contentTags.slice(1).map(function (tg) {
       return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
     }).join('');
 
-    // 底部完整标签
-    var footTags = contentTags.map(function (tg) {
-      return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
-    }).join('');
+    // 若底部为空（只有一个标签），底部就显示这个标签本身
+    if (!footTags && headTag) {
+      footTags = '<button type="button" class="pill-tag" data-tag="' + esc(headTag) + '">' + esc(headTag) + '</button>';
+    }
 
     card.innerHTML =
       '<div class="rc-head">' +
@@ -1377,10 +1388,36 @@
     nodes.forEach(function (n) { io.observe(n); });
   }
 
+  /** 数据未能加载时的提示条 */
+  function showDataErrorBanner() {
+    if (document.getElementById('kmin-data-error')) return;
+    var box = document.createElement('div');
+    box.id = 'kmin-data-error';
+    box.style.cssText = 'max-width:760px;margin:40px auto;padding:22px 26px;' +
+      'border:2px solid #1b1a17;border-radius:18px;background:#fff0c2;color:#1b1a17;' +
+      'font:500 14px/1.8 system-ui,sans-serif;box-shadow:6px 6px 0 #1b1a17';
+    box.innerHTML = '<b style="font-size:16px">内容没能加载出来</b><br>' +
+      '页面数据存在 <code>data/*.json</code>，浏览器不允许直接用 file:// 读取本地文件。<br><br>' +
+      '请在项目目录执行：<br>' +
+      '<code style="display:inline-block;margin:6px 0;padding:4px 10px;background:rgba(0,0,0,.1);border-radius:6px">python -m http.server 8000</code><br>' +
+      '然后打开 <b>http://localhost:8000/</b>';
+    var main = document.getElementById('main');
+    if (main) main.insertBefore(box, main.firstChild);
+    else document.body.appendChild(box);
+  }
+
   /* ---------- 9. 启动 ---------- */
   function init() {
     var yearNode = $('#year');
     if (yearNode) yearNode.textContent = new Date().getFullYear();
+
+    // 数据为空时（常见于双击打开 HTML），直接给出可操作的提示，而不是留一个空白页
+    var hasAnyData = (DATA.resources || []).length || (DATA.tools || []).length ||
+                     (DATA.posts || []).length || (DATA.baipiao || []).length;
+    if (!hasAnyData) {
+      showDataErrorBanner();
+      return;
+    }
 
     computeStats();
 

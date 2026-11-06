@@ -1,0 +1,157 @@
+{
+  "resource": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All"
+      }
+    },
+    {
+      "id": "server",
+      "label": {
+        "zh": "云服务器",
+        "en": "Servers"
+      }
+    },
+    {
+      "id": "domain",
+      "label": {
+        "zh": "域名/TLS",
+        "en": "Domain & TLS"
+      }
+    },
+    {
+      "id": "mirror",
+      "label": {
+        "zh": "国内镜像源",
+        "en": "CN Mirrors"
+      }
+    },
+    {
+      "id": "api",
+      "label": {
+        "zh": "API 羊毛",
+        "en": "API Freebies"
+      }
+    },
+    {
+      "id": "learn",
+      "label": {
+        "zh": "学生/学习资源",
+        "en": "Student & Learning"
+      }
+    },
+    {
+      "id": "google",
+      "label": {
+        "zh": "Google 服务",
+        "en": "Google"
+      }
+    }
+  ],
+  "baipiao": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All"
+      }
+    },
+    {
+      "id": "quota",
+      "label": {
+        "zh": "免费额度",
+        "en": "Free quota"
+      }
+    },
+    {
+      "id": "api",
+      "label": {
+        "zh": "免费 API",
+        "en": "Free API"
+      }
+    },
+    {
+      "id": "event",
+      "label": {
+        "zh": "限时活动",
+        "en": "Limited events"
+      }
+    },
+    {
+      "id": "lottery",
+      "label": {
+        "zh": "抽奖福利",
+        "en": "Giveaways"
+      }
+    }
+  ],
+  "charity": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All"
+      }
+    },
+    {
+      "id": "mirror",
+      "label": {
+        "zh": "公益镜像",
+        "en": "Public mirrors"
+      }
+    },
+    {
+      "id": "api",
+      "label": {
+        "zh": "公益 API",
+        "en": "Public API"
+      }
+    },
+    {
+      "id": "tool",
+      "label": {
+        "zh": "公益工具",
+        "en": "Public tools"
+      }
+    }
+  ],
+  "tool": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All"
+      }
+    },
+    {
+      "id": "dev",
+      "label": {
+        "zh": "开发",
+        "en": "Dev"
+      }
+    },
+    {
+      "id": "design",
+      "label": {
+        "zh": "设计",
+        "en": "Design"
+      }
+    },
+    {
+      "id": "productivity",
+      "label": {
+        "zh": "效率",
+        "en": "Productivity"
+      }
+    },
+    {
+      "id": "system",
+      "label": {
+        "zh": "系统",
+        "en": "System"
+      }
+    }
+  ]
+}

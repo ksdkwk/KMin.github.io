@@ -1,0 +1,234 @@
+[
+  {
+    "name": {
+      "zh": "中科大开源镜像",
+      "en": "USTC open-source mirror"
+    },
+    "tag": {
+      "zh": "公益镜像 · 教育网",
+      "en": "Public mirror · Campus network"
+    },
+    "desc": {
+      "zh": "由高校维护、面向公众开放，系统源和常用仓库都全，教育网内速度很快。",
+      "en": "Maintained by a university and open to the public. Full OS repos and common package sets; very fast on campus networks."
+    },
+    "logo": "US",
+    "url": "https://mirrors.ustc.edu.cn/",
+    "badge": {
+      "zh": "长期",
+      "en": "Long-term"
+    },
+    "org": {
+      "zh": "中国科学技术大学",
+      "en": "USTC"
+    },
+    "tags": [
+      "公益镜像",
+      "长期有效"
+    ],
+    "pageCat": "mirror"
+  },
+  {
+    "name": {
+      "zh": "清华 TUNA 镜像",
+      "en": "Tsinghua TUNA mirror"
+    },
+    "tag": {
+      "zh": "公益镜像 · 老牌稳定",
+      "en": "Public mirror · Long-standing"
+    },
+    "desc": {
+      "zh": "国内最早的公益镜像之一，覆盖系统、语言包、容器镜像，文档也写得很清楚。",
+      "en": "One of the earliest public mirrors in China, covering OS repos, language packages and container images with clear docs."
+    },
+    "logo": "TU",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/",
+    "badge": {
+      "zh": "长期",
+      "en": "Long-term"
+    },
+    "org": {
+      "zh": "清华大学",
+      "en": "Tsinghua University"
+    },
+    "tags": [
+      "公益镜像",
+      "长期有效"
+    ],
+    "pageCat": "mirror"
+  },
+  {
+    "name": {
+      "zh": "阿里云开源镜像站",
+      "en": "Aliyun open-source mirror"
+    },
+    "tag": {
+      "zh": "公益镜像 · 商用带宽",
+      "en": "Public mirror · Commercial CDN"
+    },
+    "desc": {
+      "zh": "阿里云出带宽的公益镜像，全国访问都还算快，适合给团队配置统一源。",
+      "en": "A public mirror backed by Alibaba Cloud bandwidth. Reasonably fast nationwide — good for team-wide source configuration."
+    },
+    "logo": "AL",
+    "url": "https://developer.aliyun.com/mirror/",
+    "badge": {
+      "zh": "长期",
+      "en": "Long-term"
+    },
+    "org": {
+      "zh": "阿里云",
+      "en": "Alibaba Cloud"
+    },
+    "tags": [
+      "公益镜像",
+      "长期有效"
+    ],
+    "pageCat": "mirror"
+  },
+  {
+    "name": {
+      "zh": "公共 DNS 服务",
+      "en": "Public DNS resolvers"
+    },
+    "tag": {
+      "zh": "公益 API · 免注册",
+      "en": "Public API · No signup"
+    },
+    "desc": {
+      "zh": "114、223.5.5.5、1.1.1.1 这类公共解析服务，排障时换一个就能快速判断是不是本地 DNS 的锅。",
+      "en": "Resolvers like 114, 223.5.5.5 and 1.1.1.1. Swapping one in during troubleshooting quickly rules out local DNS issues."
+    },
+    "logo": "DN",
+    "url": "https://www.cloudflare.com/1.1.1.1/",
+    "badge": {
+      "zh": "免注册",
+      "en": "No signup"
+    },
+    "org": {
+      "zh": "多家机构",
+      "en": "Multiple orgs"
+    },
+    "tags": [
+      "公益 API",
+      "长期有效"
+    ],
+    "pageCat": "api"
+  },
+  {
+    "name": {
+      "zh": "公共时间同步 NTP",
+      "en": "Public NTP pool"
+    },
+    "tag": {
+      "zh": "公益 API · 基础设施",
+      "en": "Public API · Infrastructure"
+    },
+    "desc": {
+      "zh": "自建服务时间漂移会引发一堆诡异问题，配一个可靠的上游能省掉很多排查。",
+      "en": "Clock drift on self-hosted services causes bizarre failures. A reliable upstream saves a lot of debugging."
+    },
+    "logo": "NT",
+    "url": "https://www.ntppool.org/",
+    "badge": {
+      "zh": "免注册",
+      "en": "No signup"
+    },
+    "org": {
+      "zh": "NTP Pool 社区",
+      "en": "NTP Pool"
+    },
+    "tags": [
+      "公益 API",
+      "长期有效"
+    ],
+    "pageCat": "api"
+  },
+  {
+    "name": {
+      "zh": "Can I use",
+      "en": "Can I use"
+    },
+    "tag": {
+      "zh": "公益工具 · 兼容性查询",
+      "en": "Public tool · Compatibility"
+    },
+    "desc": {
+      "zh": "查 CSS/JS 特性在各浏览器的支持情况，写前端不踩兼容坑的必备工具，免费无广告。",
+      "en": "Check browser support for CSS and JS features. Free, ad-free, and essential for avoiding compatibility traps."
+    },
+    "logo": "CU",
+    "url": "https://caniuse.com/",
+    "badge": {
+      "zh": "免费",
+      "en": "Free"
+    },
+    "org": {
+      "zh": "社区维护",
+      "en": "Community"
+    },
+    "tags": [
+      "公益工具",
+      "长期有效"
+    ],
+    "pageCat": "tool"
+  },
+  {
+    "name": {
+      "zh": "Regex101",
+      "en": "Regex101"
+    },
+    "tag": {
+      "zh": "公益工具 · 正则调试",
+      "en": "Public tool · Regex debugger"
+    },
+    "desc": {
+      "zh": "带逐段解释的正则调试器，支持多语言语法，写完直接复制走。",
+      "en": "A regex debugger with step-by-step explanations and multi-language syntax. Copy the result straight out."
+    },
+    "logo": "RE",
+    "url": "https://regex101.com/",
+    "badge": {
+      "zh": "免费",
+      "en": "Free"
+    },
+    "org": {
+      "zh": "社区维护",
+      "en": "Community"
+    },
+    "tags": [
+      "公益工具",
+      "长期有效"
+    ],
+    "pageCat": "tool"
+  },
+  {
+    "name": {
+      "zh": "Carbon / Ray.so",
+      "en": "Carbon / Ray.so"
+    },
+    "tag": {
+      "zh": "公益工具 · 代码截图",
+      "en": "Public tool · Code shots"
+    },
+    "desc": {
+      "zh": "把代码片段生成好看的图片，写文档和发帖时用得上，都不需要注册。",
+      "en": "Turn code snippets into presentable images for docs and posts. No account required."
+    },
+    "logo": "CB",
+    "url": "https://carbon.now.sh/",
+    "badge": {
+      "zh": "免费",
+      "en": "Free"
+    },
+    "org": {
+      "zh": "社区维护",
+      "en": "Community"
+    },
+    "tags": [
+      "公益工具",
+      "长期有效"
+    ],
+    "pageCat": "tool"
+  }
+]

@@ -1,0 +1,275 @@
+[
+  {
+    "name": "VS Code",
+    "icon": "VS",
+    "category": "dev",
+    "desc": {
+      "zh": "主力编辑器，装几个插件就能覆盖前端、脚本和 Markdown 写作。",
+      "en": "Main editor. A handful of extensions covers front-end work, scripts and Markdown writing."
+    },
+    "tags": {
+      "zh": [
+        "免费",
+        "跨平台"
+      ],
+      "en": [
+        "Free",
+        "Cross-platform"
+      ]
+    },
+    "free": true,
+    "url": "https://code.visualstudio.com/"
+  },
+  {
+    "name": "Git",
+    "icon": "GT",
+    "category": "dev",
+    "desc": {
+      "zh": "版本管理的基础设施，GitHub Pages 部署流程也绕不开它。",
+      "en": "The foundation of version control — and the path to deploying on GitHub Pages."
+    },
+    "tags": {
+      "zh": [
+        "开源",
+        "必备"
+      ],
+      "en": [
+        "Open source",
+        "Essential"
+      ]
+    },
+    "free": true,
+    "url": "https://git-scm.com/"
+  },
+  {
+    "name": "Figma",
+    "icon": "FG",
+    "category": "design",
+    "desc": {
+      "zh": "画页面草图、导出 SVG 图标，免费额度对个人项目够用。",
+      "en": "Sketch layouts and export SVG icons. The free tier is enough for personal projects."
+    },
+    "tags": {
+      "zh": [
+        "免费额度",
+        "协作"
+      ],
+      "en": [
+        "Free tier",
+        "Collaboration"
+      ]
+    },
+    "free": true,
+    "url": "https://www.figma.com/"
+  },
+  {
+    "name": "uTools",
+    "icon": "UT",
+    "category": "productivity",
+    "desc": {
+      "zh": "快捷启动器加插件市场，剪贴板、翻译、截图一步到位。",
+      "en": "A launcher with a plugin market — clipboard, translation and screenshots in one keystroke."
+    },
+    "tags": {
+      "zh": [
+        "免费",
+        "国产"
+      ],
+      "en": [
+        "Free",
+        "Local"
+      ]
+    },
+    "free": true,
+    "url": "https://u.tools/"
+  },
+  {
+    "name": "Obsidian",
+    "icon": "OB",
+    "category": "productivity",
+    "desc": {
+      "zh": "本地 Markdown 笔记，双链整理资料；文件都在本地，不怕平台跑路。",
+      "en": "Local Markdown notes with backlinks. Your files stay on disk, immune to platform shifts."
+    },
+    "tags": {
+      "zh": [
+        "免费",
+        "本地优先"
+      ],
+      "en": [
+        "Free",
+        "Local-first"
+      ]
+    },
+    "free": true,
+    "url": "https://obsidian.md/"
+  },
+  {
+    "name": "PowerToys",
+    "icon": "PT",
+    "category": "system",
+    "desc": {
+      "zh": "Windows 上的效率增强包，窗口布局、批量重命名、取色器都很好用。",
+      "en": "An efficiency pack for Windows: window layouts, bulk rename and a colour picker."
+    },
+    "tags": {
+      "zh": [
+        "开源",
+        "Windows"
+      ],
+      "en": [
+        "Open source",
+        "Windows"
+      ]
+    },
+    "free": true,
+    "url": "https://github.com/microsoft/PowerToys"
+  },
+  {
+    "name": "Windows Terminal",
+    "icon": "WT",
+    "category": "system",
+    "desc": {
+      "zh": "多标签、分屏和自定义配色，配合 WSL 用起来比自带终端顺很多。",
+      "en": "Tabs, panes and custom themes — far smoother than the built-in console, especially with WSL."
+    },
+    "tags": {
+      "zh": [
+        "开源",
+        "Windows"
+      ],
+      "en": [
+        "Open source",
+        "Windows"
+      ]
+    },
+    "free": true,
+    "url": "https://github.com/microsoft/terminal"
+  },
+  {
+    "name": "7-Zip",
+    "icon": "7Z",
+    "category": "system",
+    "desc": {
+      "zh": "老牌压缩工具，格式支持全、没广告，装系统后第一批必装之一。",
+      "en": "The veteran archiver: broad format support, no ads. One of the first things I install."
+    },
+    "tags": {
+      "zh": [
+        "开源",
+        "轻量"
+      ],
+      "en": [
+        "Open source",
+        "Lightweight"
+      ]
+    },
+    "free": true,
+    "url": "https://www.7-zip.org/"
+  },
+  {
+    "name": "Fira Code / JetBrains Mono",
+    "icon": "FC",
+    "category": "design",
+    "desc": {
+      "zh": "带连字的等宽字体，写代码时辨识度更好，编辑器里换一下就知道差别。",
+      "en": "Ligature monospace fonts that make code easier to scan — swap them in your editor to feel it."
+    },
+    "tags": {
+      "zh": [
+        "开源",
+        "字体"
+      ],
+      "en": [
+        "Open source",
+        "Font"
+      ]
+    },
+    "free": true,
+    "url": "https://github.com/tonsky/FiraCode"
+  },
+  {
+    "name": "Excalidraw",
+    "icon": "EX",
+    "category": "design",
+    "desc": {
+      "zh": "手绘风格白板，画架构图和流程示意很快，不用登录也能直接用。",
+      "en": "A hand-drawn style whiteboard for quick architecture sketches — usable without signing in."
+    },
+    "tags": {
+      "zh": [
+        "开源",
+        "在线"
+      ],
+      "en": [
+        "Open source",
+        "Web"
+      ]
+    },
+    "free": true,
+    "url": "https://excalidraw.com/"
+  },
+  {
+    "name": "Everything",
+    "icon": "EV",
+    "category": "productivity",
+    "desc": {
+      "zh": "秒级全盘文件名搜索，Windows 上找文件的神器，资源占用很低。",
+      "en": "Instant whole-disk filename search for Windows. Minimal footprint, indispensable."
+    },
+    "tags": {
+      "zh": [
+        "免费",
+        "Windows"
+      ],
+      "en": [
+        "Free",
+        "Windows"
+      ]
+    },
+    "free": true,
+    "url": "https://www.voidtools.com/"
+  },
+  {
+    "name": "Docker Desktop",
+    "icon": "DK",
+    "category": "dev",
+    "desc": {
+      "zh": "本地跑容器最简单的方式，环境隔离后「在我机器上是好的」这类问题少很多。",
+      "en": "The easiest way to run containers locally. Environment isolation kills most \"works on my machine\" bugs."
+    },
+    "tags": {
+      "zh": [
+        "免费额度",
+        "容器"
+      ],
+      "en": [
+        "Free tier",
+        "Containers"
+      ]
+    },
+    "free": true,
+    "url": "https://www.docker.com/products/docker-desktop/"
+  },
+  {
+    "name": "Postman / Hoppscotch",
+    "icon": "PM",
+    "category": "dev",
+    "desc": {
+      "zh": "调接口必备，Hoppscotch 是开源替代，浏览器里直接能用、更轻。",
+      "en": "Essential for API work. Hoppscotch is the open-source alternative — lighter and browser-based."
+    },
+    "tags": {
+      "zh": [
+        "免费",
+        "API"
+      ],
+      "en": [
+        "Free",
+        "API"
+      ]
+    },
+    "free": true,
+    "url": "https://hoppscotch.io/"
+  }
+]

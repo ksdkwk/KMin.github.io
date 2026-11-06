@@ -1,0 +1,292 @@
+[
+  {
+    "name": {
+      "zh": "DeepSeek 新用户赠送额度",
+      "en": "DeepSeek new-user credit"
+    },
+    "tag": {
+      "zh": "免费额度 · 注册即得",
+      "en": "Free credit · On signup"
+    },
+    "desc": {
+      "zh": "注册开放平台账号就送一批 token 额度，够把一个小工具跑通再决定要不要充值。",
+      "en": "Signing up grants a batch of tokens — enough to finish a small tool before deciding on top-ups."
+    },
+    "logo": "DS",
+    "url": "https://platform.deepseek.com/",
+    "badge": {
+      "zh": "可领",
+      "en": "Claim"
+    },
+    "expire": {
+      "zh": "长期有效",
+      "en": "Ongoing"
+    },
+    "tags": [
+      "免费额度",
+      "现在可薅"
+    ],
+    "pageCat": "quota"
+  },
+  {
+    "name": {
+      "zh": "Cloudflare R2 免费额度",
+      "en": "Cloudflare R2 free tier"
+    },
+    "tag": {
+      "zh": "对象存储 · 每月免费",
+      "en": "Object storage · Monthly free"
+    },
+    "desc": {
+      "zh": "每月 10GB 存储加免出网流量，放图片和静态附件基本不用花钱。",
+      "en": "10GB storage plus zero egress fees each month. Images and static assets cost nothing in practice."
+    },
+    "logo": "R2",
+    "url": "https://www.cloudflare.com/developer-platform/r2/",
+    "badge": {
+      "zh": "每月刷新",
+      "en": "Monthly reset"
+    },
+    "expire": {
+      "zh": "长期有效",
+      "en": "Ongoing"
+    },
+    "tags": [
+      "免费额度",
+      "现在可薅"
+    ],
+    "pageCat": "quota"
+  },
+  {
+    "name": {
+      "zh": "GitHub Student Pack",
+      "en": "GitHub Student Pack"
+    },
+    "tag": {
+      "zh": "学生认证 · 一堆权益",
+      "en": "Student verified · Bundle"
+    },
+    "desc": {
+      "zh": "学生认证后能拿到 Copilot、域名、云服务等一大堆免费权益，一次申请能用几年。",
+      "en": "Student verification unlocks Copilot, domains, cloud credits and more — one application lasts years."
+    },
+    "logo": "SP",
+    "url": "https://education.github.com/pack",
+    "badge": {
+      "zh": "需学生证",
+      "en": "Student ID"
+    },
+    "expire": {
+      "zh": "按学年复核",
+      "en": "Yearly recheck"
+    },
+    "tags": [
+      "免费额度",
+      "长期有效"
+    ],
+    "pageCat": "quota"
+  },
+  {
+    "name": {
+      "zh": "OpenRouter 免费模型池",
+      "en": "OpenRouter free models"
+    },
+    "tag": {
+      "zh": "免费 API · 有限速",
+      "en": "Free API · Rate limited"
+    },
+    "desc": {
+      "zh": "标注 :free 的模型可以直接调，适合做原型；并发和每日次数会随模型变化。",
+      "en": "Models marked :free are callable directly — good for prototypes. Concurrency and daily caps vary by model."
+    },
+    "logo": "OR",
+    "url": "https://openrouter.ai/",
+    "badge": {
+      "zh": "限速",
+      "en": "Rate limited"
+    },
+    "expire": {
+      "zh": "随时可能调整",
+      "en": "May change"
+    },
+    "tags": [
+      "免费 API",
+      "长期有效"
+    ],
+    "pageCat": "api"
+  },
+  {
+    "name": {
+      "zh": "Hugging Face 免费 Inference",
+      "en": "Hugging Face free Inference"
+    },
+    "tag": {
+      "zh": "模型 API · 每月额度",
+      "en": "Model API · Monthly quota"
+    },
+    "desc": {
+      "zh": "每月少量免费推理额度，跑分类、向量、小模型够用；大模型基本不用想。",
+      "en": "A small monthly inference allowance — fine for classifiers, embeddings and small models, not for large ones."
+    },
+    "logo": "HF",
+    "url": "https://huggingface.co/",
+    "badge": {
+      "zh": "每月刷新",
+      "en": "Monthly reset"
+    },
+    "expire": {
+      "zh": "每月刷新",
+      "en": "Monthly reset"
+    },
+    "tags": [
+      "免费 API",
+      "现在可薅"
+    ],
+    "pageCat": "api"
+  },
+  {
+    "name": {
+      "zh": "Vercel 免费额度",
+      "en": "Vercel free plan"
+    },
+    "tag": {
+      "zh": "部署 · 100GB 流量",
+      "en": "Deploy · 100GB bandwidth"
+    },
+    "desc": {
+      "zh": "个人项目免费额度很够用，超过会暂停到下个月；商用需看清条款。",
+      "en": "Plenty for personal projects; exceeding the cap pauses until next month. Read the terms before commercial use."
+    },
+    "logo": "VC",
+    "url": "https://vercel.com/pricing",
+    "badge": {
+      "zh": "免费",
+      "en": "Free"
+    },
+    "expire": {
+      "zh": "长期有效",
+      "en": "Ongoing"
+    },
+    "tags": [
+      "免费额度",
+      "现在可薅"
+    ],
+    "pageCat": "quota"
+  },
+  {
+    "name": {
+      "zh": "各家云厂商首年套餐",
+      "en": "Cloud first-year promos"
+    },
+    "tag": {
+      "zh": "限时活动 · 首年低价",
+      "en": "Limited · First-year price"
+    },
+    "desc": {
+      "zh": "阿里云、腾讯云常年有 99 元档的首年机器，续费会回原价，买之前先算三年总价。",
+      "en": "Alibaba and Tencent run cheap first-year instances. Renewal reverts to list price — price out three years first."
+    },
+    "logo": "CL",
+    "url": "https://www.aliyun.com/",
+    "badge": {
+      "zh": "看续费",
+      "en": "Renewal"
+    },
+    "expire": {
+      "zh": "活动制",
+      "en": "Campaign-based"
+    },
+    "tags": [
+      "限时活动",
+      "长期有效"
+    ],
+    "pageCat": "event"
+  },
+  {
+    "name": {
+      "zh": "域名注册商首年优惠",
+      "en": "Registrar first-year deals"
+    },
+    "tag": {
+      "zh": "限时活动 · 首年 1 折",
+      "en": "Limited · 90% off year one"
+    },
+    "desc": {
+      "zh": "新顶级域名首年经常几块钱，续费几十上百。只做短期项目可以薅，长期站别图这个。",
+      "en": "New TLDs often cost a few yuan in year one and far more on renewal. Fine for short projects, not for long-lived sites."
+    },
+    "logo": "DM",
+    "url": "https://www.namesilo.com/",
+    "badge": {
+      "zh": "首年制",
+      "en": "Year one only"
+    },
+    "expire": {
+      "zh": "随时调整",
+      "en": "Changes often"
+    },
+    "tags": [
+      "限时活动",
+      "长期有效"
+    ],
+    "pageCat": "event"
+  },
+  {
+    "name": {
+      "zh": "接口调试工具送额度",
+      "en": "API tool credits"
+    },
+    "tag": {
+      "zh": "抽奖福利 · 官方活动",
+      "en": "Giveaway · Official event"
+    },
+    "desc": {
+      "zh": "部分 API 聚合平台会做注册送额度的活动，金额不大，够验证一次想法。",
+      "en": "Some API aggregators run signup-credit events. The amounts are small but enough to validate an idea."
+    },
+    "logo": "CR",
+    "url": "https://openrouter.ai/",
+    "badge": {
+      "zh": "看活动页",
+      "en": "See events"
+    },
+    "expire": {
+      "zh": "活动制",
+      "en": "Campaign-based"
+    },
+    "tags": [
+      "抽奖福利",
+      "长期有效"
+    ],
+    "pageCat": "lottery"
+  },
+  {
+    "name": {
+      "zh": "AI 平台内测资格",
+      "en": "AI beta access"
+    },
+    "tag": {
+      "zh": "抽奖福利 · 名额有限",
+      "en": "Giveaway · Limited spots"
+    },
+    "desc": {
+      "zh": "新模型上线前常放内测名额，官方 Discord 或社区会发邀请码，靠运气。",
+      "en": "Beta slots open before model launches; codes appear on official Discord or community channels. Luck-based."
+    },
+    "logo": "BT",
+    "url": "https://discord.com/",
+    "badge": {
+      "zh": "已结束",
+      "en": "Ended"
+    },
+    "expire": {
+      "zh": "已结束",
+      "en": "Ended"
+    },
+    "tags": [
+      "抽奖福利",
+      "失效"
+    ],
+    "pageCat": "lottery"
+  }
+]

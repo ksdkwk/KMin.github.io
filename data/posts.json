@@ -1,0 +1,134 @@
+[
+  {
+    "date": "2025-11-02",
+    "title": {
+      "zh": "用 GitHub Pages 从零搭个人主页",
+      "en": "Building a personal site on GitHub Pages"
+    },
+    "excerpt": {
+      "zh": "从仓库结构到自定义域名，把踩过的坑一次写清楚。",
+      "en": "From repo layout to a custom domain — every pitfall written down once."
+    },
+    "tags": {
+      "zh": [
+        "部署",
+        "静态站"
+      ],
+      "en": [
+        "Deploy",
+        "Static"
+      ]
+    },
+    "url": "#notes"
+  },
+  {
+    "date": "2025-10-18",
+    "title": {
+      "zh": "免费额度到底能撑多久",
+      "en": "How long do free tiers really last"
+    },
+    "excerpt": {
+      "zh": "整理了大半年用过的免费服务，哪些还活着、哪些已经不能薅了。",
+      "en": "Half a year of free services: which ones survive and which quietly closed."
+    },
+    "tags": {
+      "zh": [
+        "资源",
+        "复盘"
+      ],
+      "en": [
+        "Resources",
+        "Review"
+      ]
+    },
+    "url": "#notes"
+  },
+  {
+    "date": "2025-09-27",
+    "title": {
+      "zh": "纯 CSS 实现卡片阴影与悬浮感",
+      "en": "Card shadows and lift with pure CSS"
+    },
+    "excerpt": {
+      "zh": "不用框架，用 box-shadow 和 transform 做出有手感的界面。",
+      "en": "No framework needed: box-shadow and transform give the interface real feel."
+    },
+    "tags": {
+      "zh": [
+        "CSS",
+        "前端"
+      ],
+      "en": [
+        "CSS",
+        "Front-end"
+      ]
+    },
+    "url": "#notes"
+  },
+  {
+    "date": "2025-09-05",
+    "title": {
+      "zh": "把笔记从云端搬回本地",
+      "en": "Moving notes back to local storage"
+    },
+    "excerpt": {
+      "zh": "本地优先的笔记方案实践，以及迁移时要注意的格式问题。",
+      "en": "Hands-on with a local-first note workflow, plus the format issues migration raises."
+    },
+    "tags": {
+      "zh": [
+        "工具",
+        "笔记"
+      ],
+      "en": [
+        "Tools",
+        "Notes"
+      ]
+    },
+    "url": "#notes"
+  },
+  {
+    "date": "2025-08-16",
+    "title": {
+      "zh": "把导航栏做成可复用的组件",
+      "en": "Turning the navbar into a reusable component"
+    },
+    "excerpt": {
+      "zh": "单页站点的导航最容易越写越乱，拆成数据驱动后清爽很多。",
+      "en": "Navigation on a single-page site gets messy fast; data-driving it made it clean again."
+    },
+    "tags": {
+      "zh": [
+        "重构",
+        "前端"
+      ],
+      "en": [
+        "Refactor",
+        "Front-end"
+      ]
+    },
+    "url": "#notes"
+  },
+  {
+    "date": "2025-07-03",
+    "title": {
+      "zh": "暗色主题不是把颜色反过来",
+      "en": "Dark mode is not inverted colours"
+    },
+    "excerpt": {
+      "zh": "对比度、边界和阴影在暗色下都要重新调，直接反转只会更难读。",
+      "en": "Contrast, borders and shadows all need rework — a naive inversion just gets harder to read."
+    },
+    "tags": {
+      "zh": [
+        "CSS",
+        "主题"
+      ],
+      "en": [
+        "CSS",
+        "Theme"
+      ]
+    },
+    "url": "#notes"
+  }
+]
