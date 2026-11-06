@@ -1,13 +1,22 @@
 /* ==========================================================================
-   main.js · 站点交互与渲染
-   模块：0.工具函数 1.国际化 2.主题 3.语言下拉 4.移动菜单
-        5.内容渲染 6.筛选 7.搜索 8.滚动相关 9.数字动画 10.启动
+   main.js · 站点交互与渲染（多页面版）
+   模块：0.工具函数 1.国际化 2.主题 3.语言下拉 4.移动菜单 4.5 二级导航
+        5.内容渲染（按页面分发） 6.搜索 7.滚动与导航高亮 8.入场动画 9.启动
    ========================================================================== */
 (function () {
   'use strict';
 
   var root = document.documentElement;
   var DATA = window.KMIN_DATA || {};
+
+  /** 当前页面：由 <body data-page="..."> 决定，缺省按文件名推断 */
+  var PAGE = (function () {
+    if (document.body && document.body.dataset && document.body.dataset.page) {
+      return document.body.dataset.page;
+    }
+    var f = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    return f.replace(/\.html$/, '') || 'index';
+  })();
 
   /* ---------- 0. 工具函数 ---------- */
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
@@ -27,7 +36,6 @@
     return n;
   }
 
-  /** 极简 HTML 转义，数据里出现尖括号也不会破坏结构 */
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -38,12 +46,30 @@
     if (target) target.addEventListener(type, handler, opts);
   }
 
+  /** 从 URL 读取查询参数（如 tools.html?cat=dev） */
+  function param(name) {
+    try {
+      return new URLSearchParams(location.search).get(name);
+    } catch (e) {
+      return null;
+    }
+  }
+
   /* ---------- 1. 国际化 ---------- */
   var I18N = {
     zh: {
       'a11y.skip': '跳到主要内容',
       'nav.home': '首页', 'nav.resources': '资源', 'nav.tools': '工具', 'nav.notes': '笔记', 'nav.about': '关于',
+      'nav.baipiao': '白嫖', 'nav.charity': '公益站',
+      'nav.tools.all': '全部工具', 'nav.tools.dev': '开发', 'nav.tools.design': '设计',
+      'nav.tools.productivity': '效率', 'nav.tools.system': '系统',
+      'nav.baipiao.all': '全部白嫖', 'nav.baipiao.quota': '免费额度', 'nav.baipiao.api': '免费 API',
+      'nav.baipiao.event': '限时活动', 'nav.baipiao.lottery': '抽奖福利',
       'ui.search': '搜索', 'ui.theme': '切换主题', 'ui.lang': '切换语言', 'ui.menu': '菜单', 'ui.top': '回到顶部',
+      'common.viewAll': '查看全部',
+      'common.count': '共 {n} 条',
+      'common.filtered': '{n} / {total} 条',
+      'common.all': '全部',
       'hero.eyebrow': 'KMIN · 个人主页与数字花园',
       'hero.title': '把热爱的事，<mark class="hl">做成作品</mark>。',
       'hero.desc': '这里是我的数字花园：开源作品、免费资源清单，还有那些真的每天在用的工具，全都整理在一处。',
@@ -77,13 +103,69 @@
       'search.hint': '输入关键词即时过滤，回车打开第一条结果。',
       'search.empty': '没有找到相关内容，换个关键词试试。',
       'search.type.resource': '资源', 'search.type.tool': '工具', 'search.type.post': '笔记',
+      'search.type.baipiao': '白嫖', 'search.type.charity': '公益',
       'status.ok': '现在可薅', 'status.warn': '有限制', 'status.off': '已失效',
-      'unit.entry': '条', 'unit.tool': '个'
+      'unit.entry': '条', 'unit.tool': '个',
+
+      'resPage.title': '免费资源库',
+      'resPage.desc': '能用、稳定、现在还能薅的才收录。每条都标注当前状态，失效或名额已满的直接标出来，省你一个个试。',
+      'resPage.stat1': '收录', 'resPage.stat2': '可薅', 'resPage.stat3': '有限制',
+      'resPage.filter': '在本页筛选资源…',
+      'resPage.empty': '没有匹配的资源。换个关键词，或切回「全部」。',
+      'resPage.statsLabel': '资源统计',
+
+      'toolsPage.title': '日常在用的工具',
+      'toolsPage.desc': '只推我自己装过、用超过一个月的。免费额度和开源性都标在卡片上，不用再去官网翻价格页。',
+      'toolsPage.stat1': '收录', 'toolsPage.stat2': '免费/开源', 'toolsPage.stat3': '分类',
+      'toolsPage.filter': '在本页筛选工具…',
+      'toolsPage.empty': '没有匹配的工具。换个关键词，或切回「全部」。',
+
+      'notesPage.title': '折腾记录',
+      'notesPage.desc': '踩过的坑、验证过的做法、临时结论。写下来主要是为了三个月后的自己还看得懂。',
+      'notesPage.stat1': '篇数', 'notesPage.stat2': '最近', 'notesPage.stat3': '标签',
+      'notesPage.filter': '在本页筛选笔记…',
+      'notesPage.empty': '没有匹配的笔记。换个关键词试试。',
+
+      'bpPage.title': '白嫖专区',
+      'bpPage.desc': '把还能领的免费额度、限时活动和抽奖福利集中放这里。每条都标了有效期口径，过期就下架，不占版面。',
+      'bpPage.stat1': '在列', 'bpPage.stat2': '可领', 'bpPage.stat3': '已结束',
+      'bpPage.filter': '在本页筛选白嫖项目…',
+      'bpPage.empty': '没有匹配的项目。换个关键词，或切回「全部」。',
+      'bpPage.note': '提示：活动类条目时效性强，看到就尽快领取；本站只做信息汇总，不代领也不担保。',
+      'bpPage.expire': '有效期',
+
+      'chPage.title': '公益站合集',
+      'chPage.desc': '由高校、公司和社区自掏成本维护、面向所有人开放的服务。不要滥用，也别拿去做压测。',
+      'chPage.stat1': '收录', 'chPage.stat2': '镜像', 'chPage.stat3': '工具/API',
+      'chPage.filter': '在本页筛选公益站…',
+      'chPage.empty': '没有匹配的站点。换个关键词，或切回「全部」。',
+      'chPage.note': '这些服务靠维护者自己掏带宽和服务器成本，请控制请求频率，遇到问题先看对方的公告。',
+      'chPage.org': '维护方',
+
+      'aboutPage.title': '关于我',
+      'aboutPage.desc': '写代码的，顺带折腾免费额度和自建服务。这个站点是我的数字名片，也是内容仓库。',
+      'aboutPage.storyTitle': '我在做什么',
+      'aboutPage.story3': '资源页里的每条记录都自己验证过一遍才写进去；工具页只放真的装了、用了一个月以上的。宁可少收，也不想让你点进去发现是坑。',
+      'aboutPage.elsewhere': '在别处',
+      'aboutPage.email': '邮箱',
+      'aboutPage.entries': '{n} 条收录',
+      'aboutPage.site': '这个站点',
+      'aboutPage.spec1': '技术栈', 'aboutPage.spec2': '依赖', 'aboutPage.spec3': '托管', 'aboutPage.spec4': '更新',
+      'aboutPage.none': '零'
     },
     en: {
       'a11y.skip': 'Skip to main content',
       'nav.home': 'Home', 'nav.resources': 'Resources', 'nav.tools': 'Tools', 'nav.notes': 'Notes', 'nav.about': 'About',
+      'nav.baipiao': 'Freebies', 'nav.charity': 'Public goods',
+      'nav.tools.all': 'All tools', 'nav.tools.dev': 'Development', 'nav.tools.design': 'Design',
+      'nav.tools.productivity': 'Productivity', 'nav.tools.system': 'System',
+      'nav.baipiao.all': 'All freebies', 'nav.baipiao.quota': 'Free quota', 'nav.baipiao.api': 'Free API',
+      'nav.baipiao.event': 'Limited events', 'nav.baipiao.lottery': 'Giveaways',
       'ui.search': 'Search', 'ui.theme': 'Toggle theme', 'ui.lang': 'Switch language', 'ui.menu': 'Menu', 'ui.top': 'Back to top',
+      'common.viewAll': 'View all',
+      'common.count': '{n} items',
+      'common.filtered': '{n} of {total}',
+      'common.all': 'All',
       'hero.eyebrow': 'KMIN · PERSONAL SITE & DIGITAL GARDEN',
       'hero.title': 'Turning what I love into <mark class="hl">real work</mark>.',
       'hero.desc': 'My digital garden: open-source projects, a curated list of free resources, and the tools I actually use every day — all in one place.',
@@ -117,8 +199,55 @@
       'search.hint': 'Results filter as you type. Press Enter to open the first one.',
       'search.empty': 'Nothing found. Try another keyword.',
       'search.type.resource': 'Resource', 'search.type.tool': 'Tool', 'search.type.post': 'Note',
+      'search.type.baipiao': 'Freebie', 'search.type.charity': 'Public',
       'status.ok': 'Available', 'status.warn': 'Limited', 'status.off': 'Expired',
-      'unit.entry': 'entries', 'unit.tool': 'tools'
+      'unit.entry': 'entries', 'unit.tool': 'tools',
+
+      'resPage.title': 'Free resource library',
+      'resPage.desc': 'Only what works and is still free gets listed. Every entry carries its current status, so you do not have to test them one by one.',
+      'resPage.stat1': 'Listed', 'resPage.stat2': 'Available', 'resPage.stat3': 'Limited',
+      'resPage.filter': 'Filter resources on this page…',
+      'resPage.empty': 'No matching resources. Try another keyword, or switch back to All.',
+      'resPage.statsLabel': 'Resource statistics',
+
+      'toolsPage.title': 'Tools I use daily',
+      'toolsPage.desc': 'Only tools I installed myself and used for over a month. Free tiers and open-source status are on each card.',
+      'toolsPage.stat1': 'Listed', 'toolsPage.stat2': 'Free / OSS', 'toolsPage.stat3': 'Categories',
+      'toolsPage.filter': 'Filter tools on this page…',
+      'toolsPage.empty': 'No matching tools. Try another keyword, or switch back to All.',
+
+      'notesPage.title': 'Tinkering log',
+      'notesPage.desc': 'Pitfalls hit, approaches verified, conclusions drawn. Written down mainly so future me can still follow.',
+      'notesPage.stat1': 'Notes', 'notesPage.stat2': 'Latest', 'notesPage.stat3': 'Tags',
+      'notesPage.filter': 'Filter notes on this page…',
+      'notesPage.empty': 'No matching notes. Try another keyword.',
+
+      'bpPage.title': 'Freebie board',
+      'bpPage.desc': 'Free quotas, limited-time offers and giveaways that still work, collected in one place. Each entry states its validity, and expired ones get pulled.',
+      'bpPage.stat1': 'Listed', 'bpPage.stat2': 'Claimable', 'bpPage.stat3': 'Ended',
+      'bpPage.filter': 'Filter freebies on this page…',
+      'bpPage.empty': 'No matching entries. Try another keyword, or switch back to All.',
+      'bpPage.note': 'Offers expire fast — claim when you see them. This site only lists information; it does not claim on your behalf or guarantee anything.',
+      'bpPage.expire': 'Valid',
+
+      'chPage.title': 'Public goods',
+      'chPage.desc': 'Services funded by universities, companies and communities, open to everyone. Do not abuse them, and do not load-test them.',
+      'chPage.stat1': 'Listed', 'chPage.stat2': 'Mirrors', 'chPage.stat3': 'Tools & APIs',
+      'chPage.filter': 'Filter public services on this page…',
+      'chPage.empty': 'No matching services. Try another keyword, or switch back to All.',
+      'chPage.note': 'These services run on bandwidth and servers their maintainers pay for. Keep request rates sane and read their notices first.',
+      'chPage.org': 'Run by',
+
+      'aboutPage.title': 'About me',
+      'aboutPage.desc': 'I write code and tinker with free tiers and self-hosted services. This site is my business card and my archive.',
+      'aboutPage.storyTitle': 'What I am working on',
+      'aboutPage.story3': 'Every resource is verified before it goes in; tools only make the list after a month of real use. I would rather list less than send you into a dead end.',
+      'aboutPage.elsewhere': 'Elsewhere',
+      'aboutPage.email': 'Email',
+      'aboutPage.entries': '{n} entries',
+      'aboutPage.site': 'This site',
+      'aboutPage.spec1': 'Stack', 'aboutPage.spec2': 'Dependencies', 'aboutPage.spec3': 'Hosting', 'aboutPage.spec4': 'Updated',
+      'aboutPage.none': 'None'
     }
   };
 
@@ -126,15 +255,28 @@
     lang: 'zh',
     theme: 'light',
     resourceFilter: 'all',
-    toolFilter: 'all'
+    toolFilter: 'all',
+    noteFilter: 'all',
+    baipiaoFilter: 'all',
+    charityFilter: 'all',
+    resourceQuery: '',
+    toolQuery: '',
+    noteQuery: '',
+    baipiaoQuery: '',
+    charityQuery: ''
   };
 
-  function t(key) {
+  function t(key, vars) {
     var dict = I18N[state.lang] || I18N.zh;
-    return dict[key] != null ? dict[key] : (I18N.zh[key] || key);
+    var s = dict[key] != null ? dict[key] : (I18N.zh[key] || key);
+    if (vars) {
+      Object.keys(vars).forEach(function (k) {
+        s = s.replace(new RegExp('\\{' + k + '\\}', 'g'), vars[k]);
+      });
+    }
+    return s;
   }
 
-  /** 应用静态节点上的所有 data-i18n* 属性 */
   function applyStaticText() {
     $$('[data-i18n]').forEach(function (node) {
       node.textContent = t(node.getAttribute('data-i18n'));
@@ -147,6 +289,10 @@
     });
     $$('[data-i18n-placeholder]').forEach(function (node) {
       node.setAttribute('placeholder', t(node.getAttribute('data-i18n-placeholder')));
+    });
+    // aboutPage.entries 里带计数占位，单独处理
+    $$('[data-i18n="aboutPage.entries"]').forEach(function (node) {
+      node.textContent = t('aboutPage.entries', { n: (DATA.resources || []).length });
     });
   }
 
@@ -198,6 +344,7 @@
     var box = $('#lang');
     var btn = $('#langBtn');
     var menu = $('#langMenu');
+    if (!box || !btn) return;
 
     function close() {
       box.classList.remove('is-open');
@@ -232,7 +379,7 @@
     state.lang = root.getAttribute('data-lang') === 'en' ? 'en' : 'zh';
     var code = $('#langCode');
     if (code) code.textContent = state.lang === 'zh' ? 'CN' : 'US';
-    $('#langBtn').setAttribute('aria-label', t('ui.lang'));
+    btn.setAttribute('aria-label', t('ui.lang'));
     $$('.lang-opt').forEach(function (b2) {
       b2.setAttribute('aria-selected', String(b2.getAttribute('data-lang-opt') === state.lang));
     });
@@ -259,6 +406,9 @@
     });
 
     on(nav, 'click', function (e) {
+      // 二级菜单内部点击、以及「工具」这个带下拉的触发项，都不应收起整块导航
+      if (e.target.closest('.nav-sub')) return;
+      if (e.target.closest('.nav-item.has-sub > .nav-link')) return;
       if (e.target.closest('a')) close();
     });
 
@@ -271,26 +421,100 @@
     });
   }
 
+  /* ---------- 4.5 二级导航（工具分类） ---------- */
+  function initSubNav() {
+    var items = $$('.nav-item.has-sub');
+    if (!items.length) return;
+
+    var isTouch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+
+    items.forEach(function (item) {
+      var trigger = $('.nav-link', item);
+      var sub = $('.nav-sub', item);
+      if (!trigger || !sub) return;
+
+      function close() {
+        item.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+      function open() {
+        item.classList.add('is-open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+
+      // 桌面悬停展开；触屏或键盘通过点击/聚焦展开
+      on(item, 'mouseenter', function () {
+        if (!isTouch && window.innerWidth > 900) open();
+      });
+      on(item, 'mouseleave', function () {
+        if (!isTouch && window.innerWidth > 900) close();
+      });
+
+      on(trigger, 'click', function (e) {
+        // 让「工具」仍可跳转到工具页；只有触屏/移动端才拦截为展开
+        if (isTouch || window.innerWidth <= 900) {
+          e.preventDefault();
+          if (item.classList.contains('is-open')) close(); else open();
+        }
+      });
+
+      on(item, 'keydown', function (e) {
+        if (e.key === 'Escape') { close(); trigger.focus(); }
+      });
+
+      on(document, 'click', function (e) {
+        if (!item.contains(e.target)) close();
+      });
+    });
+  }
+
   /* ---------- 5. 内容渲染 ---------- */
   var STATUS_CLASS = { ok: 'is-ok', warn: 'is-warn', off: 'is-off' };
   var STATUS_KEY = { ok: 'status.ok', warn: 'status.warn', off: 'status.off' };
 
+  /** 通用：按分类 + 关键词过滤 */
+  function filterList(list, cat, query, extra) {
+    var q = (query || '').trim().toLowerCase();
+    return list.filter(function (item) {
+      if (cat && cat !== 'all' && item.category !== cat && !(extra && extra(item, cat))) return false;
+      if (!q) return true;
+      var hay = [
+        pick(item.name, 'zh'), pick(item.name, 'en'),
+        pick(item.desc, 'zh'), pick(item.desc, 'en'),
+        pick(item.tag, 'zh'), pick(item.tag, 'en')
+      ].join(' ').toLowerCase();
+      return hay.indexOf(q) !== -1;
+    });
+  }
+
+  /** 首页只展示前 N 条（由容器上的 data-limit 控制），独立页不设上限 */
+  function applyLimit(list, sel) {
+    var grid = $(sel);
+    var limit = grid && grid.getAttribute('data-limit');
+    return limit ? list.slice(0, parseInt(limit, 10)) : list;
+  }
+
   function renderResources() {
     var grid = $('#resourceGrid');
     if (!grid) return;
-    var list = (DATA.resources || []).filter(function (item) {
-      return state.resourceFilter === 'all' || item.category === state.resourceFilter;
-    });
+
+    var all = DATA.resources || [];
+    var list = filterList(all, state.resourceFilter, state.resourceQuery);
+    var shown = applyLimit(list, '#resourceGrid');
 
     grid.innerHTML = '';
-    if (!list.length) {
-      grid.appendChild(el('p', 'search-empty', esc(t('search.empty'))));
+    if (!shown.length) {
+      var empty = $('#resourceEmpty');
+      if (empty) empty.hidden = false;
+      updateCount('#resourceCount', 0, all.length);
       return;
     }
+    var emptyEl = $('#resourceEmpty');
+    if (emptyEl) emptyEl.hidden = true;
 
-    list.forEach(function (item, i) {
+    shown.forEach(function (item, i) {
       var card = el('article', 'res-card');
-      card.style.animationDelay = Math.min(i * 30, 240) + 'ms';
+      card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
 
       var statusCls = STATUS_CLASS[item.status] || 'is-off';
       var statusTxt = t(STATUS_KEY[item.status] || 'status.off');
@@ -306,31 +530,49 @@
         '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
         '<div class="res-foot">' +
           '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
-          '<a class="res-go" href="' + esc(item.url || '#resources') + '" target="_blank" rel="noopener noreferrer">' +
+          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
             esc(pick(item.badge, state.lang) || 'Open') +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
           '</a>' +
         '</div>';
       grid.appendChild(card);
     });
+
+    updateCount('#resourceCount', shown.length, all.length);
+    updateStatusCounts(all);
+  }
+
+  function updateStatusCounts(list) {
+    var ok = 0, warn = 0;
+    list.forEach(function (item) {
+      if (item.status === 'ok') ok++;
+      else if (item.status === 'warn') warn++;
+    });
+    $$('[data-ok-count]').forEach(function (n) { n.textContent = String(ok); });
+    $$('[data-warn-count]').forEach(function (n) { n.textContent = String(warn); });
   }
 
   function renderTools() {
     var grid = $('#toolGrid');
     if (!grid) return;
-    var list = (DATA.tools || []).filter(function (item) {
-      return state.toolFilter === 'all' || item.category === state.toolFilter;
-    });
+
+    var all = DATA.tools || [];
+    var list = filterList(all, state.toolFilter, state.toolQuery);
+    var shown = applyLimit(list, '#toolGrid');
 
     grid.innerHTML = '';
-    if (!list.length) {
-      grid.appendChild(el('p', 'search-empty', esc(t('search.empty'))));
+    if (!shown.length) {
+      var empty = $('#toolEmpty');
+      if (empty) empty.hidden = false;
+      updateCount('#toolCount', 0, all.length);
       return;
     }
+    var emptyEl = $('#toolEmpty');
+    if (emptyEl) emptyEl.hidden = true;
 
-    list.forEach(function (item, i) {
+    shown.forEach(function (item, i) {
       var node = el('article', 'tool-item');
-      node.style.animationDelay = Math.min(i * 30, 240) + 'ms';
+      node.style.animationDelay = Math.min(i * 24, 220) + 'ms';
 
       var tags = (pick(item.tags, state.lang) || []).map(function (tag) {
         return '<span class="tag">' + esc(tag) + '</span>';
@@ -340,24 +582,233 @@
         '<span class="tool-icon" aria-hidden="true">' + esc(item.icon || '') + '</span>' +
         '<div class="tool-body">' +
           '<h3 class="tool-name">' + esc(item.name) +
-            (item.free ? '<span class="tag">' + (state.lang === 'zh' ? '免费 / 开源' : 'Free / OSS') + '</span>' : '') +
+            (item.free ? '<span class="tag tag-accent">' + (state.lang === 'zh' ? '免费 / 开源' : 'Free / OSS') + '</span>' : '') +
           '</h3>' +
           '<p class="tool-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
           '<div class="tool-tags">' + tags + '</div>' +
         '</div>' +
-        '<a class="res-go" href="' + esc(item.url || '#tools') + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(item.name) + '">' +
+        '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(item.name) + '">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
         '</a>';
       grid.appendChild(node);
     });
+
+    updateCount('#toolCount', shown.length, all.length);
+    updateToolCounts(all);
+  }
+
+  function updateToolCounts(list) {
+    var free = list.filter(function (i) { return i.free; }).length;
+    var cats = {};
+    list.forEach(function (i) { if (i.category) cats[i.category] = 1; });
+    $$('[data-free-count]').forEach(function (n) { n.textContent = String(free); });
+    $$('[data-cat-count]').forEach(function (n) { n.textContent = String(Object.keys(cats).length); });
+  }
+
+  /** 白嫖区卡片：比资源卡多一行「有效期」 */
+  function renderBaipiao() {
+    var grid = $('#baipiaoGrid');
+    if (!grid) return;
+
+    var all = DATA.baipiao || [];
+    var list = filterList(all, state.baipiaoFilter, state.baipiaoQuery);
+
+    grid.innerHTML = '';
+    if (!list.length) {
+      var empty = $('#baipiaoEmpty');
+      if (empty) empty.hidden = false;
+      updateCount('#baipiaoCount', 0, all.length);
+      return;
+    }
+    var emptyEl = $('#baipiaoEmpty');
+    if (emptyEl) emptyEl.hidden = true;
+
+    list.forEach(function (item, i) {
+      var card = el('article', 'res-card');
+      card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
+
+      var statusCls = STATUS_CLASS[item.status] || 'is-off';
+      var statusTxt = t(STATUS_KEY[item.status] || 'status.off');
+      var expire = pick(item.expire, state.lang);
+
+      card.innerHTML =
+        '<div class="res-head">' +
+          '<span class="res-logo">' + esc(item.logo || pick(item.name, state.lang).slice(0, 2)) + '</span>' +
+          '<div class="res-titles">' +
+            '<h3 class="res-name">' + esc(pick(item.name, state.lang)) + '</h3>' +
+            '<p class="res-tag">' + esc(pick(item.tag, state.lang)) + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
+        (expire ? '<p class="res-expire"><span>' + esc(t('bpPage.expire')) + '</span>' + esc(expire) + '</p>' : '') +
+        '<div class="res-foot">' +
+          '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
+          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
+            esc(pick(item.badge, state.lang) || 'Open') +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+          '</a>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+
+    updateCount('#baipiaoCount', list.length, all.length);
+    var ok = 0, off = 0;
+    all.forEach(function (x) {
+      if (x.status === 'ok') ok++;
+      else if (x.status === 'off') off++;
+    });
+    $$('[data-total]').forEach(function (n) { n.textContent = String(all.length); });
+    $$('[data-ok-count]').forEach(function (n) { n.textContent = String(ok); });
+    $$('[data-off-count]').forEach(function (n) { n.textContent = String(off); });
+  }
+
+  /** 公益站卡片：多一行「维护方」 */
+  function renderCharity() {
+    var grid = $('#charityGrid');
+    if (!grid) return;
+
+    var all = DATA.charity || [];
+    var list = filterList(all, state.charityFilter, state.charityQuery);
+
+    grid.innerHTML = '';
+    if (!list.length) {
+      var empty = $('#charityEmpty');
+      if (empty) empty.hidden = false;
+      updateCount('#charityCount', 0, all.length);
+      return;
+    }
+    var emptyEl = $('#charityEmpty');
+    if (emptyEl) emptyEl.hidden = true;
+
+    list.forEach(function (item, i) {
+      var card = el('article', 'res-card');
+      card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
+
+      var org = pick(item.org, state.lang);
+      var statusCls = STATUS_CLASS[item.status] || 'is-off';
+      var statusTxt = t(STATUS_KEY[item.status] || 'status.off');
+
+      card.innerHTML =
+        '<div class="res-head">' +
+          '<span class="res-logo">' + esc(item.logo || pick(item.name, state.lang).slice(0, 2)) + '</span>' +
+          '<div class="res-titles">' +
+            '<h3 class="res-name">' + esc(pick(item.name, state.lang)) + '</h3>' +
+            '<p class="res-tag">' + esc(pick(item.tag, state.lang)) + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
+        (org ? '<p class="res-expire"><span>' + esc(t('chPage.org')) + '</span>' + esc(org) + '</p>' : '') +
+        '<div class="res-foot">' +
+          '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
+          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
+            esc(pick(item.badge, state.lang) || 'Open') +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+          '</a>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+
+    updateCount('#charityCount', list.length, all.length);
+    var mirrors = 0, other = 0;
+    all.forEach(function (x) {
+      if (x.category === 'mirror') mirrors++; else other++;
+    });
+    $$('[data-total]').forEach(function (n) { n.textContent = String(all.length); });
+    $$('[data-cat-mirror]').forEach(function (n) { n.textContent = String(mirrors); });
+    $$('[data-cat-other]').forEach(function (n) { n.textContent = String(other); });
+  }
+
+  function renderPosts() {
+    var list = $('#postList');
+    if (!list) return;
+
+    var all = DATA.posts || [];
+    var filtered = all.filter(function (post) {
+      if (state.noteFilter !== 'all') {
+        var tags = pick(post.tags, state.lang) || [];
+        if (tags.indexOf(state.noteFilter) === -1) return false;
+      }
+      var q = (state.noteQuery || '').trim().toLowerCase();
+      if (!q) return true;
+      return [
+        pick(post.title, 'zh'), pick(post.title, 'en'),
+        pick(post.excerpt, 'zh'), pick(post.excerpt, 'en')
+      ].join(' ').toLowerCase().indexOf(q) !== -1;
+    });
+
+    var shown = applyLimit(filtered, '#postList');
+
+    list.innerHTML = '';
+    if (!shown.length) {
+      var empty = $('#noteEmpty');
+      if (empty) empty.hidden = false;
+      updateCount('#noteCount', 0, all.length);
+      return;
+    }
+    var emptyEl = $('#noteEmpty');
+    if (emptyEl) emptyEl.hidden = true;
+
+    shown.forEach(function (post) {
+      var tags = (pick(post.tags, state.lang) || []).map(function (tag) {
+        return '<span class="tag">' + esc(tag) + '</span>';
+      }).join('');
+
+      var item = el('a', 'post-item');
+      item.href = post.url && post.url !== '#notes' ? post.url : 'notes.html';
+      item.innerHTML =
+        '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + '</time>' +
+        '<div class="post-main">' +
+          '<h3 class="post-title">' + esc(pick(post.title, state.lang)) + '</h3>' +
+          '<p class="post-excerpt">' + esc(pick(post.excerpt, state.lang)) + '</p>' +
+        '</div>' +
+        '<div class="post-tags">' + tags + '</div>';
+      list.appendChild(item);
+    });
+
+    updateCount('#noteCount', shown.length, all.length);
+    updateNoteStats(all);
+  }
+
+  function updateNoteStats(list) {
+    var latest = '—';
+    list.forEach(function (p) { if (p.date > latest || latest === '—') latest = p.date; });
+    $$('[data-latest-date]').forEach(function (n) { n.textContent = latest; });
+
+    var tags = {};
+    list.forEach(function (p) {
+      (pick(p.tags, state.lang) || []).forEach(function (tg) { tags[tg] = 1; });
+    });
+    $$('[data-tag-count]').forEach(function (n) { n.textContent = String(Object.keys(tags).length); });
+  }
+
+  /** 结果计数文案 */
+  function updateCount(sel, shown, total) {
+    var node = $(sel);
+    if (!node) return;
+    node.textContent = shown === total
+      ? t('common.count', { n: shown })
+      : t('common.filtered', { n: shown, total: total });
   }
 
   function renderFilters() {
-    [['#resourceFilters', 'resource', 'resourceFilter'], ['#toolFilters', 'tool', 'toolFilter']].forEach(function (cfg) {
+    var configs = [
+      ['#resourceFilters', 'resource', 'resourceFilter'],
+      ['#toolFilters', 'tool', 'toolFilter'],
+      ['#baipiaoFilters', 'baipiao', 'baipiaoFilter'],
+      ['#charityFilters', 'charity', 'charityFilter']
+    ];
+
+    configs.forEach(function (cfg) {
       var box = $(cfg[0]);
       if (!box) return;
       var cats = (DATA.categories && DATA.categories[cfg[1]]) || [];
-      var source = cfg[1] === 'resource' ? (DATA.resources || []) : (DATA.tools || []);
+      var sourceMap = {
+        resource: DATA.resources || [],
+        tool: DATA.tools || [],
+        baipiao: DATA.baipiao || [],
+        charity: DATA.charity || []
+      };
+      var source = sourceMap[cfg[1]] || [];
 
       box.innerHTML = '';
       cats.forEach(function (cat) {
@@ -373,34 +824,56 @@
 
         on(btn, 'click', function () {
           state[cfg[2]] = cat.id;
+          // 同步地址栏，刷新后仍停留在该分类
+          var pageMap = { tool: 'tools', baipiao: 'baipiao', charity: 'charity' };
+          if (pageMap[cfg[1]]) {
+            var url = cat.id === 'all' ? pageMap[cfg[1]] + '.html' : pageMap[cfg[1]] + '.html?cat=' + cat.id;
+            try { history.replaceState(null, '', url); } catch (e) {}
+          }
           renderFilters();
-          if (cfg[1] === 'resource') renderResources(); else renderTools();
+          if (cfg[1] === 'resource') renderResources();
+          else if (cfg[1] === 'tool') renderTools();
+          else if (cfg[1] === 'baipiao') renderBaipiao();
+          else if (cfg[1] === 'charity') renderCharity();
         });
         box.appendChild(btn);
       });
     });
-  }
 
-  function renderPosts() {
-    var list = $('#postList');
-    if (!list) return;
-    list.innerHTML = '';
-    (DATA.posts || []).forEach(function (post) {
-      var tags = (pick(post.tags, state.lang) || []).map(function (tag) {
-        return '<span class="tag">' + esc(tag) + '</span>';
-      }).join('');
+    // 笔记标签筛选（从数据动态生成）
+    var noteBox = $('#noteFilters');
+    if (noteBox) {
+      var tagMap = {};
+      (DATA.posts || []).forEach(function (p) {
+        (pick(p.tags, 'zh') || []).forEach(function (tg) { tagMap[tg] = (tagMap[tg] || 0) + 1; });
+      });
+      var tagList = Object.keys(tagMap);
 
-      var item = el('a', 'post-item');
-      item.href = post.url || '#notes';
-      item.innerHTML =
-        '<time class="post-date" datetime="' + esc(post.date) + '">' + esc(post.date) + '</time>' +
-        '<div class="post-main">' +
-          '<h3 class="post-title">' + esc(pick(post.title, state.lang)) + '</h3>' +
-          '<p class="post-excerpt">' + esc(pick(post.excerpt, state.lang)) + '</p>' +
-        '</div>' +
-        '<div class="post-tags">' + tags + '</div>';
-      list.appendChild(item);
-    });
+      noteBox.innerHTML = '';
+      var allBtn = el('button', 'chip' + (state.noteFilter === 'all' ? ' is-active' : ''));
+      allBtn.type = 'button';
+      allBtn.setAttribute('aria-pressed', String(state.noteFilter === 'all'));
+      allBtn.innerHTML = esc(t('common.all')) + '<span class="chip-count">' + (DATA.posts || []).length + '</span>';
+      on(allBtn, 'click', function () {
+        state.noteFilter = 'all';
+        renderFilters();
+        renderPosts();
+      });
+      noteBox.appendChild(allBtn);
+
+      tagList.forEach(function (tg) {
+        var b = el('button', 'chip' + (state.noteFilter === tg ? ' is-active' : ''));
+        b.type = 'button';
+        b.setAttribute('aria-pressed', String(state.noteFilter === tg));
+        b.innerHTML = esc(tg) + '<span class="chip-count">' + tagMap[tg] + '</span>';
+        on(b, 'click', function () {
+          state.noteFilter = tg;
+          renderFilters();
+          renderPosts();
+        });
+        noteBox.appendChild(b);
+      });
+    }
   }
 
   function renderAbout() {
@@ -421,13 +894,16 @@
         skills.appendChild(el('span', 'skill-tag', esc(name)));
       });
     }
+
+    $$('[data-updated]').forEach(function (n) {
+      n.textContent = (DATA.meta && DATA.meta.updated) || '2025-11';
+    });
   }
 
   /**
    * 统计数字口径：
-   *   data.js 的 meta.stats 里写了值 → 用写死的展示数字（适合"总收录"这类人工口径）
-   *   meta.stats 里给了数字 → 用它（累计展示口径，如"累计收录 128 条"）
-   *   给 null / 删掉该键 → 自动按数组真实长度计算，增删条目后数字自动同步
+   *   meta.stats 里给了数字 → 用它（累计展示口径）
+   *   给 null / 删掉该键 → 自动按数组真实长度计算
    */
   function computeStats() {
     DATA.meta = DATA.meta || {};
@@ -444,7 +920,6 @@
     };
   }
 
-  /** 更新所有 data-count 数字 */
   function renderCounts() {
     var stats = (DATA.meta && DATA.meta.stats) || {};
     $$('[data-count]').forEach(function (node) {
@@ -459,9 +934,12 @@
     renderFilters();
     renderResources();
     renderTools();
+    renderBaipiao();
+    renderCharity();
     renderPosts();
     renderAbout();
     renderCounts();
+    applyStaticText();
   }
 
   /* ---------- 6. 搜索 ---------- */
@@ -474,7 +952,7 @@
     (DATA.resources || []).forEach(function (item) {
       searchIndex.push({
         type: 'resource',
-        anchor: '#resources',
+        anchor: 'resources.html',
         name: pick(item.name, 'zh'),
         nameEn: pick(item.name, 'en'),
         desc: { zh: pick(item.desc, 'zh'), en: pick(item.desc, 'en') }
@@ -483,7 +961,25 @@
     (DATA.tools || []).forEach(function (item) {
       searchIndex.push({
         type: 'tool',
-        anchor: '#tools',
+        anchor: 'tools.html',
+        name: pick(item.name, 'zh'),
+        nameEn: pick(item.name, 'en'),
+        desc: { zh: pick(item.desc, 'zh'), en: pick(item.desc, 'en') }
+      });
+    });
+    (DATA.baipiao || []).forEach(function (item) {
+      searchIndex.push({
+        type: 'baipiao',
+        anchor: 'baipiao.html',
+        name: pick(item.name, 'zh'),
+        nameEn: pick(item.name, 'en'),
+        desc: { zh: pick(item.desc, 'zh'), en: pick(item.desc, 'en') }
+      });
+    });
+    (DATA.charity || []).forEach(function (item) {
+      searchIndex.push({
+        type: 'charity',
+        anchor: 'charity.html',
         name: pick(item.name, 'zh'),
         nameEn: pick(item.name, 'en'),
         desc: { zh: pick(item.desc, 'zh'), en: pick(item.desc, 'en') }
@@ -492,7 +988,7 @@
     (DATA.posts || []).forEach(function (post) {
       searchIndex.push({
         type: 'post',
-        anchor: '#notes',
+        anchor: 'notes.html',
         name: pick(post.title, 'zh'),
         nameEn: pick(post.title, 'en'),
         desc: { zh: pick(post.excerpt, 'zh'), en: pick(post.excerpt, 'en') }
@@ -527,7 +1023,6 @@
     searchResults.forEach(function (item, i) {
       var row = el('a', 'search-item' + (i === searchCursor ? ' is-current' : ''));
       row.href = item.anchor;
-      row.setAttribute('data-close-search', '');
       row.innerHTML =
         '<span class="si-type">' + esc(t('search.type.' + item.type)) + '</span>' +
         '<span class="si-body">' +
@@ -555,7 +1050,6 @@
     modal.hidden = false;
     document.body.classList.add('no-scroll');
     var input = $('#searchInput');
-    renderSearch();
     if (input) {
       input.value = '';
       renderSearch();
@@ -602,14 +1096,36 @@
     });
   }
 
-  /* ---------- 7. 滚动相关 ---------- */
+  /* ---------- 6.5 页面内筛选输入框 ---------- */
+  function initPageFilters() {
+    var map = [
+      ['#resourceSearch', 'resourceQuery', renderResources],
+      ['#toolSearch', 'toolQuery', renderTools],
+      ['#noteSearch', 'noteQuery', renderPosts],
+      ['#baipiaoSearch', 'baipiaoQuery', renderBaipiao],
+      ['#charitySearch', 'charityQuery', renderCharity]
+    ];
+    map.forEach(function (cfg) {
+      var input = $(cfg[0]);
+      if (!input) return;
+      on(input, 'input', function () {
+        state[cfg[1]] = input.value;
+        cfg[2]();
+      });
+      on(input, 'keydown', function (e) {
+        if (e.key === 'Escape') {
+          input.value = '';
+          state[cfg[1]] = '';
+          cfg[2]();
+        }
+      });
+    });
+  }
+
+  /* ---------- 7. 滚动与导航高亮 ---------- */
   function initScroll() {
     var header = $('#siteHeader');
     var toTop = $('#toTop');
-    var navLinks = $$('.nav-link');
-    var sections = navLinks.map(function (link) {
-      return $(link.getAttribute('href'));
-    }).filter(Boolean);
 
     var ticking = false;
     function update() {
@@ -630,18 +1146,12 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 导航高亮跟随滚动
-    if ('IntersectionObserver' in window && sections.length) {
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var id = '#' + entry.target.id;
-          navLinks.forEach(function (link) {
-            link.classList.toggle('is-active', link.getAttribute('href') === id);
-          });
-        });
-      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-      sections.forEach(function (sec) { spy.observe(sec); });
+    // 首页内部区块滚动时高亮对应二级入口（仅首页）
+    if (PAGE === 'index') {
+      var navLinks = $$('.nav-link');
+      navLinks.forEach(function (link) {
+        if (link.getAttribute('href') === 'index.html') link.classList.add('is-active');
+      });
     }
   }
 
@@ -670,10 +1180,27 @@
 
     computeStats();
 
+    // 各页支持 ?cat=xxx 直达分类
+    var cat = param('cat');
+    if (cat) {
+      var catMap = [
+        ['tool', 'toolFilter'],
+        ['baipiao', 'baipiaoFilter'],
+        ['charity', 'charityFilter'],
+        ['resource', 'resourceFilter']
+      ];
+      catMap.forEach(function (pair) {
+        var list = (DATA.categories && DATA.categories[pair[0]]) || [];
+        if (list.some(function (c) { return c.id === cat; })) state[pair[1]] = cat;
+      });
+    }
+
     initTheme();
     initLang();
     initMenu();
+    initSubNav();
     initSearch();
+    initPageFilters();
     initScroll();
     initReveal();
 

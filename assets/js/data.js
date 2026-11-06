@@ -23,11 +23,25 @@ window.KMIN_DATA = {
   categories: {
     resource: [
       { id: "all", label: { zh: "全部", en: "All" } },
-      { id: "cloud", label: { zh: "云服务", en: "Cloud" } },
+      { id: "server", label: { zh: "云服务器", en: "Servers" } },
+      { id: "domain", label: { zh: "域名/TLS", en: "Domain & TLS" } },
+      { id: "mirror", label: { zh: "国内镜像源", en: "CN Mirrors" } },
+      { id: "api", label: { zh: "API 羊毛", en: "API Freebies" } },
+      { id: "learn", label: { zh: "学生/学习资源", en: "Student & Learning" } },
+      { id: "google", label: { zh: "Google 服务", en: "Google" } }
+    ],
+    baipiao: [
+      { id: "all", label: { zh: "全部", en: "All" } },
+      { id: "quota", label: { zh: "免费额度", en: "Free quota" } },
       { id: "api", label: { zh: "免费 API", en: "Free API" } },
-      { id: "mirror", label: { zh: "镜像站", en: "Mirrors" } },
-      { id: "domain", label: { zh: "域名/证书", en: "Domain" } },
-      { id: "learn", label: { zh: "学习资源", en: "Learning" } }
+      { id: "event", label: { zh: "限时活动", en: "Limited events" } },
+      { id: "lottery", label: { zh: "抽奖福利", en: "Giveaways" } }
+    ],
+    charity: [
+      { id: "all", label: { zh: "全部", en: "All" } },
+      { id: "mirror", label: { zh: "公益镜像", en: "Public mirrors" } },
+      { id: "api", label: { zh: "公益 API", en: "Public API" } },
+      { id: "tool", label: { zh: "公益工具", en: "Public tools" } }
     ],
     tool: [
       { id: "all", label: { zh: "全部", en: "All" } },
@@ -46,7 +60,7 @@ window.KMIN_DATA = {
         zh: "每天 10 万次免费请求，写个小 API、反代或定时任务完全够用，绑定自定义域名也免费。",
         en: "100k free requests per day. Enough for a small API, a reverse proxy, or cron jobs — custom domains included."
       },
-      logo: "CF", category: "cloud", status: "ok", url: "https://workers.cloudflare.com/",
+      logo: "CF", category: "server", status: "ok", url: "https://workers.cloudflare.com/",
       badge: { zh: "长期可薅", en: "Long-term" }
     },
     {
@@ -56,7 +70,7 @@ window.KMIN_DATA = {
         zh: "这个站点就跑在上面。公开仓库直接推代码即可发布，自带 CDN 和证书，零成本。",
         en: "This very site runs here. Push to a public repo and it deploys — CDN and TLS included, at no cost."
       },
-      logo: "GH", category: "cloud", status: "ok", url: "https://pages.github.com/",
+      logo: "GH", category: "server", status: "ok", url: "https://pages.github.com/",
       badge: { zh: "在用", en: "In use" }
     },
     {
@@ -66,7 +80,7 @@ window.KMIN_DATA = {
         zh: "学生认证后能拿到很便宜的轻量应用服务器，适合练手和跑小服务；名额和价格每年都在变。",
         en: "Steep discounts on lightweight VPS after student verification. Good for practice projects; quotas and prices change yearly."
       },
-      logo: "AL", category: "cloud", status: "warn", url: "https://www.aliyun.com/",
+      logo: "AL", category: "server", status: "warn", url: "https://www.aliyun.com/",
       badge: { zh: "需认证", en: "Verified only" }
     },
     {
@@ -166,7 +180,7 @@ window.KMIN_DATA = {
         zh: "连上 Git 仓库就能自动构建发布，PR 预览链接很好用，个人项目免费额度足够。",
         en: "Connect a repo and it builds on push. Preview deploys per PR; the free tier covers personal projects."
       },
-      logo: "VC", category: "cloud", status: "ok", url: "https://vercel.com/",
+      logo: "VC", category: "server", status: "ok", url: "https://vercel.com/",
       badge: { zh: "免费额度", en: "Free tier" }
     },
     {
@@ -176,7 +190,7 @@ window.KMIN_DATA = {
         zh: "免费的 Postgres 加鉴权和存储，做小项目不用自己搭后端；闲置项目会被暂停。",
         en: "Free Postgres with auth and storage — no backend to build. Idle projects get paused."
       },
-      logo: "SB", category: "cloud", status: "warn", url: "https://supabase.com/",
+      logo: "SB", category: "server", status: "warn", url: "https://supabase.com/",
       badge: { zh: "会休眠", en: "Sleeps" }
     },
     {
@@ -248,7 +262,67 @@ window.KMIN_DATA = {
       },
       logo: "RM", category: "learn", status: "ok", url: "https://roadmap.sh/",
       badge: { zh: "免费", en: "Free" }
-    }
+    },
+    {
+      name: { zh: "Google Colab", en: "Google Colab" },
+      tag: { zh: "免费 GPU · 需 Google 账号", en: "Free GPU · Google account" },
+      desc: {
+        zh: "免费档就能白嫖 T4 GPU 跑模型，跑完记得及时释放；长时间闲置会被回收。",
+        en: "The free tier gives you a T4 GPU for training runs. Release the runtime when done — idle sessions get reclaimed."
+      },
+      logo: "GC", category: "google", status: "ok", url: "https://colab.research.google.com/",
+      badge: { zh: "免费 GPU", en: "Free GPU" }
+    },
+    {
+      name: { zh: "Google Cloud 免费层", en: "Google Cloud free tier" },
+      tag: { zh: "云服务 · 首年赠金", en: "Cloud · First-year credit" },
+      desc: {
+        zh: "新账号有 300 美元试用金，另有一批长期免费额度（e2-micro 实例等），注意绑定卡会扣验证费。",
+        en: "New accounts get $300 in credit plus a set of always-free services. Card verification may leave a small hold."
+      },
+      logo: "GC", category: "google", status: "warn", url: "https://cloud.google.com/free",
+      badge: { zh: "限新号", en: "New accounts" }
+    },
+    {
+      name: { zh: "Google NotebookLM", en: "Google NotebookLM" },
+      tag: { zh: "AI 笔记 · 有额度上限", en: "AI notes · Quota capped" },
+      desc: {
+        zh: "把文档、链接丢进去做资料整理和问答，免费额度够个人用，重度使用会碰到上限。",
+        en: "Feed documents and links in for summarising and Q&A. The free quota handles personal use; heavy use hits the cap."
+      },
+      logo: "NL", category: "google", status: "warn", url: "https://notebooklm.google.com/",
+      badge: { zh: "限额度", en: "Capped" }
+    },
+    {
+      name: { zh: "Google AI Studio", en: "Google AI Studio" },
+      tag: { zh: "LLM 调试 · 免费额度", en: "LLM playground · Free tier" },
+      desc: {
+        zh: "Gemini 模型的调试台，免费额度按分钟和每日限额给，写原型够用。",
+        en: "A playground for Gemini models with per-minute and daily free limits — enough for prototypes."
+      },
+      logo: "AS", category: "google", status: "ok", url: "https://aistudio.google.com/",
+      badge: { zh: "免费额度", en: "Free tier" }
+    },
+    {
+      name: { zh: "雨云 / 学生机", en: "Rainyun / student VPS" },
+      tag: { zh: "国内轻量 · 低价活动", en: "CN lightweight · Promo" },
+      desc: {
+        zh: "国内小厂的轻量服务器，常年有首年低价活动；选之前先看口碑和续费价，别只看首月。",
+        en: "Small domestic providers run cheap first-year offers. Check reputation and renewal pricing, not just month one."
+      },
+      logo: "RY", category: "server", status: "warn", url: "https://www.rainyun.com/",
+      badge: { zh: "看续费价", en: "Check renewal" }
+    },
+    {
+      name: { zh: "搬瓦工 / BandwagonHost", en: "BandwagonHost" },
+      tag: { zh: "海外 VPS · 按年付", en: "Overseas VPS · Annual" },
+      desc: {
+        zh: "老牌海外 VPS，价格透明、按年付更划算；适合跑稳定的小服务，注意线路差异。",
+        en: "A long-standing overseas VPS host with transparent pricing. Annual plans are cheaper; line quality varies by plan."
+      },
+      logo: "BW", category: "server", status: "ok", url: "https://bandwagonhost.com/",
+      badge: { zh: "稳定", en: "Stable" }
+    },
   ],
 
   tools: [
@@ -368,6 +442,212 @@ window.KMIN_DATA = {
       },
       tags: { zh: ["免费", "API"], en: ["Free", "API"] },
       free: true, url: "https://hoppscotch.io/"
+    }
+  ],
+
+  /* ---------- 白嫖区：免费额度 / 限时活动 / 抽奖福利 ---------- */
+  baipiao: [
+    {
+      name: { zh: "DeepSeek 新用户赠送额度", en: "DeepSeek new-user credit" },
+      tag: { zh: "免费额度 · 注册即得", en: "Free credit · On signup" },
+      desc: {
+        zh: "注册开放平台账号就送一批 token 额度，够把一个小工具跑通再决定要不要充值。",
+        en: "Signing up grants a batch of tokens — enough to finish a small tool before deciding on top-ups."
+      },
+      logo: "DS", category: "quota", status: "ok", url: "https://platform.deepseek.com/",
+      badge: { zh: "可领", en: "Claim" },
+      expire: { zh: "长期有效", en: "Ongoing" }
+    },
+    {
+      name: { zh: "Cloudflare R2 免费额度", en: "Cloudflare R2 free tier" },
+      tag: { zh: "对象存储 · 每月免费", en: "Object storage · Monthly free" },
+      desc: {
+        zh: "每月 10GB 存储加免出网流量，放图片和静态附件基本不用花钱。",
+        en: "10GB storage plus zero egress fees each month. Images and static assets cost nothing in practice."
+      },
+      logo: "R2", category: "quota", status: "ok", url: "https://www.cloudflare.com/developer-platform/r2/",
+      badge: { zh: "每月刷新", en: "Monthly reset" },
+      expire: { zh: "长期有效", en: "Ongoing" }
+    },
+    {
+      name: { zh: "GitHub Student Pack", en: "GitHub Student Pack" },
+      tag: { zh: "学生认证 · 一堆权益", en: "Student verified · Bundle" },
+      desc: {
+        zh: "学生认证后能拿到 Copilot、域名、云服务等一大堆免费权益，一次申请能用几年。",
+        en: "Student verification unlocks Copilot, domains, cloud credits and more — one application lasts years."
+      },
+      logo: "SP", category: "quota", status: "warn", url: "https://education.github.com/pack",
+      badge: { zh: "需学生证", en: "Student ID" },
+      expire: { zh: "按学年复核", en: "Yearly recheck" }
+    },
+    {
+      name: { zh: "OpenRouter 免费模型池", en: "OpenRouter free models" },
+      tag: { zh: "免费 API · 有限速", en: "Free API · Rate limited" },
+      desc: {
+        zh: "标注 :free 的模型可以直接调，适合做原型；并发和每日次数会随模型变化。",
+        en: "Models marked :free are callable directly — good for prototypes. Concurrency and daily caps vary by model."
+      },
+      logo: "OR", category: "api", status: "warn", url: "https://openrouter.ai/",
+      badge: { zh: "限速", en: "Rate limited" },
+      expire: { zh: "随时可能调整", en: "May change" }
+    },
+    {
+      name: { zh: "Hugging Face 免费 Inference", en: "Hugging Face free Inference" },
+      tag: { zh: "模型 API · 每月额度", en: "Model API · Monthly quota" },
+      desc: {
+        zh: "每月少量免费推理额度，跑分类、向量、小模型够用；大模型基本不用想。",
+        en: "A small monthly inference allowance — fine for classifiers, embeddings and small models, not for large ones."
+      },
+      logo: "HF", category: "api", status: "ok", url: "https://huggingface.co/",
+      badge: { zh: "每月刷新", en: "Monthly reset" },
+      expire: { zh: "每月刷新", en: "Monthly reset" }
+    },
+    {
+      name: { zh: "Vercel 免费额度", en: "Vercel free plan" },
+      tag: { zh: "部署 · 100GB 流量", en: "Deploy · 100GB bandwidth" },
+      desc: {
+        zh: "个人项目免费额度很够用，超过会暂停到下个月；商用需看清条款。",
+        en: "Plenty for personal projects; exceeding the cap pauses until next month. Read the terms before commercial use."
+      },
+      logo: "VC", category: "quota", status: "ok", url: "https://vercel.com/pricing",
+      badge: { zh: "免费", en: "Free" },
+      expire: { zh: "长期有效", en: "Ongoing" }
+    },
+    {
+      name: { zh: "各家云厂商首年套餐", en: "Cloud first-year promos" },
+      tag: { zh: "限时活动 · 首年低价", en: "Limited · First-year price" },
+      desc: {
+        zh: "阿里云、腾讯云常年有 99 元档的首年机器，续费会回原价，买之前先算三年总价。",
+        en: "Alibaba and Tencent run cheap first-year instances. Renewal reverts to list price — price out three years first."
+      },
+      logo: "CL", category: "event", status: "warn", url: "https://www.aliyun.com/",
+      badge: { zh: "看续费", en: "Renewal" },
+      expire: { zh: "活动制", en: "Campaign-based" }
+    },
+    {
+      name: { zh: "域名注册商首年优惠", en: "Registrar first-year deals" },
+      tag: { zh: "限时活动 · 首年 1 折", en: "Limited · 90% off year one" },
+      desc: {
+        zh: "新顶级域名首年经常几块钱，续费几十上百。只做短期项目可以薅，长期站别图这个。",
+        en: "New TLDs often cost a few yuan in year one and far more on renewal. Fine for short projects, not for long-lived sites."
+      },
+      logo: "DM", category: "event", status: "warn", url: "https://www.namesilo.com/",
+      badge: { zh: "首年制", en: "Year one only" },
+      expire: { zh: "随时调整", en: "Changes often" }
+    },
+    {
+      name: { zh: "接口调试工具送额度", en: "API tool credits" },
+      tag: { zh: "抽奖福利 · 官方活动", en: "Giveaway · Official event" },
+      desc: {
+        zh: "部分 API 聚合平台会做注册送额度的活动，金额不大，够验证一次想法。",
+        en: "Some API aggregators run signup-credit events. The amounts are small but enough to validate an idea."
+      },
+      logo: "CR", category: "lottery", status: "warn", url: "https://openrouter.ai/",
+      badge: { zh: "看活动页", en: "See events" },
+      expire: { zh: "活动制", en: "Campaign-based" }
+    },
+    {
+      name: { zh: "AI 平台内测资格", en: "AI beta access" },
+      tag: { zh: "抽奖福利 · 名额有限", en: "Giveaway · Limited spots" },
+      desc: {
+        zh: "新模型上线前常放内测名额，官方 Discord 或社区会发邀请码，靠运气。",
+        en: "Beta slots open before model launches; codes appear on official Discord or community channels. Luck-based."
+      },
+      logo: "BT", category: "lottery", status: "off", url: "https://discord.com/",
+      badge: { zh: "已结束", en: "Ended" },
+      expire: { zh: "已结束", en: "Ended" }
+    }
+  ],
+
+  /* ---------- 公益站：公益镜像 / 公益 API / 公益工具 ---------- */
+  charity: [
+    {
+      name: { zh: "中科大开源镜像", en: "USTC open-source mirror" },
+      tag: { zh: "公益镜像 · 教育网", en: "Public mirror · Campus network" },
+      desc: {
+        zh: "由高校维护、面向公众开放，系统源和常用仓库都全，教育网内速度很快。",
+        en: "Maintained by a university and open to the public. Full OS repos and common package sets; very fast on campus networks."
+      },
+      logo: "US", category: "mirror", status: "ok", url: "https://mirrors.ustc.edu.cn/",
+      badge: { zh: "长期", en: "Long-term" },
+      org: { zh: "中国科学技术大学", en: "USTC" }
+    },
+    {
+      name: { zh: "清华 TUNA 镜像", en: "Tsinghua TUNA mirror" },
+      tag: { zh: "公益镜像 · 老牌稳定", en: "Public mirror · Long-standing" },
+      desc: {
+        zh: "国内最早的公益镜像之一，覆盖系统、语言包、容器镜像，文档也写得很清楚。",
+        en: "One of the earliest public mirrors in China, covering OS repos, language packages and container images with clear docs."
+      },
+      logo: "TU", category: "mirror", status: "ok", url: "https://mirrors.tuna.tsinghua.edu.cn/",
+      badge: { zh: "长期", en: "Long-term" },
+      org: { zh: "清华大学", en: "Tsinghua University" }
+    },
+    {
+      name: { zh: "阿里云开源镜像站", en: "Aliyun open-source mirror" },
+      tag: { zh: "公益镜像 · 商用带宽", en: "Public mirror · Commercial CDN" },
+      desc: {
+        zh: "阿里云出带宽的公益镜像，全国访问都还算快，适合给团队配置统一源。",
+        en: "A public mirror backed by Alibaba Cloud bandwidth. Reasonably fast nationwide — good for team-wide source configuration."
+      },
+      logo: "AL", category: "mirror", status: "ok", url: "https://developer.aliyun.com/mirror/",
+      badge: { zh: "长期", en: "Long-term" },
+      org: { zh: "阿里云", en: "Alibaba Cloud" }
+    },
+    {
+      name: { zh: "公共 DNS 服务", en: "Public DNS resolvers" },
+      tag: { zh: "公益 API · 免注册", en: "Public API · No signup" },
+      desc: {
+        zh: "114、223.5.5.5、1.1.1.1 这类公共解析服务，排障时换一个就能快速判断是不是本地 DNS 的锅。",
+        en: "Resolvers like 114, 223.5.5.5 and 1.1.1.1. Swapping one in during troubleshooting quickly rules out local DNS issues."
+      },
+      logo: "DN", category: "api", status: "ok", url: "https://www.cloudflare.com/1.1.1.1/",
+      badge: { zh: "免注册", en: "No signup" },
+      org: { zh: "多家机构", en: "Multiple orgs" }
+    },
+    {
+      name: { zh: "公共时间同步 NTP", en: "Public NTP pool" },
+      tag: { zh: "公益 API · 基础设施", en: "Public API · Infrastructure" },
+      desc: {
+        zh: "自建服务时间漂移会引发一堆诡异问题，配一个可靠的上游能省掉很多排查。",
+        en: "Clock drift on self-hosted services causes bizarre failures. A reliable upstream saves a lot of debugging."
+      },
+      logo: "NT", category: "api", status: "ok", url: "https://www.ntppool.org/",
+      badge: { zh: "免注册", en: "No signup" },
+      org: { zh: "NTP Pool 社区", en: "NTP Pool" }
+    },
+    {
+      name: { zh: "Can I use", en: "Can I use" },
+      tag: { zh: "公益工具 · 兼容性查询", en: "Public tool · Compatibility" },
+      desc: {
+        zh: "查 CSS/JS 特性在各浏览器的支持情况，写前端不踩兼容坑的必备工具，免费无广告。",
+        en: "Check browser support for CSS and JS features. Free, ad-free, and essential for avoiding compatibility traps."
+      },
+      logo: "CU", category: "tool", status: "ok", url: "https://caniuse.com/",
+      badge: { zh: "免费", en: "Free" },
+      org: { zh: "社区维护", en: "Community" }
+    },
+    {
+      name: { zh: "Regex101", en: "Regex101" },
+      tag: { zh: "公益工具 · 正则调试", en: "Public tool · Regex debugger" },
+      desc: {
+        zh: "带逐段解释的正则调试器，支持多语言语法，写完直接复制走。",
+        en: "A regex debugger with step-by-step explanations and multi-language syntax. Copy the result straight out."
+      },
+      logo: "RE", category: "tool", status: "ok", url: "https://regex101.com/",
+      badge: { zh: "免费", en: "Free" },
+      org: { zh: "社区维护", en: "Community" }
+    },
+    {
+      name: { zh: "Carbon / Ray.so", en: "Carbon / Ray.so" },
+      tag: { zh: "公益工具 · 代码截图", en: "Public tool · Code shots" },
+      desc: {
+        zh: "把代码片段生成好看的图片，写文档和发帖时用得上，都不需要注册。",
+        en: "Turn code snippets into presentable images for docs and posts. No account required."
+      },
+      logo: "CB", category: "tool", status: "ok", url: "https://carbon.now.sh/",
+      badge: { zh: "免费", en: "Free" },
+      org: { zh: "社区维护", en: "Community" }
     }
   ],
 

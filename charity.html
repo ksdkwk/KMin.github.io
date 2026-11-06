@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>公益站 · KMin</title>
+  <meta name="description" content="高校与社区维护的公益镜像、公益 API 与免费工具。" />
+  <meta name="author" content="KMin" />
+  <meta name="theme-color" content="#f6f0e1" />
+  <link rel="canonical" href="https://ksdkwk.github.io/charity.html" />
+  <meta property="og:title" content="公益站 · KMin" />
+  <meta property="og:description" content="高校与社区维护的公益镜像、公益 API 与免费工具。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ksdkwk.github.io/charity.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = localStorage.getItem('kmin-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        d.setAttribute('data-theme', t);
+        var l = localStorage.getItem('kmin-lang');
+        if (l === 'zh' || l === 'en') {
+          d.setAttribute('data-lang', l);
+          d.setAttribute('lang', l === 'zh' ? 'zh-CN' : 'en');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-page="charity">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">跳到主要内容</a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="KMin">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" /></svg>
+        </span>
+        <span class="brand-text"><strong>KMin</strong><small>KSDKWK.GITHUB.IO</small></span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="主导航">
+        <a class="nav-link" href="index.html" data-i18n="nav.home">首页</a>
+        <a class="nav-link" href="resources.html" data-i18n="nav.resources">资源</a>
+        <div class="nav-item has-sub" data-sub="baipiao">
+          <a class="nav-link" href="baipiao.html" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.baipiao">白嫖</span><svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></a>
+          <div class="nav-sub" role="group" aria-label="白嫖分类">
+            <a class="nav-sub-link" href="baipiao.html" data-i18n="nav.baipiao.all">全部白嫖</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=quota" data-i18n="nav.baipiao.quota">免费额度</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=api" data-i18n="nav.baipiao.api">免费 API</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=event" data-i18n="nav.baipiao.event">限时活动</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=lottery" data-i18n="nav.baipiao.lottery">抽奖福利</a>
+          </div>
+        </div>
+        <a class="nav-link is-active" href="charity.html" data-i18n="nav.charity">公益站</a>
+        <div class="nav-item has-sub">
+          <a class="nav-link" href="tools.html" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.tools">工具</span><svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></a>
+          <div class="nav-sub" role="group" aria-label="工具分类">
+            <a class="nav-sub-link" href="tools.html" data-i18n="nav.tools.all">全部工具</a>
+            <a class="nav-sub-link" href="tools.html?cat=dev" data-i18n="nav.tools.dev">开发</a>
+            <a class="nav-sub-link" href="tools.html?cat=design" data-i18n="nav.tools.design">设计</a>
+            <a class="nav-sub-link" href="tools.html?cat=productivity" data-i18n="nav.tools.productivity">效率</a>
+            <a class="nav-sub-link" href="tools.html?cat=system" data-i18n="nav.tools.system">系统</a>
+          </div>
+        </div>
+        <a class="nav-link" href="notes.html" data-i18n="nav.notes">笔记</a>
+        <a class="nav-link" href="about.html" data-i18n="nav.about">关于</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchBtn" type="button" data-i18n-aria="ui.search" aria-label="搜索">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+        </button>
+        <button class="icon-btn" id="themeBtn" type="button" data-i18n-aria="ui.theme" aria-label="切换主题">
+          <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" /></svg>
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" /></svg>
+        </button>
+        <div class="lang" id="lang">
+          <button class="lang-btn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="ui.lang" aria-label="切换语言">
+            <span class="lang-code" id="langCode">CN</span>
+            <svg class="lang-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6" /></svg>
+          </button>
+          <ul class="lang-menu" id="langMenu" role="listbox" aria-labelledby="langBtn">
+            <li role="none"><button class="lang-opt" type="button" role="option" data-lang-opt="zh" aria-selected="true"><span class="lang-flag">CN</span><span class="lang-name">中文</span></button></li>
+            <li role="none"><button class="lang-opt" type="button" role="option" data-lang-opt="en" aria-selected="false"><span class="lang-flag">US</span><span class="lang-name">English</span></button></li>
+          </ul>
+        </div>
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="primaryNav" data-i18n-aria="ui.menu" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <noscript><p class="noscript">本站的列表内容由 JavaScript 渲染，请启用 JavaScript 后查看。<br />List content is rendered with JavaScript. Please enable it to view the full site.</p></noscript>
+    <header class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="面包屑">
+          <a href="index.html" data-i18n="nav.home">首页</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page" data-i18n="nav.charity">公益站</span>
+        </nav>
+        <div class="page-hero-row">
+          <div class="page-hero-copy">
+            <h1 data-i18n="chPage.title">公益站合集</h1>
+            <p data-i18n="chPage.desc">由高校、公司和社区自掏成本维护、面向所有人开放的服务。不要滥用，也别拿去做压测。</p>
+          </div>
+          <dl class="page-stats" aria-label="公益站统计">
+            <div><dt data-i18n="chPage.stat1">收录</dt><dd data-total>0</dd></div>
+            <div><dt data-i18n="chPage.stat2">镜像</dt><dd data-cat-mirror>0</dd></div>
+            <div><dt data-i18n="chPage.stat3">工具/API</dt><dd data-cat-other>0</dd></div>
+          </dl>
+        </div>
+      </div>
+    </header>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="filter-bar reveal">
+          <div class="chips" id="charityFilters" role="group" aria-label="公益站分类"></div>
+          <label class="filter-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+            <input type="search" id="charitySearch" data-i18n-placeholder="chPage.filter" placeholder="在本页筛选公益站…" />
+          </label>
+        </div>
+        <p class="result-count" id="charityCount" aria-live="polite"></p>
+        <div class="card-grid" id="charityGrid"></div>
+        <p class="empty-state" id="charityEmpty" hidden>
+          <span data-i18n="chPage.empty">没有匹配的站点。换个关键词，或切回「全部」。</span>
+        </p>
+        <p class="page-note" data-i18n="chPage.note">这些服务靠维护者自己掏带宽和服务器成本，请控制请求频率，遇到问题先看对方的公告。</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" /></svg>
+          </span>
+          <span class="brand-text"><strong>KMin</strong><small>KSDKWK.GITHUB.IO</small></span>
+        </a>
+        <p data-i18n="footer.tagline">手写 HTML / CSS / JS，托管在 GitHub Pages，零依赖、零服务器。</p>
+      </div>
+      <nav class="footer-nav" aria-label="页脚导航">
+        <a href="index.html" data-i18n="nav.home">首页</a>
+        <a href="resources.html" data-i18n="nav.resources">资源</a>
+        <a href="baipiao.html" data-i18n="nav.baipiao">白嫖</a>
+        <a href="charity.html" data-i18n="nav.charity">公益站</a>
+        <a href="tools.html" data-i18n="nav.tools">工具</a>
+        <a href="notes.html" data-i18n="nav.notes">笔记</a>
+        <a href="about.html" data-i18n="nav.about">关于</a>
+      </nav>
+      <p class="copyright"><span>© <span id="year">2026</span> KMin</span><span class="dot-sep">·</span><span data-i18n="footer.license">内容遵循 MIT 许可</span></p>
+    </div>
+  </footer>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-backdrop" data-close-search></div>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-labelledby="searchInput">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+        <input id="searchInput" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="search.placeholder" placeholder="搜索资源、工具或笔记…" />
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <p class="search-hint" data-i18n="search.hint">输入关键词即时过滤，回车打开第一条结果。</p>
+    </div>
+  </div>
+
+  <button class="to-top" id="toTop" type="button" data-i18n-aria="ui.top" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M12 5 6.5 10.5M12 5l5.5 5.5" /></svg>
+  </button>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

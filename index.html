@@ -35,12 +35,12 @@
     })();
   </script>
 </head>
-<body>
+<body data-page="index">
   <a class="skip-link" href="#main" data-i18n="a11y.skip">跳到主要内容</a>
 
   <header class="site-header" id="siteHeader">
     <div class="header-inner">
-      <a class="brand" href="#home" aria-label="KMin">
+      <a class="brand" href="index.html" aria-label="KMin">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" />
@@ -53,11 +53,31 @@
       </a>
 
       <nav class="nav" id="primaryNav" aria-label="主导航">
-        <a class="nav-link is-active" href="#home" data-i18n="nav.home">首页</a>
-        <a class="nav-link" href="#resources" data-i18n="nav.resources">资源</a>
-        <a class="nav-link" href="#tools" data-i18n="nav.tools">工具</a>
-        <a class="nav-link" href="#notes" data-i18n="nav.notes">笔记</a>
-        <a class="nav-link" href="#about" data-i18n="nav.about">关于</a>
+        <a class="nav-link is-active" href="index.html" data-i18n="nav.home">首页</a>
+        <a class="nav-link" href="resources.html" data-i18n="nav.resources">资源</a>
+        <div class="nav-item has-sub" data-sub="baipiao">
+          <a class="nav-link" href="baipiao.html" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.baipiao">白嫖</span><svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></a>
+          <div class="nav-sub" role="group" aria-label="白嫖分类">
+            <a class="nav-sub-link" href="baipiao.html" data-i18n="nav.baipiao.all">全部白嫖</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=quota" data-i18n="nav.baipiao.quota">免费额度</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=api" data-i18n="nav.baipiao.api">免费 API</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=event" data-i18n="nav.baipiao.event">限时活动</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=lottery" data-i18n="nav.baipiao.lottery">抽奖福利</a>
+          </div>
+        </div>
+        <a class="nav-link" href="charity.html" data-i18n="nav.charity">公益站</a>
+        <div class="nav-item has-sub">
+          <a class="nav-link" href="tools.html" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.tools">工具</span><svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></a>
+          <div class="nav-sub" role="group" aria-label="工具分类">
+            <a class="nav-sub-link" href="tools.html" data-i18n="nav.tools.all">全部工具</a>
+            <a class="nav-sub-link" href="tools.html?cat=dev" data-i18n="nav.tools.dev">开发</a>
+            <a class="nav-sub-link" href="tools.html?cat=design" data-i18n="nav.tools.design">设计</a>
+            <a class="nav-sub-link" href="tools.html?cat=productivity" data-i18n="nav.tools.productivity">效率</a>
+            <a class="nav-sub-link" href="tools.html?cat=system" data-i18n="nav.tools.system">系统</a>
+          </div>
+        </div>
+        <a class="nav-link" href="notes.html" data-i18n="nav.notes">笔记</a>
+        <a class="nav-link" href="about.html" data-i18n="nav.about">关于</a>
       </nav>
 
       <div class="header-actions">
@@ -125,13 +145,13 @@
             <h1 class="hero-title" data-i18n-html="hero.title">把热爱的事，<mark class="hl">做成作品</mark>。</h1>
             <p class="hero-desc" data-i18n="hero.desc">这里是我的数字花园：开源作品、免费资源清单，还有那些真的每天在用的工具，全都整理在一处。</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#resources">
+              <a class="btn btn-primary" href="resources.html">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="m4 8 8-4 8 4-8 4-8-4Z" /><path d="m4 8v8l8 4 8-4V8" /><path d="M12 12v8" />
                 </svg>
                 <span data-i18n="hero.cta1">逛逛资源库</span>
               </a>
-              <a class="btn btn-ghost" href="#about" data-i18n="hero.cta2">了解我</a>
+              <a class="btn btn-ghost" href="about.html" data-i18n="hero.cta2">了解我</a>
             </div>
             <p class="hero-meta" data-i18n-html="hero.meta">已收录 <b data-count="resources">21</b> 条资源 · 持续维护 <b>4</b> 年 · 最近更新 <b>2025-11</b></p>
           </div>
@@ -187,7 +207,7 @@
           <p data-i18n="start.desc">四个入口覆盖站点主要内容，卡片上的数字会随内容自动更新。</p>
         </div>
         <div class="quick-grid">
-          <a class="quick-card reveal" href="#resources">
+          <a class="quick-card reveal" href="resources.html">
             <span class="quick-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m4 8 8-4 8 4-8 4-8-4Z" /><path d="m4 8v8l8 4 8-4V8" />
@@ -197,7 +217,7 @@
             <p data-i18n="start.c1.desc">免费 API、服务器、镜像站与域名，标注现在还能不能薅。</p>
             <span class="pill"><b data-count="resources">21</b> <span data-i18n="start.c1.unit">条收录</span></span>
           </a>
-          <a class="quick-card reveal" href="#tools">
+          <a class="quick-card reveal" href="tools.html">
             <span class="quick-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14.5 5.5a4 4 0 0 0 5 5L10 20a2.8 2.8 0 0 1-4-4Z" /><path d="M17.5 2.5 21 6" />
@@ -207,7 +227,7 @@
             <p data-i18n="start.c2.desc">真正每天在用的软件与在线工具，标了免费额度或开源。</p>
             <span class="pill"><b data-count="tools">13</b> <span data-i18n="start.c2.unit">个工具</span></span>
           </a>
-          <a class="quick-card reveal" href="#notes">
+          <a class="quick-card reveal" href="notes.html">
             <span class="quick-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 4h11l3 3v13H5Z" /><path d="M9 9h6M9 13h6M9 17h4" />
@@ -217,7 +237,7 @@
             <p data-i18n="start.c3.desc">折腾过程、踩坑复盘与阶段性总结，想到就写。</p>
             <span class="pill"><b data-count="posts">6</b> <span data-i18n="start.c3.unit">篇笔记</span></span>
           </a>
-          <a class="quick-card reveal" href="#about">
+          <a class="quick-card reveal" href="about.html">
             <span class="quick-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="8.5" r="3.6" /><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0" />
@@ -237,9 +257,10 @@
         <div class="section-head reveal">
           <h2 data-i18n="res.title">资源导航</h2>
           <p data-i18n="res.desc">能用、稳定、现在还能薅的才收录；失效或名额已满的会直接标出来。</p>
+          <a class="more-link" href="resources.html"><span data-i18n="common.viewAll">查看全部</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
         <div class="chips reveal" id="resourceFilters" role="group" aria-label="资源分类"></div>
-        <div class="card-grid" id="resourceGrid"></div>
+        <div class="card-grid" id="resourceGrid" data-limit="6"></div>
       </div>
     </section>
 
@@ -249,9 +270,10 @@
         <div class="section-head reveal">
           <h2 data-i18n="tools.title">工具推荐</h2>
           <p data-i18n="tools.desc">只推每天真的在用的，能免费或开源的一律标明。</p>
+          <a class="more-link" href="tools.html"><span data-i18n="common.viewAll">查看全部</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
         <div class="chips reveal" id="toolFilters" role="group" aria-label="工具分类"></div>
-        <div class="tool-grid" id="toolGrid"></div>
+        <div class="tool-grid" id="toolGrid" data-limit="4"></div>
       </div>
     </section>
 
@@ -261,8 +283,9 @@
         <div class="section-head reveal">
           <h2 data-i18n="notes.title">最新笔记</h2>
           <p data-i18n="notes.desc">记录折腾过程、踩坑复盘和阶段性总结。</p>
+          <a class="more-link" href="notes.html"><span data-i18n="common.viewAll">查看全部</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
-        <div class="post-list" id="postList"></div>
+        <div class="post-list" id="postList" data-limit="4"></div>
       </div>
     </section>
 
@@ -313,7 +336,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <a class="brand" href="#home">
+        <a class="brand" href="index.html">
           <span class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" />
@@ -324,11 +347,13 @@
         <p data-i18n="footer.tagline">手写 HTML / CSS / JS，托管在 GitHub Pages，零依赖、零服务器。</p>
       </div>
       <nav class="footer-nav" aria-label="页脚导航">
-        <a href="#home" data-i18n="nav.home">首页</a>
-        <a href="#resources" data-i18n="nav.resources">资源</a>
-        <a href="#tools" data-i18n="nav.tools">工具</a>
-        <a href="#notes" data-i18n="nav.notes">笔记</a>
-        <a href="#about" data-i18n="nav.about">关于</a>
+        <a href="index.html" data-i18n="nav.home">首页</a>
+        <a href="resources.html" data-i18n="nav.resources">资源</a>
+        <a href="baipiao.html" data-i18n="nav.baipiao">白嫖</a>
+        <a href="charity.html" data-i18n="nav.charity">公益站</a>
+        <a href="tools.html" data-i18n="nav.tools">工具</a>
+        <a href="notes.html" data-i18n="nav.notes">笔记</a>
+        <a href="about.html" data-i18n="nav.about">关于</a>
       </nav>
       <p class="copyright"><span>© <span id="year">2025</span> KMin</span><span class="dot-sep">·</span><span data-i18n="footer.license">内容遵循 MIT 许可</span></p>
     </div>

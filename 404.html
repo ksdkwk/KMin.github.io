@@ -18,7 +18,10 @@
         }
         d.setAttribute('data-theme', t);
         var l = localStorage.getItem('kmin-lang');
-        if (l === 'en') { d.setAttribute('data-lang', 'en'); d.setAttribute('lang', 'en'); }
+        if (l === 'zh' || l === 'en') {
+          d.setAttribute('data-lang', l);
+          d.setAttribute('lang', l === 'zh' ? 'zh-CN' : 'en');
+        }
       } catch (e) {}
       // 仓库名为 <用户>.github.io，是 GitHub Pages 的「用户主页仓库」，
       // 站点挂在域名根路径下，因此所有绝对地址直接用 / 开头。
@@ -119,7 +122,7 @@
         <a class="nf-btn is-primary" data-home="" href="/">
           <span class="zh">回到首页</span><span class="en">Back home</span>
         </a>
-        <a class="nf-btn" data-home="#resources" href="/#resources">
+        <a class="nf-btn" data-home="resources.html" href="/resources.html">
           <span class="zh">逛逛资源库</span><span class="en">Browse resources</span>
         </a>
       </div>
