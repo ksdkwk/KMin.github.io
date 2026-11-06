@@ -1,0 +1,15 @@
+{
+  "name": "kmin-github-io",
+  "version": "1.0.0",
+  "private": true,
+  "description": "KMin 个人主页 · 纯静态站点，内容用 Markdown 维护",
+  "scripts": {
+    "build": "node build-content.js",
+    "watch": "node build-content.js --watch",
+    "check": "node build-content.js --check",
+    "serve": "python -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

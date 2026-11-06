@@ -1,45 +1,353 @@
 # KMin · 个人主页
 
-纯静态个人博客 / 成果展示站，零依赖、零构建，直接托管在 **GitHub Pages** 上。
-
+纯静态个人博客 / 资源导航站，托管在 **GitHub Pages**。
 线上地址：<https://ksdkwk.github.io/KMin.github.io/>
 
 ---
 
-## 一、技术选型
+## 一、这套站点怎么组织的
 
-| 项 | 说明 |
-| --- | --- |
-| 技术栈 | 原生 HTML + CSS + JavaScript（无构建、无框架、无依赖） |
-| 资源 | 所有图标均为内联 SVG，不依赖任何 CDN 或在线字体 |
-| 托管 | GitHub Pages（纯静态文件直出） |
-| 兼容性 | Chrome / Edge / Firefox / Safari 最近两个大版本，尊重 `prefers-reduced-motion` |
+核心设计是**内容与骨架完全分离**：
 
-遵循 GitHub Pages 的官方限制：不含服务端逻辑；全部资源使用相对路径，本地预览与线上部署都能正常访问。
+```
+  content/*.md  ──build──>  data/*.json  ──fetch──>  浏览器渲染
+  （你维护）                （自动生成）              （页面骨架）
+```
 
-> 仓库名为 `KMin.github.io`，是 GitHub Pages 的**用户主页仓库**，站点直接挂在域名根路径 `https://ksdkwk.github.io/` 下，不是子路径。若仓库改回普通名字（如 `KMin`），地址会变成 `https://ksdkwk.github.io/KMin/`，届时需同步修改 `index.html` 的 canonical / og:url 与 `robots.txt`。
+| 层 | 位置 | 谁负责 |
+| --- | --- | --- |
+| **内容层** | `content/` 下的 Markdown | 你手动编辑 |
+| **数据层** | `data/` 下的 JSON | 构建脚本自动生成，**不要手改** |
+| **骨架层** | `*.html` + `assets/css` + `assets/js` | 开发修改，日常不用碰 |
+
+**关键点**：构建只在你本机跑一次。GitHub Pages 上跑的是纯静态文件，不需要 Node、不需要后端。
 
 ---
 
-## 二、目录结构
+## 二、我要改内容，怎么做
+
+### 步骤（三步）
+
+```bash
+# 1. 编辑 Markdown
+content/resources/r-001.md
+
+# 2. 编译成 JSON
+node build-content.js
+
+# 3. 本地预览
+python -m http.server 8000
+# 打开 http://localhost:8000/
+```
+
+> 改完推送前记得 commit `content/` 和 `data/` 两个目录。
+
+### 各内容对应的目录
+
+| 想改什么 | 编辑目录 | 编译产物 |
+| --- | --- | --- |
+| 资源（免费 API、云服务等） | `content/resources/*.md` | `data/resources.json` |
+| 白嫖福利 | `content/baipiao/*.md` | `data/baipiao.json` |
+| 公益站 | `content/charity/*.md` | `data/charity.json` |
+| 工具推荐 | `content/tools/*.md` | `data/tools.json` |
+| 笔记 | `content/posts/*.md` | `data/posts.json` |
+| 分类定义 | `data/categories.json` | （直接手改） |
+| 站点统计、更新日期 | `data/site.json` | （直接手改） |
+| 关于页时间线、技能 | `data/about.json` | （直接手改） |
+
+---
+
+## 三、Markdown 文件怎么写
+
+每个文件由两部分组成：**YAML 头信息** + **正文**。
+
+### 完整示例（资源类）
+
+```markdown
+---
+id: r-028
+name:
+  zh: "新的服务名称"
+  en: "New Service Name"
+tag:
+  zh: "一句话定位"
+  en: "One-liner"
+desc:
+  zh: "详细说明，会显示在卡片上"
+  en: "Detailed description"
+logo: NS
+url: "https://example.com/"
+badge:
+  zh: "获取方式"
+  en: "Access"
+provider: "提供方名称"
+requirements: "使用要求，显示在红色框里"
+tags:
+  - "云服务器"
+  - "免费额度"
+  - "长期有效"
+detail:
+  quota: "额度说明"
+  limit: "使用限制"
+  avoid: "避坑提示"
+  valid: "有效期"
+  scope: "信息来源与核实时间"
+---
+
+## 教程
+
+### 第一步标题
+
+第一步的具体操作说明。
+
+### 第二步标题
+
+第二步的具体操作说明。
+```
+
+### 字段说明
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `id` | 是 | 详情页地址用，`detail.html?id=r-028`，**不能重复** |
+| `name` | 是 | 名称，`zh` 必填，`en` 可省略（省略时英文站显示中文） |
+| `tag` | 否 | 副标题 |
+| `desc` | 是 | 简介，卡片正文 |
+| `logo` | 否 | 左上角方块的 1-2 个字母 |
+| `url` | 是 | 官网地址 |
+| `badge` | 否 | 获取方式标签 |
+| `provider` | 否 | 来源，显示为 `by xxx` |
+| `requirements` | 否 | 使用要求，红色框 |
+| `tags` | 是 | 标签数组，见下文 |
+| `detail` | 否 | 详情页数据表 |
+| `## 教程` | 否 | 正文里的教程段落 |
+
+---
+
+## 四、tags 标签规则
+
+`tags` 决定卡片出现在哪些筛选中。**每条必须有且仅有一个状态标签**：
+
+| 状态标签 | 含义 | 颜色 |
+| --- | --- | --- |
+| `长期有效` | 长期开放 | 绿 |
+| `现在可薅` | 活动进行中 | 橙 |
+| `失效` | 已结束 | 灰 |
+
+**分类标签**（决定顶部筛选按钮，必须与 `data/categories.json` 对应）：
+
+```
+云服务器    域名/TLS    国内镜像源    API 羊毛    学生/学习资源    Google 服务
+```
+
+**自定义标签**：如 `免费额度`、`限时活动`、`学生认证`，点一下就按它筛选。
+
+### 示例
+
+```yaml
+tags:
+  - "云服务器"        # 分类标签
+  - "限时活动"        # 自定义标签
+  - "学生认证"        # 自定义标签
+  - "现在可薅"        # 状态标签（唯一）
+```
+
+---
+
+## 五、教程怎么写（重要）
+
+教程写在 Markdown 正文里，用 `## 教程` 开头，每个步骤用 `### 标题`：
+
+```markdown
+## 教程
+
+### 注册账号
+
+访问官网，用邮箱注册并完成验证。
+
+### 创建项目
+
+登录后点「Create」，填写名称。
+```
+
+**没有教程的条目**（如镜像站、下载源）：正文留空即可，详情页会自动隐藏教程区。
+
+> 镜像源这类没有「领取」动作的条目，用 `detail.usage`（用途）代替 `detail.quota`（额度）。
+
+---
+
+## 六、工具、笔记、白嫖、公益站的特殊字段
+
+### 工具 `content/tools/*.md`
+
+```yaml
+---
+name: "VS Code"
+icon: VS
+category: dev          # dev / design / productivity / system
+desc:
+  zh: "中文说明"
+  en: "English desc"
+tags:
+  zh: ["免费", "跨平台"]
+  en: ["Free", "Cross-platform"]
+free: true
+url: "https://code.visualstudio.com/"
+---
+```
+
+### 白嫖 `content/baipiao/*.md`
+
+在资源字段基础上增加：
+
+```yaml
+expire:
+  zh: "长期有效"
+  en: "Ongoing"
+category: quota        # quota / api / event / lottery
+```
+
+### 公益站 `content/charity/*.md`
+
+```yaml
+org:
+  zh: "清华大学"
+  en: "Tsinghua University"
+category: mirror       # mirror / api / tool
+```
+
+### 笔记 `content/posts/*.md`
+
+```yaml
+---
+date: 2025-11-02
+title:
+  zh: "标题"
+excerpt:
+  zh: "摘要"
+tags:
+  zh: ["部署", "静态站"]
+url: "#notes"
+---
+
+正文可以用 Markdown 写。
+```
+
+---
+
+## 七、常用命令
+
+```bash
+node build-content.js          # 编译全部
+node build-content.js --watch  # 监听变化自动编译
+node build-content.js --check  # 只校验格式，不写文件
+python -m http.server 8000     # 本地预览
+```
+
+有 `package.json` 的话也可以：
+
+```bash
+npm run build     # 编译
+npm run watch     # 监听
+npm run check     # 校验
+npm run serve     # 预览
+```
+
+---
+
+## 八、添加一条新资源的完整流程
+
+1. 在 `content/resources/` 新建文件 `r-028.md`
+2. 按上面的模板填写 YAML 和正文
+3. 运行 `node build-content.js`
+4. 本地预览确认
+5. `git add content/ data/ && git commit -m "content: 新增 xxx" && git push`
+6. 等 1 分钟，线上自动更新
+
+> 新增条目请确认 `id` 不与现有重复。资源用 `r-` 开头、白嫖 `b-`、公益 `c-`。
+
+---
+
+## 九、YAML 写法注意事项
+
+YAML 比 JSON 宽松，但仍有坑：
+
+| 情况 | 错误写法 | 正确写法 |
+| --- | --- | --- |
+| 文本含冒号 | `desc: 说明: 这是例子` | `desc: "说明: 这是例子"` |
+| 文本以特殊符号开头 | `desc: #标签` | `desc: "#标签"` |
+| 文本含双引号 | `desc: 他说"你好"` | `desc: "他说\\"你好\\""` |
+| 只想写中文 | `name: 服务名` | `name: 服务名`（可以，不必加引号） |
+
+**建议**：不确定时统一加双引号 `"..."` 最保险。
+
+改完运行 `node build-content.js --check` 能看到每个文件是否解析成功。
+
+---
+
+## 十、GitHub Pages 部署
+
+### 方式一：手动（当前方式）
+
+```bash
+node build-content.js          # 先编译
+git add .
+git commit -m "content: 更新资源"
+git push
+```
+在仓库 **Settings → Pages** 里设 `main` 分支 `/ (root)`。推送后约 1 分钟生效。
+
+### 方式二：GitHub Actions 自动编译（推荐以后用）
+
+在 `.github/workflows/build.yml` 放一个工作流，每次 push 时自动跑 `node build-content.js` 并部署。
+这样你只需要提交 `content/`，不用手动编译。
+
+```yaml
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: node build-content.js
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: '.' }
+      - uses: actions/deploy-pages@v4
+```
+
+---
+
+## 十一、目录结构
 
 ```
 KMin.github.io/
-├─ data/                 ★ 所有内容数据（改内容只动这里）
-│  ├─ site.json          站点统计与更新日期
-│  ├─ categories.json    分类定义
-│  ├─ resources.json     资源
-│  ├─ tools.json         工具
-│  ├─ baipiao.json       白嫖福利
-│  ├─ charity.json       公益站
-│  ├─ posts.json         笔记
-│  └─ about.json         关于页数据
-├─ docs/
-│  └─ 内容维护指南.md     ★ 改内容前先看这个
+├─ content/              ★ 内容源文件（Markdown，日常只改这里）
+│  ├─ resources/         资源 .md
+│  ├─ baipiao/           白嫖 .md
+│  ├─ charity/           公益站 .md
+│  ├─ tools/             工具 .md
+│  └─ posts/             笔记 .md
+├─ data/                 ★ 构建产物（JSON，不要手改）
+│  ├─ resources.json
+│  ├─ baipiao.json
+│  ├─ charity.json
+│  ├─ tools.json
+│  ├─ posts.json
+│  ├─ categories.json    分类定义（手改）
+│  ├─ site.json          站点统计（手改）
+│  └─ about.json         关于页（手改）
+├─ build-content.js      ★ 构建脚本
+├─ package.json          npm 脚本
 ├─ assets/
 │  ├─ css/style.css      样式
-│  ├─ js/data-loader.js  数据加载器
-│  └─ js/main.js         渲染与交互
+│  └─ js/
+│     ├─ data-loader.js  读取 JSON
+│     └─ main.js         渲染与交互
 ├─ index.html            首页
 ├─ resources.html        资源页
 ├─ baipiao.html          白嫖页
@@ -47,157 +355,20 @@ KMin.github.io/
 ├─ tools.html            工具页
 ├─ notes.html            笔记页
 ├─ about.html            关于页
+├─ detail.html           详情页（?id=xxx）
 ├─ 404.html
 └─ .nojekyll
 ```
 
-**维护方式**：内容与代码完全分离。所有资讯存在 `data/*.json`，增删改只需编辑对应 JSON，页面自动渲染。详细字段说明见 [docs/内容维护指南.md](docs/内容维护指南.md)。
-
-> 重要：因为使用 JSON 文件，本地预览**必须起静态服务**（`python -m http.server 8000`），不能直接双击 HTML —— 浏览器会拦截 file:// 下的数据请求。
-
 ---
 
-## 三、本地预览
+## 十二、为什么不用现成框架
 
-直接双击 `index.html` 可看，但推荐起本地静态服务，行为与线上一致：
+| 方案 | 取舍 |
+| --- | --- |
+| **当前方案**（Markdown → JSON → 静态页） | 零依赖、零构建工具链，Markdown 写内容，GitHub Pages 直接托管 |
+| Hexo / Hugo | 需要装框架，模板语法学习成本高，但生态大 |
+| Next.js 静态导出 | 需要 React，改动成本高 |
+| Headless CMS（如 Strapi） | 需要跑服务端，违背纯静态前提 |
 
-```bash
-# Python 3
-python -m http.server 8000
-
-# 或 Node.js
-npx serve .
-```
-
-
-> `404.html` 用绝对路径 `/` 跳回首页，本地预览时链接指向本地服务根，属正常现象。
-
----
-
-## 四、部署到 GitHub Pages
-
-### 方式 A：仓库根目录（当前采用）
-
-1. 仓库：`https://github.com/ksdkwk/KMin.github.io`
-2. 推送到 `main` 分支：
-
-```bash
-git add .
-git commit -m "feat: 初始化个人主页"
-git push -u origin main
-```
-
-3. 仓库 **Settings → Pages**
-4. **Source** 选 `Deploy from a branch`
-5. **Branch** 选 `main`，目录选 `/ (root)`，点 **Save**
-6. 等待 1–3 分钟，访问 `https://ksdkwk.github.io/`（用户主页仓库，根路径即站点）
-
-### 方式 B：`gh-pages` 分支
-
-把发布内容单独放到 `gh-pages` 分支，Pages 的 Branch 指向 `gh-pages`。适合以后接入构建流程。
-
-### 首次部署注意事项
-
-- 仓库需为 **Public**（私有仓库使用 Pages 需要 Pro）
-- 样式丢失通常是漏推 `assets/` 目录
-- 更新后 CDN 刷新约需 30–90 秒
-
----
-
-## 五、功能说明
-
-| 功能 | 说明 | 位置 |
-| --- | --- | --- |
-| 多页面导航 | 5 个独立页面，导航项按当前 URL 高亮 | 各 `*.html` + `main.js` #7 |
-| 二级下拉菜单 | 「工具」「白嫖」各挂子分类，桌面悬停展开、移动端点击折叠；直达 `tools.html?cat=dev` | `main.js` #4.5 + `style.css` #16.1 |
-| 页内筛选 | 资源 / 白嫖 / 公益站 / 工具 / 笔记页各自带关键词搜索框与计数 | `main.js` #6.5 |
-| 中英切换 | 右上角 CN / US 下拉列表（位于主题按钮右侧），切换全站文案并记忆，跨页面保持 | `main.js` #3 |
-| 明暗主题 | 右上角日 / 月按钮，跟随系统偏好，手动选择后记忆 | `main.js` #2 |
-| 站点搜索 | 放大镜或 `/`、`Ctrl+K` 呼出，实时过滤资源、工具、笔记 | `main.js` #6 |
-| 分类筛选 | 资源 / 工具按分类过滤，带条数统计 | `main.js` #5 |
-| 导航高亮 | 滚动时自动点亮当前区块对应的导航项 | `main.js` #7 |
-| 入场动画 | IntersectionObserver 渐入，尊重系统减弱动效设置 | `main.js` #8 |
-| 响应式 | 1080 / 900 / 640 / 400 四档断点，≤900px 折叠为汉堡菜单 | `style.css` #14 |
-| 无障碍 | 语义化标签、跳过链接、aria 状态、键盘可操作、焦点可见 | 全站 |
-
----
-
-## 六、二次开发
-
-### 新增一条资源
-
-编辑 `assets/js/data.js` 的 `resources` 数组：
-
-```js
-{
-  name:   { zh: "名称", en: "Name" },
-  tag:    { zh: "一句话定位", en: "One-liner" },
-  desc:   { zh: "说明", en: "Description" },
-  logo:   "缩写",            // 卡片左上角占位字母
-  category: "cloud",         // 必须属于 categories.resource 已有的 id
-  status: "ok",              // ok = 可薅 / warn = 有限制 / off = 已失效
-  url:    "https://...",
-  badge:  { zh: "标签", en: "Badge" }
-}
-```
-
-### 新增一个分类
-
-在 `categories.resource` 或 `categories.tool` 追加 `{ id: 'xxx', label: { zh, en } }`，筛选按钮自动出现。
-
-### 语言切换怎么加文案
-
-页面文案集中在 `main.js` 顶部的 `I18N` 对象里，`zh` / `en` 两份键名必须一一对应。
-
-- 静态文本：给元素加 `data-i18n="键名"`（纯文本）、`data-i18n-html="键名"`（含标签）、`data-i18n-aria`、`data-i18n-placeholder`
-- 数据文件里的双语字段写成 `{ zh: "...", en: "..." }`，渲染时按当前语言自动取值
-
-### 修改配色
-
-颜色集中在 `style.css` 顶部的 `:root`（亮色）与 `html[data-theme="dark"]`（暗色）。主色为 `--accent`，改一处全站生效。
-
-### 修改社交链接 / 邮箱
-
-在 `index.html` 搜索 `github.com/ksdkwk` 与 `mailto:` 替换。
-
-### 增加新页面
-
-1. 复制 `resources.html` 作为模板（它含完整头部、页头、筛选栏、页脚）
-2. 把 `<body data-page="resources">` 改成新的页面标识，如 `<body data-page="projects">`
-3. 改导航里对应项的 `is-active` 位置
-4. 若需要新的列表渲染，在 `main.js` 里加一个 `renderXxx()`，在 `renderAll()` 中调用
-5. 在 `I18N` 的 `zh` / `en` 两份字典里补齐文案键
-
-### 各页面职责
-
-| 页面 | 职责 | 特有元素 |
-| --- | --- | --- |
-| 首页 | 站点门面，快速了解与分流 | Hero 大卡片、漂浮卡、数据条、四入口、内容预览 |
-| 资源页 | 查全部免费资源 | 状态统计（收录 / 可薅 / 有限制）、6 类筛选、搜索 |
-| 白嫖页 | 查还没过期的免费额度与活动 | 在列/可领/已结束统计、有效期行、分类筛选 |
-| 公益站页 | 查公益镜像与公开服务 | 镜像/工具统计、维护方行、分类筛选 |
-| 工具页 | 查全部工具 | 免费开源统计、分类筛选、`?cat=` 直达 |
-| 笔记页 | 读全部笔记 | 最近更新日期、标签统计、标签筛选 |
-| 关于页 | 认识作者 | 时间线、技能云、在别处、站点信息表 |
-
----
-
-## 七、内容更新流程
-
-```
-改 assets/js/data.js
-   ↓
-本地 python -m http.server 8000 预览
-   ↓
-git add . && git commit -m "content: 更新资源"
-   ↓
-git push
-   ↓
-GitHub Pages 自动重新发布（约 1 分钟）
-```
-
----
-
-## 八、许可
-
-站点代码与内容采用 MIT 许可；引用的第三方资源归各自所有者。
+当前方案在「纯静态」和「好维护」之间取了平衡：**内容写 Markdown，页面仍是纯 HTML/CSS/JS**。

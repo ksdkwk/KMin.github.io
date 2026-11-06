@@ -1941,15 +1941,19 @@ html[data-theme="dark"] .rc-req-label { background: #b8483f; }
   text-decoration: none;
   transition: background-color 0.16s var(--ease), transform 0.16s var(--ease);
 }
-html[data-theme="dark"] .rc-site {
-  border-color: #4a8fd4;
-  background: rgba(74, 143, 212, 0.14);
-}
+
+
 .rc-site:hover {
   background: rgba(47, 111, 179, 0.15);
   transform: translateY(-1px);
 }
-.rc-site svg { width: 13px; height: 13px; }
+
+/* 图标尺寸必须写死，否则 SVG 会撑满容器 */
+.rc-site svg {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
 
 .rc-site-label {
   padding: 1px 7px;
@@ -1958,10 +1962,15 @@ html[data-theme="dark"] .rc-site {
   color: #fff;
   font-size: 10.5px;
   font-weight: 800;
+  white-space: nowrap;
+  flex: none;
 }
 html[data-theme="dark"] .rc-site-label { background: #4a8fd4; }
 
-.rc-site-text { font-weight: 600; }
+.rc-site-text {
+  font-weight: 600;
+  white-space: nowrap;
+}
 
 /* ---------- ⑤ 底部：标签区 + 详情按钮 ---------- */
 .rc-foot {
@@ -1982,11 +1991,24 @@ html[data-theme="dark"] .rc-site-label { background: #4a8fd4; }
   min-width: 0;
 }
 
-.rc-detail {
+/* 页脚右侧：外部链接 + 详情按钮并排 */
+.rc-foot-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  margin-left: auto;
+}
+
+/* 详情按钮：同时适用于 <a> 与 <button> */
+.rc-detail,
+a.rc-detail {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   flex: none;
+  width: auto;
   padding: 8px 18px;
   border: var(--border);
   border-radius: 999px;
@@ -1994,83 +2016,295 @@ html[data-theme="dark"] .rc-site-label { background: #4a8fd4; }
   color: #1b1a17;
   font-size: 13px;
   font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
   box-shadow: 2px 2px 0 var(--line);
   transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease);
 }
-.rc-detail:hover {
+.rc-detail:hover,
+a.rc-detail:hover {
   transform: translate(-1px, -1px);
   box-shadow: var(--shadow-sm);
 }
-.rc-detail:active {
+.rc-detail:active,
+a.rc-detail:active {
   transform: translate(1px, 1px);
   box-shadow: none;
 }
+
+/* 按钮内的箭头图标：固定小尺寸 */
 .rc-detail svg {
+  display: block;
   width: 14px;
   height: 14px;
-  transition: transform 0.22s var(--ease);
+  flex: none;
+  transition: transform 0.2s var(--ease);
 }
-.rc-detail[aria-expanded="true"] svg { transform: rotate(180deg); }
+a.rc-detail:hover svg { transform: translateX(2px); }
 
-/* ---------- ⑥ 展开的详情 ---------- */
-.rc-more {
-  padding-top: 4px;
-  animation: cardIn 0.24s var(--ease) both;
-}
-.rc-more[hidden] { display: none; }
+/* ==========================================================================
+   18. 详情页（对齐参考图：面包屑 → 概览 → 结构化数据 → 领取教程）
+   ========================================================================== */
 
-.rc-spec {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px 18px;
-  margin: 0;
-  padding: 14px 16px;
-  border: 1.5px dashed var(--line-soft);
-  border-radius: var(--radius-sm);
-  background: var(--bg-soft);
+.detail-wrap {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 44px) var(--gutter) 0;
 }
-.rc-spec div {
+
+/* ---------- 面包屑 ---------- */
+.detail-crumbs {
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.detail-crumbs a { text-decoration: none; }
+
+/* ---------- 概览区（绿框） ---------- */
+.detail-hero {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
+  gap: 18px;
+  padding: clamp(20px, 3vw, 30px);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-soft);
+  box-shadow: var(--shadow-sm);
 }
-.rc-spec dt {
-  font-size: 11px;
+
+.detail-logo {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  flex: none;
+  border: var(--border);
+  border-radius: 16px;
+  background: var(--accent);
+  color: #1b1a17;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.detail-hero-body { min-width: 0; flex: 1; }
+
+.detail-kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: 0.03em;
   color: var(--ink-mute);
 }
-.rc-spec dd {
-  margin: 0;
-  font-size: 13px;
+#detailCategory { color: var(--ink-soft); }
+
+.detail-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 800;
+}
+.detail-status.is-ok { background: var(--ok-soft); color: #2f6b43; }
+.detail-status.is-warn { background: var(--warn-soft); color: #9a5a13; }
+.detail-status.is-off { background: var(--off-soft); color: var(--off); }
+html[data-theme="dark"] .detail-status.is-ok { color: var(--ok); }
+html[data-theme="dark"] .detail-status.is-warn { color: var(--warn); }
+
+.detail-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+  font-weight: 900;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.detail-summary {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.detail-tag {
+  padding: 3px 11px;
+  border: 1.5px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 11.5px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--ink-soft);
+}
+
+/* ---------- 结构化数据（黄框） ---------- */
+.detail-spec {
+  margin-top: 18px;
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+
+.detail-spec dl { margin: 0; }
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px 24px;
+  border-bottom: 1.5px solid var(--line-soft);
+}
+.spec-row:last-child { border-bottom: 0; }
+
+.spec-row dt {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink-mute);
+  padding-top: 2px;
+}
+.spec-row dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+/* ---------- 领取教程 ---------- */
+.detail-guide {
+  margin-top: 30px;
+}
+.detail-guide[hidden] { display: none; }
+
+.detail-section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+.detail-section-title::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.guide-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.guide-step {
+  display: flex;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1.5px solid var(--line-soft);
+}
+.guide-step:last-child { border-bottom: 0; }
+
+.guide-num {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--accent);
+  color: #1b1a17;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.guide-body { min-width: 0; flex: 1; }
+.guide-body h3 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+.guide-body p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.guide-tip {
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+}
+
+/* ---------- 底部操作 ---------- */
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+  padding-bottom: 8px;
+}
+
+/* ---------- 未找到 ---------- */
+.detail-missing {
+  padding: 60px 24px;
+  text-align: center;
+}
+.detail-missing[hidden] { display: none; }
+.detail-missing h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+.detail-missing p {
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+}
+
+/* ---------- 卡片上的详情按钮改为链接 ---------- */
+a.rc-detail {
+  text-decoration: none;
 }
 
 /* ---------- 响应式 ---------- */
-@media (max-width: 900px) {
-  .rc-head { gap: 8px; }
-  .rc-logo { width: 38px; height: 38px; font-size: 15px; border-radius: 11px; }
-  .rc-name { font-size: 17px; }
-  .rc-summary { font-size: 13.5px; }
-  .rc-req { font-size: 12.2px; }
+@media (max-width: 720px) {
+  .detail-hero { flex-direction: column; gap: 14px; }
+  .detail-logo { width: 50px; height: 50px; font-size: 19px; }
+  .spec-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px 18px;
+  }
+  .spec-row dt { padding-top: 0; }
+  .guide-step { padding: 16px 18px; gap: 12px; }
+  .guide-num { width: 26px; height: 26px; font-size: 12px; }
+  .detail-actions .btn { flex: 1 1 auto; justify-content: center; }
 }
 
-@media (max-width: 640px) {
-  .res-card { padding: 16px 15px; gap: 10px; border-radius: var(--radius); }
-  .rc-head-tags { width: 100%; }
-  .rc-foot { flex-direction: column; align-items: stretch; }
-  .rc-detail { justify-content: center; }
-  .rc-site { justify-content: center; }
-  .rc-spec { grid-template-columns: 1fr 1fr; }
-}
-
-/* 打印时隐藏交互元素 */
 @media print {
-  .rc-detail, .rc-more { display: none !important; }
-  .rc-more[hidden] { display: none !important; }
+  .detail-actions, .site-header, .site-footer { display: none !important; }
 }

@@ -107,6 +107,21 @@
       'status.ok': '现在可薅', 'status.warn': '有限制', 'status.off': '已失效',
       'unit.entry': '条', 'unit.tool': '个',
 
+      'detail.guide': '使用说明',
+      'detail.guideClaim': '领取教程',
+      'detail.guideUse': '使用方式',
+      'detail.guideTip': '以上步骤基于公开资料整理，具体请以官方页面为准。',
+      'detail.visitOfficial': '访问官网',
+      'detail.back': '返回列表',
+      'detail.backToList': '返回资源列表',
+      'detail.notFound': '没有找到这个条目',
+      'detail.notFoundDesc': '链接可能已经失效，或者这条内容已被移除。',
+      'detail.quota': '额度',
+      'detail.usage': '用途',
+      'detail.limit': '限制',
+      'detail.avoid': '避坑',
+      'detail.valid': '有效期',
+      'detail.scope': '核实范围',
       'resPage.requirements': '使用要求',
       'resPage.site': '官网入口',
       'resPage.visit': '访问',
@@ -211,6 +226,21 @@
       'status.ok': 'Available', 'status.warn': 'Limited', 'status.off': 'Expired',
       'unit.entry': 'entries', 'unit.tool': 'tools',
 
+      'detail.guide': 'How to use',
+      'detail.guideClaim': 'How to claim',
+      'detail.guideUse': 'Getting started',
+      'detail.guideTip': 'Steps compiled from public sources; always confirm on the official page.',
+      'detail.visitOfficial': 'Visit official site',
+      'detail.back': 'Back to list',
+      'detail.backToList': 'Back to resources',
+      'detail.notFound': 'Entry not found',
+      'detail.notFoundDesc': 'The link may be broken, or this entry has been removed.',
+      'detail.quota': 'Quota',
+      'detail.usage': 'What it is for',
+      'detail.limit': 'Limits',
+      'detail.avoid': 'Watch out',
+      'detail.valid': 'Validity',
+      'detail.scope': 'Verified',
       'resPage.requirements': 'Requirements',
       'resPage.site': 'Official site',
       'resPage.visit': 'Visit',
@@ -670,19 +700,10 @@
 
       '<div class="rc-foot">' +
         '<div class="rc-foot-tags">' + footTags + '</div>' +
-        '<button type="button" class="rc-detail" aria-expanded="false">' +
+        '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
           '<span>' + esc(t('resPage.detail')) + '</span>' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>' +
-        '</button>' +
-      '</div>' +
-
-      '<div class="rc-more" hidden>' +
-        '<dl class="rc-spec">' +
-          '<div><dt>' + esc(t('resPage.spec.cat')) + '</dt><dd>' + esc(contentTags[0] || '—') + '</dd></div>' +
-          '<div><dt>' + esc(t('resPage.spec.status')) + '</dt><dd>' + esc(statusTag) + '</dd></div>' +
-          '<div><dt>' + esc(t('resPage.spec.source')) + '</dt><dd>' + esc(provider || '—') + '</dd></div>' +
-          '<div><dt>' + esc(t('resPage.spec.badge')) + '</dt><dd>' + esc(pick(item.badge, state.lang) || '—') + '</dd></div>' +
-        '</dl>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+        '</a>' +
       '</div>';
 
     // 点任意标签 → 按标签筛选
@@ -692,16 +713,6 @@
         e.stopPropagation();
         setFilterByTag(btn.getAttribute('data-tag'));
       });
-    });
-
-    // 详情展开 / 收起
-    var detailBtn = $('.rc-detail', card);
-    var more = $('.rc-more', card);
-    on(detailBtn, 'click', function () {
-      var open = detailBtn.getAttribute('aria-expanded') === 'true';
-      detailBtn.setAttribute('aria-expanded', String(!open));
-      card.classList.toggle('is-expanded', !open);
-      if (more) more.hidden = open;
     });
 
     return card;
@@ -832,12 +843,18 @@
         '</div>' +
         '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
         (expire ? '<p class="res-expire"><span>' + esc(t('bpPage.expire')) + '</span>' + esc(expire) + '</p>' : '') +
-        '<div class="res-foot">' +
+        '<div class="res-foot rc-foot">' +
           '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
-          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
-            esc(pick(item.badge, state.lang) || 'Open') +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
-          '</a>' +
+          '<div class="rc-foot-right">' +
+            '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
+              esc(pick(item.badge, state.lang) || 'Open') +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+            '</a>' +
+            '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
+              '<span>' + esc(t('resPage.detail')) + '</span>' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+            '</a>' +
+          '</div>' +
         '</div>';
       grid.appendChild(card);
     });
@@ -893,12 +910,18 @@
         '</div>' +
         '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
         (org ? '<p class="res-expire"><span>' + esc(t('chPage.org')) + '</span>' + esc(org) + '</p>' : '') +
-        '<div class="res-foot">' +
+        '<div class="res-foot rc-foot">' +
           '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
-          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
-            esc(pick(item.badge, state.lang) || 'Open') +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
-          '</a>' +
+          '<div class="rc-foot-right">' +
+            '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
+              esc(pick(item.badge, state.lang) || 'Open') +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+            '</a>' +
+            '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
+              '<span>' + esc(t('resPage.detail')) + '</span>' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+            '</a>' +
+          '</div>' +
         '</div>';
       grid.appendChild(card);
     });
@@ -1391,19 +1414,187 @@
   /** 数据未能加载时的提示条 */
   function showDataErrorBanner() {
     if (document.getElementById('kmin-data-error')) return;
+
+    var isFile = location.protocol === 'file:';
     var box = document.createElement('div');
     box.id = 'kmin-data-error';
     box.style.cssText = 'max-width:760px;margin:40px auto;padding:22px 26px;' +
       'border:2px solid #1b1a17;border-radius:18px;background:#fff0c2;color:#1b1a17;' +
       'font:500 14px/1.8 system-ui,sans-serif;box-shadow:6px 6px 0 #1b1a17';
-    box.innerHTML = '<b style="font-size:16px">内容没能加载出来</b><br>' +
-      '页面数据存在 <code>data/*.json</code>，浏览器不允许直接用 file:// 读取本地文件。<br><br>' +
-      '请在项目目录执行：<br>' +
-      '<code style="display:inline-block;margin:6px 0;padding:4px 10px;background:rgba(0,0,0,.1);border-radius:6px">python -m http.server 8000</code><br>' +
-      '然后打开 <b>http://localhost:8000/</b>';
+
+    if (isFile) {
+      // 只有真正用 file:// 双击打开时才提示启动本地服务
+      box.innerHTML = '<b style="font-size:16px">内容没能加载出来</b><br>' +
+        '检测到你正在用 <code>file://</code> 直接打开本地文件，浏览器不允许这样读取 data/*.json。<br><br>' +
+        '请在项目目录执行：<br>' +
+        '<code style="display:inline-block;margin:6px 0;padding:4px 10px;background:rgba(0,0,0,.1);border-radius:6px">python -m http.server 8000</code><br>' +
+        '然后打开 <b>http://localhost:8000/</b>';
+    } else {
+      // 线上环境数据异常：不误导用户去跑 python
+      box.innerHTML = '<b style="font-size:16px">内容没能加载出来</b><br>' +
+        '数据文件 <code>data/*.json</code> 请求失败，可能是网络问题、部署尚未生效，或浏览器缓存了旧版本。<br><br>' +
+        '请先按 <b>Ctrl + F5</b> 强制刷新重试。<br>' +
+        '如果仍然不行，检查浏览器控制台（F12）里 <code>[KMin]</code> 开头的报错信息。';
+    }
     var main = document.getElementById('main');
     if (main) main.insertBefore(box, main.firstChild);
     else document.body.appendChild(box);
+  }
+
+  /* ---------- 8.5 详情页 ---------- */
+
+  /** 全部条目汇总，供详情页按 id 查找 */
+  function allEntries() {
+    var out = [];
+    (DATA.resources || []).forEach(function (x) { out.push({ data: x, group: 'resource' }); });
+    (DATA.baipiao || []).forEach(function (x) { out.push({ data: x, group: 'baipiao' }); });
+    (DATA.charity || []).forEach(function (x) { out.push({ data: x, group: 'charity' }); });
+    (DATA.tools || []).forEach(function (x) { out.push({ data: x, group: 'tool' }); });
+    return out;
+  }
+
+  var GROUP_META = {
+    resource: { page: 'resources.html', labelKey: 'nav.resources', crumb: '资源' },
+    baipiao: { page: 'baipiao.html', labelKey: 'nav.baipiao', crumb: '白嫖' },
+    charity: { page: 'charity.html', labelKey: 'nav.charity', crumb: '公益站' },
+    tool: { page: 'tools.html', labelKey: 'nav.tools', crumb: '工具' }
+  };
+
+  /** 渲染详情页 */
+  function renderDetailPage() {
+    var root = $('#detailRoot');
+    if (!root) return;
+
+    var id = param('id');
+    var found = null;
+
+    if (id) {
+      allEntries().some(function (entry) {
+        if (String(entry.data.id) === String(id)) { found = entry; return true; }
+        return false;
+      });
+    }
+
+    var missing = $('#detailMissing');
+
+    if (!found) {
+      // 找不到条目：隐藏正文，显示提示
+      $$('#detailRoot > *:not(#detailMissing)').forEach(function (n) { n.hidden = true; });
+      if (missing) missing.hidden = false;
+      document.title = '未找到 · KMin';
+      return;
+    }
+
+    var item = found.data;
+    var group = GROUP_META[found.group] || GROUP_META.resource;
+    var nameText = pick(item.name, state.lang) || item.name || '未命名';
+
+    // 页面标题
+    document.title = nameText + ' · KMin';
+
+    // 面包屑
+    var crumbSection = $('#crumbSection');
+    if (crumbSection) {
+      crumbSection.textContent = group.crumb;
+      crumbSection.setAttribute('href', group.page);
+    }
+    var crumbCurrent = $('#crumbCurrent');
+    if (crumbCurrent) crumbCurrent.textContent = nameText;
+
+    // 概览区
+    var logoEl = $('#detailLogo');
+    if (logoEl) logoEl.textContent = item.logo || nameText.slice(0, 2);
+
+    var titleEl = $('#detailTitle');
+    if (titleEl) titleEl.textContent = nameText;
+
+    var summaryEl = $('#detailSummary');
+    if (summaryEl) summaryEl.textContent = pick(item.desc, state.lang) || '';
+
+    // 分类 / 状态
+    var tags = tagArray(item);
+    var statusTag = getStatusTag(item);
+    var contentTags = tags.filter(function (x) { return STATUS_LABELS.indexOf(x) === -1; });
+
+    var catEl = $('#detailCategory');
+    if (catEl) catEl.textContent = contentTags[0] || group.crumb;
+
+    var statusEl = $('#detailStatus');
+    if (statusEl) {
+      statusEl.textContent = statusTag;
+      statusEl.className = 'detail-status ' + (STATUS_CLASS_MAP[statusTag] || 'is-off');
+    }
+
+    // 标签
+    var tagsBox = $('#detailTags');
+    if (tagsBox) {
+      tagsBox.innerHTML = contentTags.map(function (tg) {
+        return '<span class="detail-tag">' + esc(tg) + '</span>';
+      }).join('');
+    }
+
+    // 结构化数据（黄框）
+    var specList = $('#detailSpecList');
+    if (specList) {
+      var d = item.detail || {};
+      // 镜像源等工具类没有"额度"概念，用"用途"替代
+      var rows = [
+        d.usage ? ['detail.usage', d.usage] : ['detail.quota', d.quota],
+        ['detail.limit', d.limit],
+        ['detail.avoid', d.avoid],
+        ['detail.valid', d.valid],
+        ['detail.scope', d.scope]
+      ];
+      specList.innerHTML = rows.filter(function (r) { return r[1]; }).map(function (r) {
+        return '<div class="spec-row"><dt>' + esc(t(r[0])) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
+      }).join('');
+    }
+
+    // 使用说明 / 领取教程（按条目类型自动选择标题）
+    var guideList = $('#guideList');
+    var guideSection = $('#guideSection');
+    var guideTitleEl = $('#guideTitle');
+    var guide = item.guide || [];
+
+    // 判断标题措辞：能"领取"的用领取教程，纯工具/下载源用使用方式
+    if (guideTitleEl && guide.length) {
+      var isMirror = (item.tags || []).indexOf('国内镜像源') !== -1;
+      var isDownloadTool = (item.tags || []).some(function (tg) {
+        return tg === '国内镜像源' || tg === '公益镜像' || tg === '静态托管';
+      });
+      if (isMirror || isDownloadTool) {
+        guideTitleEl.textContent = t('detail.guideUse');
+      } else {
+        guideTitleEl.textContent = t('detail.guideClaim');
+      }
+    }
+
+    if (guideList && guideSection) {
+      if (guide.length) {
+        guideList.innerHTML = guide.map(function (step, i) {
+          var title = typeof step === 'string' ? '' : pick(step.title, state.lang);
+          var body = typeof step === 'string' ? step : pick(step.body, state.lang);
+          return '<li class="guide-step">' +
+            '<span class="guide-num" aria-hidden="true">' + (i + 1) + '</span>' +
+            '<div class="guide-body">' +
+              (title ? '<h3>' + esc(title) + '</h3>' : '') +
+              '<p>' + esc(body) + '</p>' +
+            '</div>' +
+          '</li>';
+        }).join('');
+      } else {
+        guideSection.hidden = true;
+      }
+    }
+
+    // 按钮
+    var visit = $('#detailVisit');
+    if (visit) {
+      if (item.url) visit.setAttribute('href', item.url);
+      else visit.hidden = true;
+    }
+    var back = $('#detailBack');
+    if (back) back.setAttribute('href', group.page);
   }
 
   /* ---------- 9. 启动 ---------- */
@@ -1436,6 +1627,8 @@
       });
     }
 
+    var isDetail = PAGE === 'detail';
+
     var steps = [
       ['initTheme', initTheme],
       ['initLang', initLang],
@@ -1446,8 +1639,11 @@
       ['initScroll', initScroll],
       ['initReveal', initReveal],
       ['applyStaticText', applyStaticText],
-      ['renderAll', renderAll],
-      ['renderSearch', renderSearch]
+      // 详情页没有列表容器，跳过列表渲染
+      ['renderAll', isDetail ? function () {} : renderAll],
+      ['renderSearch', renderSearch],
+      // 详情页专属
+      ['renderDetailPage', isDetail ? renderDetailPage : function () {}]
     ];
     // 分步执行：任何一步失败都不应该让整页渲染停摆，同时把错误留在 console 便于排查
     steps.forEach(function (s) {

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>详情 · KMin</title>
+  <meta name="description" content="资源详情、领取教程与使用限制说明。" />
+  <meta name="author" content="KMin" />
+  <meta name="theme-color" content="#f6f0e1" />
+  <link rel="canonical" href="https://ksdkwk.github.io/detail.html" />
+  <meta property="og:title" content="详情 · KMin" />
+  <meta property="og:description" content="资源详情、领取教程与使用限制说明。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ksdkwk.github.io/detail.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/style.css?v=20261107a" />
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = localStorage.getItem('kmin-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        d.setAttribute('data-theme', t);
+        var l = localStorage.getItem('kmin-lang');
+        if (l === 'zh' || l === 'en') {
+          d.setAttribute('data-lang', l);
+          d.setAttribute('lang', l === 'zh' ? 'zh-CN' : 'en');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-page="detail">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">跳到主要内容</a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="KMin">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" /></svg>
+        </span>
+        <span class="brand-text"><strong>KMin</strong><small>KSDKWK.GITHUB.IO</small></span>
+      </a>
+
+      <nav class="nav" id="primaryNav" aria-label="主导航">
+        <a class="nav-link" href="index.html" data-i18n="nav.home">首页</a>
+        <a class="nav-link" href="resources.html" data-i18n="nav.resources">资源</a>
+        <div class="nav-item has-sub" data-sub="baipiao">
+          <a class="nav-link" href="baipiao.html" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.baipiao">白嫖</span><svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></a>
+          <div class="nav-sub" role="group" aria-label="白嫖分类">
+            <a class="nav-sub-link" href="baipiao.html" data-i18n="nav.baipiao.all">全部白嫖</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=quota" data-i18n="nav.baipiao.quota">免费额度</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=api" data-i18n="nav.baipiao.api">免费 API</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=event" data-i18n="nav.baipiao.event">限时活动</a>
+            <a class="nav-sub-link" href="baipiao.html?cat=lottery" data-i18n="nav.baipiao.lottery">抽奖福利</a>
+          </div>
+        </div>
+        <a class="nav-link" href="charity.html" data-i18n="nav.charity">公益站</a>
+        <div class="nav-item has-sub">
+          <a class="nav-link" href="tools.html" aria-haspopup="true" aria-expanded="false"><span data-i18n="nav.tools">工具</span><svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg></a>
+          <div class="nav-sub" role="group" aria-label="工具分类">
+            <a class="nav-sub-link" href="tools.html" data-i18n="nav.tools.all">全部工具</a>
+            <a class="nav-sub-link" href="tools.html?cat=dev" data-i18n="nav.tools.dev">开发</a>
+            <a class="nav-sub-link" href="tools.html?cat=design" data-i18n="nav.tools.design">设计</a>
+            <a class="nav-sub-link" href="tools.html?cat=productivity" data-i18n="nav.tools.productivity">效率</a>
+            <a class="nav-sub-link" href="tools.html?cat=system" data-i18n="nav.tools.system">系统</a>
+          </div>
+        </div>
+        <a class="nav-link" href="notes.html" data-i18n="nav.notes">笔记</a>
+        <a class="nav-link" href="about.html" data-i18n="nav.about">关于</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchBtn" type="button" data-i18n-aria="ui.search" aria-label="搜索">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+        </button>
+        <button class="icon-btn" id="themeBtn" type="button" data-i18n-aria="ui.theme" aria-label="切换主题">
+          <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" /></svg>
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" /></svg>
+        </button>
+        <div class="lang" id="lang">
+          <button class="lang-btn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="ui.lang" aria-label="切换语言">
+            <span class="lang-code" id="langCode">CN</span>
+            <svg class="lang-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6" /></svg>
+          </button>
+          <ul class="lang-menu" id="langMenu" role="listbox" aria-labelledby="langBtn">
+            <li role="none"><button class="lang-opt" type="button" role="option" data-lang-opt="zh" aria-selected="true"><span class="lang-flag">CN</span><span class="lang-name">中文</span></button></li>
+            <li role="none"><button class="lang-opt" type="button" role="option" data-lang-opt="en" aria-selected="false"><span class="lang-flag">US</span><span class="lang-name">English</span></button></li>
+          </ul>
+        </div>
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="primaryNav" data-i18n-aria="ui.menu" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <noscript><p class="noscript">本站的列表内容由 JavaScript 渲染，请启用 JavaScript 后查看。<br />List content is rendered with JavaScript. Please enable it to view the full site.</p></noscript>
+    <article class="detail-wrap" id="detailRoot">
+      <!-- 面包屑：对应图二蓝框 -->
+      <nav class="crumbs detail-crumbs" aria-label="面包屑" id="detailCrumbs">
+        <a href="index.html" data-i18n="nav.home">首页</a>
+        <span aria-hidden="true">/</span>
+        <a href="resources.html" id="crumbSection" data-i18n="nav.resources">资源</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page" id="crumbCurrent">加载中…</span>
+      </nav>
+
+      <!-- 概览：对应图二绿框 -->
+      <header class="detail-hero">
+        <span class="detail-logo" id="detailLogo">--</span>
+        <div class="detail-hero-body">
+          <p class="detail-kicker">
+            <span id="detailCategory">资源</span>
+            <span class="detail-status" id="detailStatus">加载中</span>
+            <span class="detail-verified" id="detailVerified"></span>
+          </p>
+          <h1 class="detail-title" id="detailTitle">加载中…</h1>
+          <p class="detail-summary" id="detailSummary"></p>
+          <div class="detail-tags" id="detailTags"></div>
+        </div>
+      </header>
+
+      <!-- 结构化数据：对应图二黄框 -->
+      <section class="detail-spec" aria-label="详细信息">
+        <dl id="detailSpecList"></dl>
+      </section>
+
+      <!-- 领取教程 -->
+      <section class="detail-guide" id="guideSection" aria-labelledby="guideTitle">
+        <h2 class="detail-section-title" id="guideTitle" data-i18n="detail.guide">领取教程</h2>
+        <ol class="guide-steps" id="guideList"></ol>
+        <p class="guide-tip" id="guideTip" data-i18n="detail.guideTip">以上步骤基于公开资料整理，具体以官方页面为准。</p>
+      </section>
+
+      <!-- 底部操作 -->
+      <div class="detail-actions">
+        <a class="btn btn-primary" id="detailVisit" href="#" target="_blank" rel="noopener noreferrer">
+          <span data-i18n="detail.visitOfficial">访问官网</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+        <a class="btn btn-ghost" id="detailBack" href="resources.html">
+          <span data-i18n="detail.back">返回列表</span>
+        </a>
+      </div>
+
+      <!-- 未找到时的提示 -->
+      <div class="detail-missing" id="detailMissing" hidden>
+        <h2 data-i18n="detail.notFound">没有找到这个条目</h2>
+        <p data-i18n="detail.notFoundDesc">链接可能已经失效，或者这条内容已被移除。</p>
+        <a class="btn btn-primary" href="resources.html" data-i18n="detail.backToList">返回资源列表</a>
+      </div>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5v17M12 3.5 7.5 8M12 3.5 16.5 8M12 20.5 7.5 16M12 20.5 16.5 16" /></svg>
+          </span>
+          <span class="brand-text"><strong>KMin</strong><small>KSDKWK.GITHUB.IO</small></span>
+        </a>
+        <p data-i18n="footer.tagline">手写 HTML / CSS / JS，托管在 GitHub Pages，零依赖、零服务器。</p>
+      </div>
+      <nav class="footer-nav" aria-label="页脚导航">
+        <a href="index.html" data-i18n="nav.home">首页</a>
+        <a href="resources.html" data-i18n="nav.resources">资源</a>
+        <a href="baipiao.html" data-i18n="nav.baipiao">白嫖</a>
+        <a href="charity.html" data-i18n="nav.charity">公益站</a>
+        <a href="tools.html" data-i18n="nav.tools">工具</a>
+        <a href="notes.html" data-i18n="nav.notes">笔记</a>
+        <a href="about.html" data-i18n="nav.about">关于</a>
+      </nav>
+      <p class="copyright"><span>© <span id="year">2026</span> KMin</span><span class="dot-sep">·</span><span data-i18n="footer.license">内容遵循 MIT 许可</span></p>
+    </div>
+  </footer>
+
+  <div class="search-modal" id="searchModal" hidden>
+    <div class="search-backdrop" data-close-search></div>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-labelledby="searchInput">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>
+        <input id="searchInput" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="search.placeholder" placeholder="搜索资源、工具或笔记…" />
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <p class="search-hint" data-i18n="search.hint">输入关键词即时过滤，回车打开第一条结果。</p>
+    </div>
+  </div>
+
+  <button class="to-top" id="toTop" type="button" data-i18n-aria="ui.top" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M12 5 6.5 10.5M12 5l5.5 5.5" /></svg>
+  </button>
+
+  <script src="assets/js/data-loader.js?v=20261107a"></script>
+  <script src="assets/js/main.js?v=20261107a"></script>
+</body>
+</html>
