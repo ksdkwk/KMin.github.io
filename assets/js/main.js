@@ -107,9 +107,17 @@
       'status.ok': '现在可薅', 'status.warn': '有限制', 'status.off': '已失效',
       'unit.entry': '条', 'unit.tool': '个',
 
+      'resPage.requirements': '使用要求',
+      'resPage.site': '官网入口',
+      'resPage.visit': '访问',
+      'resPage.detail': '详情',
+      'resPage.spec.cat': '分类',
+      'resPage.spec.status': '状态',
+      'resPage.spec.source': '来源',
+      'resPage.spec.badge': '获取',
       'resPage.title': '免费资源库',
       'resPage.desc': '能用、稳定、现在还能薅的才收录。每条都标注当前状态，失效或名额已满的直接标出来，省你一个个试。',
-      'resPage.stat1': '收录', 'resPage.stat2': '可薅', 'resPage.stat3': '有限制',
+      'resPage.stat1': '收录', 'resPage.stat2': '可薅', 'resPage.stat3': '失效',
       'resPage.filter': '在本页筛选资源…',
       'resPage.empty': '没有匹配的资源。换个关键词，或切回「全部」。',
       'resPage.statsLabel': '资源统计',
@@ -203,9 +211,17 @@
       'status.ok': 'Available', 'status.warn': 'Limited', 'status.off': 'Expired',
       'unit.entry': 'entries', 'unit.tool': 'tools',
 
+      'resPage.requirements': 'Requirements',
+      'resPage.site': 'Official site',
+      'resPage.visit': 'Visit',
+      'resPage.detail': 'Details',
+      'resPage.spec.cat': 'Category',
+      'resPage.spec.status': 'Status',
+      'resPage.spec.source': 'Provider',
+      'resPage.spec.badge': 'Access',
       'resPage.title': 'Free resource library',
       'resPage.desc': 'Only what works and is still free gets listed. Every entry carries its current status, so you do not have to test them one by one.',
-      'resPage.stat1': 'Listed', 'resPage.stat2': 'Available', 'resPage.stat3': 'Limited',
+      'resPage.stat1': 'Listed', 'resPage.stat2': 'Available', 'resPage.stat3': 'Expired',
       'resPage.filter': 'Filter resources on this page…',
       'resPage.empty': 'No matching resources. Try another keyword, or switch back to All.',
       'resPage.statsLabel': 'Resource statistics',
@@ -469,22 +485,90 @@
   }
 
   /* ---------- 5. 内容渲染 ---------- */
-  var STATUS_CLASS = { ok: 'is-ok', warn: 'is-warn', off: 'is-off' };
-  var STATUS_KEY = { ok: 'status.ok', warn: 'status.warn', off: 'status.off' };
 
-  /** 通用：按分类 + 关键词过滤 */
-  function filterList(list, cat, query, extra) {
+  /**
+   * 状态标签：每个卡片必须有且仅有一个
+   *   长期有效 —— 活动结束时间未知 / 长期开放
+   *   现在可薅 —— 活动尚未结束，还能用
+   *   失效     —— 活动已结束或服务已下线
+   */
+  var STATUS_LABELS = ['长期有效', '现在可薅', '失效'];
+  var STATUS_CLASS_MAP = {
+    '长期有效': 'is-ok',
+    '现在可薅': 'is-warn',
+    '失效': 'is-off'
+  };
+
+  /** 从卡片的 tags 里取出状态标签（没有则视为失效） */
+  function getStatusTag(item) {
+    var tags = tagArray(item);
+    for (var i = 0; i < STATUS_LABELS.length; i++) {
+      if (tags.indexOf(STATUS_LABELS[i]) !== -1) return STATUS_LABELS[i];
+    }
+    return '失效';
+  }
+
+  /** 取非状态标签，用于卡片底部的标签行 */
+  function getContentTags(item) {
+    return tagArray(item).filter(function (x) {
+      return STATUS_LABELS.indexOf(x) === -1;
+    });
+  }
+
+  /** 把 tags 归一成字符串数组：兼容「纯数组」与「{zh:[], en:[]} 双语对象」两种写法 */
+  function tagArray(item) {
+    var raw = item && item.tags;
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw.map(String);
+    // 双语对象：把 zh 与 en 合并去重
+    var out = [];
+    ['zh', 'en'].forEach(function (k) {
+      var arr = raw[k];
+      if (Array.isArray(arr)) {
+        arr.forEach(function (v) {
+          var s = String(v);
+          if (out.indexOf(s) === -1) out.push(s);
+        });
+      }
+    });
+    return out;
+  }
+
+  /**
+   * 通用筛选：
+   *   - 分类：命中 item.tags 里任意一个标签即算匹配（多标签模型）
+   *   - 关键词：同时搜标题、简介、副标题与全部标签
+   */
+  function filterList(list, cat, query, labelMap) {
     var q = (query || '').trim().toLowerCase();
+    var catZh = (cat && cat !== 'all' && labelMap) ? labelMap[cat] : null;
+
     return list.filter(function (item) {
-      if (cat && cat !== 'all' && item.category !== cat && !(extra && extra(item, cat))) return false;
+      // tags 有两种形态：资源是纯字符串数组，工具是 {zh:[], en:[]} 双语对象
+      var tags = tagArray(item);
+
+      if (cat && cat !== 'all') {
+        var byTag = catZh ? tags.indexOf(catZh) !== -1 : false;
+        var byPageCat = item.pageCat === cat;
+        if (!byTag && !byPageCat) return false;
+      }
       if (!q) return true;
       var hay = [
         pick(item.name, 'zh'), pick(item.name, 'en'),
         pick(item.desc, 'zh'), pick(item.desc, 'en'),
         pick(item.tag, 'zh'), pick(item.tag, 'en')
-      ].join(' ').toLowerCase();
+      ].concat(tags).join(' ').toLowerCase();
       return hay.indexOf(q) !== -1;
     });
+  }
+
+  /** 分类 id → 中文标签名，供 filterList 做标签匹配 */
+  function catLabelMap(key) {
+    var map = {};
+    ((DATA.categories && DATA.categories[key]) || []).forEach(function (c) {
+      map[c.id] = pick(c.label, 'zh');
+    });
+    return map;
   }
 
   /** 首页只展示前 N 条（由容器上的 data-limit 控制），独立页不设上限 */
@@ -499,7 +583,7 @@
     if (!grid) return;
 
     var all = DATA.resources || [];
-    var list = filterList(all, state.resourceFilter, state.resourceQuery);
+    var list = filterList(all, state.resourceFilter, state.resourceQuery, catLabelMap('resource'));
     var shown = applyLimit(list, '#resourceGrid');
 
     grid.innerHTML = '';
@@ -513,43 +597,138 @@
     if (emptyEl) emptyEl.hidden = true;
 
     shown.forEach(function (item, i) {
-      var card = el('article', 'res-card');
-      card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
-
-      var statusCls = STATUS_CLASS[item.status] || 'is-off';
-      var statusTxt = t(STATUS_KEY[item.status] || 'status.off');
-
-      card.innerHTML =
-        '<div class="res-head">' +
-          '<span class="res-logo">' + esc(item.logo || pick(item.name, state.lang).slice(0, 2)) + '</span>' +
-          '<div class="res-titles">' +
-            '<h3 class="res-name">' + esc(pick(item.name, state.lang)) + '</h3>' +
-            '<p class="res-tag">' + esc(pick(item.tag, state.lang)) + '</p>' +
-          '</div>' +
-        '</div>' +
-        '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
-        '<div class="res-foot">' +
-          '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
-          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
-            esc(pick(item.badge, state.lang) || 'Open') +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
-          '</a>' +
-        '</div>';
-      grid.appendChild(card);
+      grid.appendChild(buildResourceCard(item, i));
     });
 
     updateCount('#resourceCount', shown.length, all.length);
     updateStatusCounts(all);
   }
 
-  function updateStatusCounts(list) {
-    var ok = 0, warn = 0;
-    list.forEach(function (item) {
-      if (item.status === 'ok') ok++;
-      else if (item.status === 'warn') warn++;
+  /**
+   * 资源卡片（整条长卡）：
+   *   ① logo + 名称 + 状态徽章 + 来源 + 标签
+   *   ② 详情摘要（可展开）
+   *   ③ 使用要求（红框样式）
+   *   ④ 官网入口按钮
+   *   ⑤ 底部操作区：标签区 + 详情按钮
+   */
+  function buildResourceCard(item, i) {
+    var card = el('article', 'res-card');
+    card.style.animationDelay = Math.min((i || 0) * 20, 200) + 'ms';
+
+    var statusTag = getStatusTag(item);
+    var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
+    var contentTags = getContentTags(item);
+    var provider = item.provider || '';
+    var requirements = item.requirements || '';
+    var descText = pick(item.desc, state.lang);
+    var nameText = pick(item.name, state.lang);
+
+    // 头部只显示主分类标签，完整标签放到卡片底部（避免上下重复）
+    var headTags = contentTags.slice(0, 1).map(function (tg) {
+      return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
+    }).join('');
+
+    // 底部完整标签
+    var footTags = contentTags.map(function (tg) {
+      return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
+    }).join('');
+
+    card.innerHTML =
+      '<div class="rc-head">' +
+        '<span class="rc-logo">' + esc(item.logo || nameText.slice(0, 2)) + '</span>' +
+        '<h3 class="rc-name">' + esc(nameText) + '</h3>' +
+        '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTag) + '</span>' +
+        (provider ? '<span class="rc-provider">by ' + esc(provider) + '</span>' : '') +
+        '<div class="rc-head-tags">' + headTags + '</div>' +
+      '</div>' +
+
+      '<p class="rc-summary">' + esc(descText) + '</p>' +
+
+      (requirements
+        ? '<div class="rc-req"><span class="rc-req-label">' + esc(t('resPage.requirements')) + '</span>' + esc(requirements) + '</div>'
+        : '') +
+
+      '<div class="rc-actions">' +
+        '<a class="rc-site" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
+          '<span class="rc-site-label">' + esc(t('resPage.site')) + '</span>' +
+          '<span class="rc-site-text">' + esc(t('resPage.visit')) + '</span>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+        '</a>' +
+      '</div>' +
+
+      '<div class="rc-foot">' +
+        '<div class="rc-foot-tags">' + footTags + '</div>' +
+        '<button type="button" class="rc-detail" aria-expanded="false">' +
+          '<span>' + esc(t('resPage.detail')) + '</span>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9.5 6 6 6-6"/></svg>' +
+        '</button>' +
+      '</div>' +
+
+      '<div class="rc-more" hidden>' +
+        '<dl class="rc-spec">' +
+          '<div><dt>' + esc(t('resPage.spec.cat')) + '</dt><dd>' + esc(contentTags[0] || '—') + '</dd></div>' +
+          '<div><dt>' + esc(t('resPage.spec.status')) + '</dt><dd>' + esc(statusTag) + '</dd></div>' +
+          '<div><dt>' + esc(t('resPage.spec.source')) + '</dt><dd>' + esc(provider || '—') + '</dd></div>' +
+          '<div><dt>' + esc(t('resPage.spec.badge')) + '</dt><dd>' + esc(pick(item.badge, state.lang) || '—') + '</dd></div>' +
+        '</dl>' +
+      '</div>';
+
+    // 点任意标签 → 按标签筛选
+    $$('[data-tag]', card).forEach(function (btn) {
+      on(btn, 'click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setFilterByTag(btn.getAttribute('data-tag'));
+      });
     });
-    $$('[data-ok-count]').forEach(function (n) { n.textContent = String(ok); });
-    $$('[data-warn-count]').forEach(function (n) { n.textContent = String(warn); });
+
+    // 详情展开 / 收起
+    var detailBtn = $('.rc-detail', card);
+    var more = $('.rc-more', card);
+    on(detailBtn, 'click', function () {
+      var open = detailBtn.getAttribute('aria-expanded') === 'true';
+      detailBtn.setAttribute('aria-expanded', String(!open));
+      card.classList.toggle('is-expanded', !open);
+      if (more) more.hidden = open;
+    });
+
+    return card;
+  }
+
+  /** 点击任意标签，把筛选切换到该标签对应的分类；没有对应分类时退回关键词搜索 */
+  function setFilterByTag(tagName) {
+    var cats = (DATA.categories && DATA.categories.resource) || [];
+    var matched = cats.filter(function (c) { return pick(c.label, 'zh') === tagName; });
+    if (matched.length) {
+      state.resourceFilter = matched[0].id;
+      state.resourceQuery = '';
+    } else {
+      // 不是分类标签 → 当作关键词筛选
+      state.resourceFilter = 'all';
+      state.resourceQuery = tagName;
+      var input = $('#resourceSearch');
+      if (input) input.value = tagName;
+    }
+    renderFilters();
+    renderResources();
+
+    var target = $('#resources') || $('#resourceGrid');
+    if (target && target.scrollIntoView) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  /** 按三态标签统计：可薅（含长期有效）/ 失效 */
+  function updateStatusCounts(list) {
+    var now = 0, off = 0;
+    list.forEach(function (item) {
+      var s = getStatusTag(item);
+      if (s === '失效') off++;
+      else now++;
+    });
+    $$('[data-now-count]').forEach(function (n) { n.textContent = String(now); });
+    $$('[data-off-count]').forEach(function (n) { n.textContent = String(off); });
   }
 
   function renderTools() {
@@ -627,8 +806,9 @@
       var card = el('article', 'res-card');
       card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
 
-      var statusCls = STATUS_CLASS[item.status] || 'is-off';
-      var statusTxt = t(STATUS_KEY[item.status] || 'status.off');
+      var statusTag = getStatusTag(item);
+      var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
+      var statusTxt = statusTag;
       var expire = pick(item.expire, state.lang);
 
       card.innerHTML =
@@ -652,14 +832,17 @@
     });
 
     updateCount('#baipiaoCount', list.length, all.length);
-    var ok = 0, off = 0;
+
+    // 白嫖页统计：在列 / 可领 / 已结束（按三态标签区分）
+    var claimable = 0, ended = 0;
     all.forEach(function (x) {
-      if (x.status === 'ok') ok++;
-      else if (x.status === 'off') off++;
+      var st = getStatusTag(x);
+      if (st === '失效') ended++;
+      else claimable++;
     });
     $$('[data-total]').forEach(function (n) { n.textContent = String(all.length); });
-    $$('[data-ok-count]').forEach(function (n) { n.textContent = String(ok); });
-    $$('[data-off-count]').forEach(function (n) { n.textContent = String(off); });
+    $$('[data-claimable-count]').forEach(function (n) { n.textContent = String(claimable); });
+    $$('[data-ended-count]').forEach(function (n) { n.textContent = String(ended); });
   }
 
   /** 公益站卡片：多一行「维护方」 */
@@ -685,8 +868,9 @@
       card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
 
       var org = pick(item.org, state.lang);
-      var statusCls = STATUS_CLASS[item.status] || 'is-off';
-      var statusTxt = t(STATUS_KEY[item.status] || 'status.off');
+      var statusTag = getStatusTag(item);
+      var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
+      var statusTxt = statusTag;
 
       card.innerHTML =
         '<div class="res-head">' +
@@ -711,9 +895,10 @@
     updateCount('#charityCount', list.length, all.length);
     var mirrors = 0, other = 0;
     all.forEach(function (x) {
-      if (x.category === 'mirror') mirrors++; else other++;
+      // 数据里已没有 category 字段，改用 pageCat 表示归属分类
+      if (x.pageCat === 'mirror') mirrors++; else other++;
     });
-    $$('[data-total]').forEach(function (n) { n.textContent = String(all.length); });
+    $$('[data-charity-total]').forEach(function (n) { n.textContent = String(all.length); });
     $$('[data-cat-mirror]').forEach(function (n) { n.textContent = String(mirrors); });
     $$('[data-cat-other]').forEach(function (n) { n.textContent = String(other); });
   }
@@ -790,6 +975,14 @@
       : t('common.filtered', { n: shown, total: total });
   }
 
+  /** 判断某条目是否属于某个分类：优先比标签，其次比 pageCat（白嫖/公益专用） */
+  function countByCategory(item, cat, groupKey) {
+    var labelZh = pick(cat.label, 'zh');
+    if (tagArray(item).indexOf(labelZh) !== -1) return true;
+    if (item.pageCat && item.pageCat === cat.id) return true;
+    return false;
+  }
+
   function renderFilters() {
     var configs = [
       ['#resourceFilters', 'resource', 'resourceFilter'],
@@ -814,7 +1007,7 @@
       cats.forEach(function (cat) {
         var count = cat.id === 'all'
           ? source.length
-          : source.filter(function (it) { return it.category === cat.id; }).length;
+          : source.filter(function (it) { return countByCategory(it, cat, cfg[1]); }).length;
 
         var btn = el('button', 'chip' + (state[cfg[2]] === cat.id ? ' is-active' : ''));
         btn.type = 'button';
@@ -1099,24 +1292,35 @@
   /* ---------- 6.5 页面内筛选输入框 ---------- */
   function initPageFilters() {
     var map = [
-      ['#resourceSearch', 'resourceQuery', renderResources],
-      ['#toolSearch', 'toolQuery', renderTools],
-      ['#noteSearch', 'noteQuery', renderPosts],
-      ['#baipiaoSearch', 'baipiaoQuery', renderBaipiao],
-      ['#charitySearch', 'charityQuery', renderCharity]
+      ['#resourceSearch', 'resourceQuery', 'resourceFilter', renderResources],
+      ['#toolSearch', 'toolQuery', 'toolFilter', renderTools],
+      ['#noteSearch', 'noteQuery', 'noteFilter', renderPosts],
+      ['#baipiaoSearch', 'baipiaoQuery', 'baipiaoFilter', renderBaipiao],
+      ['#charitySearch', 'charityQuery', 'charityFilter', renderCharity]
     ];
     map.forEach(function (cfg) {
       var input = $(cfg[0]);
       if (!input) return;
+
+      // 关键词与分类是两套筛选维度：一旦开始输入关键词，就把分类重置为「全部」，
+      // 否则会出现「在云服务器里搜公益镜像 = 0 条」这种反直觉结果。
       on(input, 'input', function () {
-        state[cfg[1]] = input.value;
-        cfg[2]();
+        var q = input.value;
+        state[cfg[1]] = q;
+        if (q.trim() && state[cfg[2]] !== 'all') {
+          state[cfg[2]] = 'all';
+          renderFilters();
+        }
+        cfg[3]();
       });
+
       on(input, 'keydown', function (e) {
         if (e.key === 'Escape') {
           input.value = '';
           state[cfg[1]] = '';
-          cfg[2]();
+          state[cfg[2]] = 'all';
+          renderFilters();
+          cfg[3]();
         }
       });
     });
@@ -1195,18 +1399,31 @@
       });
     }
 
-    initTheme();
-    initLang();
-    initMenu();
-    initSubNav();
-    initSearch();
-    initPageFilters();
-    initScroll();
-    initReveal();
-
-    applyStaticText();
-    renderAll();
-    renderSearch();
+    var steps = [
+      ['initTheme', initTheme],
+      ['initLang', initLang],
+      ['initMenu', initMenu],
+      ['initSubNav', initSubNav],
+      ['initSearch', initSearch],
+      ['initPageFilters', initPageFilters],
+      ['initScroll', initScroll],
+      ['initReveal', initReveal],
+      ['applyStaticText', applyStaticText],
+      ['renderAll', renderAll],
+      ['renderSearch', renderSearch]
+    ];
+    // 分步执行：任何一步失败都不应该让整页渲染停摆，同时把错误留在 console 便于排查
+    steps.forEach(function (s) {
+      try {
+        s[1]();
+      } catch (err) {
+        if (window.console && console.error) {
+          console.error('[KMin] init step failed:', s[0], err);
+        }
+        window.__KMIN_INIT_ERRORS = window.__KMIN_INIT_ERRORS || [];
+        window.__KMIN_INIT_ERRORS.push({ step: s[0], message: String(err && err.message || err) });
+      }
+    });
   }
 
   if (document.readyState === 'loading') {

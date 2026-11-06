@@ -1744,3 +1744,333 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
   .nav-item > .nav-link { padding: 13px 18px; }
   .brand-text small { display: block; }
 }
+/* ---------- 16.9 卡片标签行（可点击筛选） ---------- */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.card-tag {
+  padding: 3px 10px;
+  border: 1.5px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background-color 0.16s var(--ease), color 0.16s var(--ease),
+              border-color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+.card-tag:hover {
+  background: var(--accent-soft);
+  border-color: var(--line);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+.card-tag:active { transform: translateY(0); }
+.card-tag:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 2px;
+}
+/* ==========================================================================
+   17. 资源长卡（对齐参考图的分层信息结构）
+   结构：① 头部（名称+状态+来源+标签） ② 摘要 ③ 使用要求 ④ 官网入口
+        ⑤ 底部（标签区 + 详情按钮） ⑥ 展开详情
+   ========================================================================== */
+
+/* 容器：从网格改为单列长条 */
+#resourceGrid,
+#baipiaoGrid,
+#charityGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.res-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 22px;
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  animation: cardIn 0.34s var(--ease) both;
+}
+.res-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow);
+}
+.res-card.is-expanded {
+  box-shadow: var(--shadow);
+}
+
+/* ---------- ① 头部 ---------- */
+.rc-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rc-logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 1.5px solid var(--line);
+  border-radius: 13px;
+  background: var(--accent);
+  color: #1b1a17;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 900;
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.rc-name {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.rc-provider {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-mute);
+}
+
+.rc-head-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* 头部小标签（可点击筛选） */
+.pill-tag {
+  padding: 3px 11px;
+  border: 1.5px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background-color 0.16s var(--ease), border-color 0.16s var(--ease),
+              color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+.pill-tag:hover {
+  background: var(--accent-soft);
+  border-color: var(--line);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+.pill-tag:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 2px;
+}
+
+/* ---------- ② 详情摘要 ---------- */
+.rc-summary {
+  font-size: 14px;
+  line-height: 1.78;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 78ch;
+}
+
+/* ---------- ③ 使用要求（红框） ---------- */
+.rc-req {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1.5px solid #d9534f;
+  border-radius: var(--radius-sm);
+  background: rgba(217, 83, 79, 0.06);
+  font-size: 12.8px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+html[data-theme="dark"] .rc-req {
+  border-color: #b8483f;
+  background: rgba(184, 72, 63, 0.14);
+}
+
+.rc-req-label {
+  flex: none;
+  padding: 1px 8px;
+  border-radius: 4px;
+  background: #d9534f;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+html[data-theme="dark"] .rc-req-label { background: #b8483f; }
+
+/* ---------- ④ 官网入口（蓝框） ---------- */
+.rc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rc-site {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 15px;
+  border: 1.5px solid #2f6fb3;
+  border-radius: var(--radius-sm);
+  background: rgba(47, 111, 179, 0.07);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 0.16s var(--ease), transform 0.16s var(--ease);
+}
+html[data-theme="dark"] .rc-site {
+  border-color: #4a8fd4;
+  background: rgba(74, 143, 212, 0.14);
+}
+.rc-site:hover {
+  background: rgba(47, 111, 179, 0.15);
+  transform: translateY(-1px);
+}
+.rc-site svg { width: 13px; height: 13px; }
+
+.rc-site-label {
+  padding: 1px 7px;
+  border-radius: 4px;
+  background: #2f6fb3;
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+html[data-theme="dark"] .rc-site-label { background: #4a8fd4; }
+
+.rc-site-text { font-weight: 600; }
+
+/* ---------- ⑤ 底部：标签区 + 详情按钮 ---------- */
+.rc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1.5px dashed var(--line-soft);
+}
+
+.rc-foot-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rc-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  padding: 8px 18px;
+  border: var(--border);
+  border-radius: 999px;
+  background: var(--accent);
+  color: #1b1a17;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 2px 2px 0 var(--line);
+  transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease);
+}
+.rc-detail:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-sm);
+}
+.rc-detail:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+.rc-detail svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.22s var(--ease);
+}
+.rc-detail[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* ---------- ⑥ 展开的详情 ---------- */
+.rc-more {
+  padding-top: 4px;
+  animation: cardIn 0.24s var(--ease) both;
+}
+.rc-more[hidden] { display: none; }
+
+.rc-spec {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px 18px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1.5px dashed var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+}
+.rc-spec div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.rc-spec dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--ink-mute);
+}
+.rc-spec dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .rc-head { gap: 8px; }
+  .rc-logo { width: 38px; height: 38px; font-size: 15px; border-radius: 11px; }
+  .rc-name { font-size: 17px; }
+  .rc-summary { font-size: 13.5px; }
+  .rc-req { font-size: 12.2px; }
+}
+
+@media (max-width: 640px) {
+  .res-card { padding: 16px 15px; gap: 10px; border-radius: var(--radius); }
+  .rc-head-tags { width: 100%; }
+  .rc-foot { flex-direction: column; align-items: stretch; }
+  .rc-detail { justify-content: center; }
+  .rc-site { justify-content: center; }
+  .rc-spec { grid-template-columns: 1fr 1fr; }
+}
+
+/* 打印时隐藏交互元素 */
+@media print {
+  .rc-detail, .rc-more { display: none !important; }
+  .rc-more[hidden] { display: none !important; }
+}
