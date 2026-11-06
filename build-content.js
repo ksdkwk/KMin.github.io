@@ -223,6 +223,7 @@ function buildResource(parsed) {
   var fm = parsed.fm;
   var out = {
     id: fm.id,
+    order: fm.order != null ? Number(fm.order) : null,
     name: bilingual(fm, 'name'),
     tag: bilingual(fm, 'tag'),
     desc: bilingual(fm, 'desc'),
@@ -243,6 +244,7 @@ function buildBaipiao(parsed) {
   var fm = parsed.fm;
   var out = {
     id: fm.id,
+    order: fm.order != null ? Number(fm.order) : null,
     name: bilingual(fm, 'name'),
     tag: bilingual(fm, 'tag'),
     desc: bilingual(fm, 'desc'),
@@ -277,6 +279,7 @@ function buildCharity(parsed) {
   var fm = parsed.fm;
   var out = {
     id: fm.id,
+    order: fm.order != null ? Number(fm.order) : null,
     name: bilingual(fm, 'name'),
     tag: bilingual(fm, 'tag'),
     desc: bilingual(fm, 'desc'),
@@ -378,11 +381,24 @@ function buildAll() {
     var errors = [];
     files.forEach(function (file) {
       try {
-        items.push(conf.fn(parseFile(file)));
+        var item = conf.fn(parseFile(file));
+        item.__file = path.basename(file);
+        items.push(item);
       } catch (err) {
         errors.push(path.basename(file) + ': ' + err.message);
       }
     });
+
+    // 排序：有 order 字段按 order，没有则按文件名
+    items.sort(function (a, b) {
+      var ao = a.order, bo = b.order;
+      if (ao != null && bo != null) return ao - bo;
+      if (ao != null) return -1;
+      if (bo != null) return 1;
+      return a.__file < b.__file ? -1 : (a.__file > b.__file ? 1 : 0);
+    });
+    items.forEach(function (item) { delete item.__file; });
+
     fs.writeFileSync(path.join(DATA_DIR, conf.out), JSON.stringify(items, null, 2) + '\n', 'utf8');
     report.push({ type: type, count: items.length, file: conf.out, errors: errors });
   });

@@ -1,0 +1,44 @@
+---
+id: r-free-domains-subdomains
+order: 11
+name:
+  zh: 免费域名 / 子域
+  en: Free domains & subdomains
+tag:
+  zh: 二级域名 · 稳定性一般
+  en: Subdomains · Varies
+desc:
+  zh: eu.org、DNS 服务商赠送的一级域名等，适合临时项目；长期站点建议直接买域名。
+  en: eu.org and provider-gifted domains suit temporary projects. For anything long-lived, buy a real domain.
+logo: DM
+url: https://nic.eu.org/
+badge:
+  zh: 慎用
+  en: Caution
+provider: eu.org 等
+requirements: 免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。
+tags:
+  - 域名/TLS
+  - 限时活动
+  - 现在可薅
+detail:
+  quota: 免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。
+  limit: 免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。
+  avoid: 使用前请确认官方最新条款，免费额度可能随时调整。
+  valid: 以官网公告为准。
+  scope: 本页信息整理自官方公开资料，仅供参考。
+---
+
+## 教程
+
+### 打开官网
+
+点击页面上的「访问官网」按钮进入官方页面。
+
+### 注册账号
+
+按官方指引完成注册与验证，部分服务需要绑定支付方式。
+
+### 确认额度
+
+在账户的用量或额度页面确认免费额度是否已到账。

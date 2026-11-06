@@ -1,0 +1,43 @@
+---
+id: r-google-ai-studio
+order: 25
+name:
+  zh: Google AI Studio
+tag:
+  zh: LLM 调试 · 免费额度
+  en: LLM playground · Free tier
+desc:
+  zh: Gemini 模型的调试台，免费额度按分钟和每日限额给，写原型够用。
+  en: A playground for Gemini models with per-minute and daily free limits — enough for prototypes.
+logo: AS
+url: https://aistudio.google.com/
+badge:
+  zh: 免费额度
+  en: Free tier
+provider: Google
+requirements: 免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。
+tags:
+  - Google 服务
+  - 免费额度
+  - 长期有效
+detail:
+  quota: 免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。
+  limit: 免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。
+  avoid: 使用前请确认官方最新条款，免费额度可能随时调整。
+  valid: 以官网公告为准。
+  scope: 本页信息整理自官方公开资料，仅供参考。
+---
+
+## 教程
+
+### 打开官网
+
+点击页面上的「访问官网」按钮进入官方页面。
+
+### 注册账号
+
+按官方指引完成注册与验证，部分服务需要绑定支付方式。
+
+### 确认额度
+
+在账户的用量或额度页面确认免费额度是否已到账。

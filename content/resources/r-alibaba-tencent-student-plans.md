@@ -1,0 +1,49 @@
+---
+id: r-alibaba-tencent-student-plans
+order: 3
+name:
+  zh: 阿里云 / 腾讯云学生机
+  en: Alibaba / Tencent student plans
+tag:
+  zh: 轻量服务器 · 需认证
+  en: Lightweight VPS · Verified
+desc:
+  zh: 学生认证后能拿到很便宜的轻量应用服务器，适合练手和跑小服务；名额和价格每年都在变。
+  en: Steep discounts on lightweight VPS after student verification. Good for practice projects; quotas and prices change yearly.
+logo: AL
+url: https://www.aliyun.com/
+badge:
+  zh: 需认证
+  en: Verified only
+provider: 阿里云 / 腾讯云
+requirements: 需通过学生身份认证；首年优惠价，续费恢复原价，购买前先算三年总价。
+tags:
+  - 云服务器
+  - 限时活动
+  - 学生认证
+  - 现在可薅
+detail:
+  quota: 学生认证后首年约 9-99 元/年，配置通常 2 核 2G 起。
+  limit: 必须完成学生身份认证；每人限购数量；续费恢复原价。
+  avoid: 只算首年价格容易踩坑，续费可能翻数倍；不同机房网络质量差异大。
+  valid: 活动制，每年政策会变，以官网为准。
+  scope: 按官方学生认证页面为准，认证有效期通常一年。
+---
+
+## 教程
+
+### 完成学生认证
+
+在阿里云或腾讯云控制台找到「学生认证」入口，用学信网信息或学生证完成验证。
+
+### 进入活动页选购
+
+认证通过后进入学生专区，选择轻量应用服务器，注意看配置与机房。
+
+### 确认续费价格
+
+下单前务必查看续费价，首年便宜不代表长期便宜。
+
+### 初始化服务器
+
+购买后在控制台重置密码，用 SSH 连接，按需安装环境。

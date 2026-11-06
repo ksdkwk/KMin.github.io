@@ -1,6 +1,7 @@
 [
   {
-    "id": "c-001",
+    "id": "c-ustc-open-source-mirror",
+    "order": 1,
     "name": {
       "zh": "中科大开源镜像",
       "en": "USTC open-source mirror"
@@ -51,7 +52,8 @@
     ]
   },
   {
-    "id": "c-002",
+    "id": "c-tsinghua-tuna-mirror",
+    "order": 2,
     "name": {
       "zh": "清华 TUNA 镜像",
       "en": "Tsinghua TUNA mirror"
@@ -102,7 +104,8 @@
     ]
   },
   {
-    "id": "c-003",
+    "id": "c-aliyun-open-source-mirror",
+    "order": 3,
     "name": {
       "zh": "阿里云开源镜像站",
       "en": "Aliyun open-source mirror"
@@ -153,7 +156,8 @@
     ]
   },
   {
-    "id": "c-004",
+    "id": "c-public-dns-resolvers",
+    "order": 4,
     "name": {
       "zh": "公共 DNS 服务",
       "en": "Public DNS resolvers"
@@ -204,7 +208,8 @@
     ]
   },
   {
-    "id": "c-005",
+    "id": "c-public-ntp-pool",
+    "order": 5,
     "name": {
       "zh": "公共时间同步 NTP",
       "en": "Public NTP pool"
@@ -255,7 +260,8 @@
     ]
   },
   {
-    "id": "c-006",
+    "id": "c-can-i-use",
+    "order": 6,
     "name": {
       "zh": "Can I use",
       "en": "Can I use"
@@ -306,7 +312,8 @@
     ]
   },
   {
-    "id": "c-007",
+    "id": "c-regex101",
+    "order": 7,
     "name": {
       "zh": "Regex101",
       "en": "Regex101"
@@ -357,7 +364,8 @@
     ]
   },
   {
-    "id": "c-008",
+    "id": "c-carbon-ray-so",
+    "order": 8,
     "name": {
       "zh": "Carbon / Ray.so",
       "en": "Carbon / Ray.so"

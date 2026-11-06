@@ -1,0 +1,43 @@
+---
+id: r-freecodecamp
+order: 20
+name:
+  zh: freeCodeCamp
+tag:
+  zh: 学习 · 完全免费
+  en: Learning · Fully free
+desc:
+  zh: 成体系的前端与后端课程，带项目和认证，入门比零散看视频扎实。
+  en: Structured front-end and back-end curriculum with projects and certificates — sturdier than scattered videos.
+logo: FC
+url: https://www.freecodecamp.org/
+badge:
+  zh: 免费
+  en: Free
+provider: freeCodeCamp
+requirements: 完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。
+tags:
+  - 学生/学习资源
+  - 免费额度
+  - 长期有效
+detail:
+  quota: 完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。
+  limit: 完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。
+  avoid: 使用前请确认官方最新条款，免费额度可能随时调整。
+  valid: 以官网公告为准。
+  scope: 本页信息整理自官方公开资料，仅供参考。
+---
+
+## 教程
+
+### 打开官网
+
+点击页面上的「访问官网」按钮进入官方页面。
+
+### 注册账号
+
+按官方指引完成注册与验证，部分服务需要绑定支付方式。
+
+### 确认额度
+
+在账户的用量或额度页面确认免费额度是否已到账。
