@@ -105,6 +105,7 @@
       'search.type.resource': '资源', 'search.type.tool': '工具', 'search.type.post': '笔记',
       'search.type.baipiao': '白嫖', 'search.type.charity': '公益',
       'period.ended': '活动已结束',
+      'period.filter.all': '所有时间', 'period.filter.active': '长期有效', 'period.filter.expired': '已失效',
       'unit.entry': '条', 'unit.tool': '个',
 
       'detail.guide': '使用说明',
@@ -224,6 +225,7 @@
       'search.type.resource': 'Resource', 'search.type.tool': 'Tool', 'search.type.post': 'Note',
       'search.type.baipiao': 'Freebie', 'search.type.charity': 'Public',
       'period.ended': 'Ended',
+      'period.filter.all': 'All dates', 'period.filter.active': 'Active', 'period.filter.expired': 'Expired',
       'unit.entry': 'entries', 'unit.tool': 'tools',
 
       'detail.guide': 'How to use',
@@ -300,17 +302,25 @@
   var state = {
     lang: 'zh',
     theme: 'light',
-    resourceFilter: 'all',
+    // 资源 / 白嫖 / 公益站：属性标签是多选（数组），时间标签是单选（与属性标签 AND）
+    resourceFilter: [],
+    baipiaoFilter: [],
+    charityFilter: [],
+    resourcePeriod: 'all',
+    baipiaoPeriod: 'all',
+    charityPeriod: 'all',
+    // 工具 / 笔记：仍是单选
     toolFilter: 'all',
     noteFilter: 'all',
-    baipiaoFilter: 'all',
-    charityFilter: 'all',
     resourceQuery: '',
     toolQuery: '',
     noteQuery: '',
     baipiaoQuery: '',
     charityQuery: ''
   };
+
+  /** 时效筛选的三个互斥取值 */
+  var PERIOD_OPTIONS = ['all', 'active', 'expired'];
 
   function t(key, vars) {
     var dict = I18N[state.lang] || I18N.zh;
@@ -592,24 +602,37 @@
 
   /**
    * 通用筛选（三类列表共用）：
-   *   - 分类：优先比 item.category（统一后的分类 id），再退回 tags 里的分类标签
+   *   - 属性标签：多选，命中其中任意一个即保留（OR）
+   *   - 时间标签：单选，与属性标签是 AND 关系——先按属性筛，再按时间筛
    *   - 关键词：同时搜标题、简介、副标题与全部标签
    */
-  function filterList(list, cat, query, labelMap) {
+  function filterList(list, cats, query, labelMap, period) {
     var q = (query || '').trim().toLowerCase();
-    var catZh = (cat && cat !== 'all' && labelMap) ? labelMap[cat] : null;
+    var picked = Array.isArray(cats) ? cats : (cats && cats !== 'all' ? [cats] : []);
 
     return list.filter(function (item) {
       // tags 有两种形态：资源/白嫖/公益站是纯字符串数组，工具是 {zh:[], en:[]} 双语对象
       var tags = tagArray(item);
 
-      if (cat && cat !== 'all') {
+      // ① 属性标签：多选时任一命中即可
+      if (picked.length) {
         // 一篇可以属于多个分类：先比 categories 数组，再退回单值 category
-        var cats = item.categories && item.categories.length ? item.categories : [item.category];
-        var byCategory = cats.indexOf(cat) !== -1;
-        var byTag = catZh ? tags.indexOf(catZh) !== -1 : false;
-        if (!byCategory && !byTag) return false;
+        var itemCats = item.categories && item.categories.length ? item.categories : [item.category];
+        var hit = picked.some(function (id) {
+          if (itemCats.indexOf(id) !== -1) return true;
+          var labelZh = labelMap ? labelMap[id] : null;
+          return labelZh ? tags.indexOf(labelZh) !== -1 : false;
+        });
+        if (!hit) return false;
       }
+
+      // ② 时间标签：与属性标签叠加，互斥取值
+      if (period && period !== 'all') {
+        var expired = isExpired(item);
+        if (period === 'expired' && !expired) return false;
+        if (period === 'active' && expired) return false;
+      }
+
       if (!q) return true;
       var hay = [
         pick(item.name, 'zh'), pick(item.name, 'en'),
@@ -644,20 +667,23 @@
   var LIST_GROUPS = {
     resource: {
       dataKey: 'resources', catKey: 'resource', labelKey: 'resPage',
-      filterKey: 'resourceFilter', queryKey: 'resourceQuery',
-      grid: '#resourceGrid', count: '#resourceCount', empty: '#resourceEmpty', search: '#resourceSearch',
+      filterKey: 'resourceFilter', periodKey: 'resourcePeriod', queryKey: 'resourceQuery',
+      grid: '#resourceGrid', count: '#resourceCount', empty: '#resourceEmpty',
+      search: '#resourceSearch', periodBox: '#resourcePeriodFilters',
       page: 'resources.html'
     },
     baipiao: {
       dataKey: 'baipiao', catKey: 'baipiao', labelKey: 'bpPage',
-      filterKey: 'baipiaoFilter', queryKey: 'baipiaoQuery',
-      grid: '#baipiaoGrid', count: '#baipiaoCount', empty: '#baipiaoEmpty', search: '#baipiaoSearch',
+      filterKey: 'baipiaoFilter', periodKey: 'baipiaoPeriod', queryKey: 'baipiaoQuery',
+      grid: '#baipiaoGrid', count: '#baipiaoCount', empty: '#baipiaoEmpty',
+      search: '#baipiaoSearch', periodBox: '#baipiaoPeriodFilters',
       page: 'baipiao.html'
     },
     charity: {
       dataKey: 'charity', catKey: 'charity', labelKey: 'chPage',
-      filterKey: 'charityFilter', queryKey: 'charityQuery',
-      grid: '#charityGrid', count: '#charityCount', empty: '#charityEmpty', search: '#charitySearch',
+      filterKey: 'charityFilter', periodKey: 'charityPeriod', queryKey: 'charityQuery',
+      grid: '#charityGrid', count: '#charityCount', empty: '#charityEmpty',
+      search: '#charitySearch', periodBox: '#charityPeriodFilters',
       page: 'charity.html'
     }
   };
@@ -670,7 +696,13 @@
     if (!grid) return;
 
     var all = DATA[g.dataKey] || [];
-    var list = filterList(all, state[g.filterKey], state[g.queryKey], catLabelMap(g.catKey));
+    var list = filterList(
+      all,
+      state[g.filterKey],
+      state[g.queryKey],
+      catLabelMap(g.catKey),
+      g.periodKey ? state[g.periodKey] : 'all'
+    );
     var shown = applyLimit(list, g.grid);
 
     grid.innerHTML = '';
@@ -868,12 +900,15 @@
     var matched = cats.filter(function (c) { return pick(c.label, 'zh') === tagName; });
 
     if (matched.length) {
-      state[g.filterKey] = matched[0].id;
+      // 点卡片标签 = 把该分类加入已选集合（多选语义，不清空其它已选）
+      var list = Array.isArray(state[g.filterKey]) ? state[g.filterKey].slice() : [];
+      if (list.indexOf(matched[0].id) === -1) list.push(matched[0].id);
+      state[g.filterKey] = list;
       state[g.queryKey] = '';
       var input = $(g.search);
       if (input) input.value = '';
     } else {
-      state[g.filterKey] = 'all';
+      state[g.filterKey] = [];
       state[g.queryKey] = tagName;
       var box = $(g.search);
       if (box) box.value = tagName;
@@ -1044,10 +1079,11 @@
 
   function renderFilters() {
     var configs = [
-      ['#resourceFilters', 'resource', 'resourceFilter'],
-      ['#toolFilters', 'tool', 'toolFilter'],
-      ['#baipiaoFilters', 'baipiao', 'baipiaoFilter'],
-      ['#charityFilters', 'charity', 'charityFilter']
+      // 第 4 项：'multi' 表示属性标签可多选，并额外渲染时间维度筛选
+      ['#resourceFilters', 'resource', 'resourceFilter', 'multi'],
+      ['#toolFilters', 'tool', 'toolFilter', 'single'],
+      ['#baipiaoFilters', 'baipiao', 'baipiaoFilter', 'multi'],
+      ['#charityFilters', 'charity', 'charityFilter', 'multi']
     ];
 
     configs.forEach(function (cfg) {
@@ -1063,19 +1099,29 @@
       var source = sourceMap[cfg[1]] || [];
 
       box.innerHTML = '';
+      var isMulti = cfg[3] === 'multi';
+
       cats.forEach(function (cat) {
         var count = cat.id === 'all'
           ? source.length
           : source.filter(function (it) { return countByCategory(it, cat, cfg[1]); }).length;
 
-        var btn = el('button', 'chip' + (state[cfg[2]] === cat.id ? ' is-active' : ''));
+        var active = isMulti
+          ? (cat.id === 'all' ? !state[cfg[2]].length : state[cfg[2]].indexOf(cat.id) !== -1)
+          : state[cfg[2]] === cat.id;
+
+        var btn = el('button', 'chip' + (active ? ' is-active' : ''));
         btn.type = 'button';
-        btn.setAttribute('aria-pressed', String(state[cfg[2]] === cat.id));
+        btn.setAttribute('aria-pressed', String(active));
         btn.setAttribute('data-cat', cat.id);
         btn.innerHTML = esc(pick(cat.label, state.lang)) + '<span class="chip-count">' + count + '</span>';
 
         on(btn, 'click', function () {
-          state[cfg[2]] = cat.id;
+          if (isMulti) {
+            toggleCategoryFilter(cfg[2], cat.id);
+          } else {
+            state[cfg[2]] = cat.id;
+          }
           // 同步地址栏，刷新后仍停留在该分类
           var pageMap = { tool: 'tools', baipiao: 'baipiao', charity: 'charity' };
           if (pageMap[cfg[1]]) {
@@ -1090,6 +1136,9 @@
         });
         box.appendChild(btn);
       });
+
+      // 属性标签右侧追加时间维度筛选（三类列表才有）
+      if (isMulti) renderPeriodChips(cfg[1]);
     });
 
     // 笔记标签筛选（从数据动态生成）
@@ -1126,6 +1175,53 @@
         noteBox.appendChild(b);
       });
     }
+  }
+
+  /** 多选模式下切换某个属性标签：已选则取消，全空视同「全部」 */
+  function toggleCategoryFilter(filterKey, catId) {
+    if (catId === 'all') { state[filterKey] = []; return; }
+    var list = state[filterKey].slice();
+    var i = list.indexOf(catId);
+    if (i === -1) list.push(catId); else list.splice(i, 1);
+    state[filterKey] = list;
+  }
+
+  /** 时间维度筛选：全部时间 / 仅长期有效（未过期）/ 仅已失效，三者互斥 */
+  function renderPeriodChips(groupKey) {
+    var g = LIST_GROUPS[groupKey];
+    if (!g || !g.periodBox) return;
+    var box = $(g.periodBox);
+    if (!box) return;
+
+    var all = DATA[g.dataKey] || [];
+    var current = state[g.periodKey];
+
+    // 计数口径：先应用属性标签，再统计该子集里各种时效的数量
+    var scoped = filterList(all, state[g.filterKey], '', catLabelMap(g.catKey), 'all');
+    var expiredCount = scoped.filter(function (x) { return isExpired(x); }).length;
+    var activeCount = scoped.length - expiredCount;
+
+    var labels = {
+      all: t('period.filter.all'),
+      active: t('period.filter.active'),
+      expired: t('period.filter.expired')
+    };
+    var counts = { all: scoped.length, active: activeCount, expired: expiredCount };
+
+    box.innerHTML = '';
+    PERIOD_OPTIONS.forEach(function (key) {
+      var btn = el('button', 'chip chip-period' + (current === key ? ' is-active' : ''));
+      btn.type = 'button';
+      btn.setAttribute('aria-pressed', String(current === key));
+      btn.setAttribute('data-period', key);
+      btn.innerHTML = esc(labels[key]) + '<span class="chip-count">' + counts[key] + '</span>';
+      on(btn, 'click', function () {
+        state[g.periodKey] = key;
+        renderFilters();
+        renderEntryGrid(groupKey);
+      });
+      box.appendChild(btn);
+    });
   }
 
   function renderAbout() {
@@ -1366,8 +1462,11 @@
       on(input, 'input', function () {
         var q = input.value;
         state[cfg[1]] = q;
-        if (q.trim() && state[cfg[2]] !== 'all') {
-          state[cfg[2]] = 'all';
+        // 关键词与属性标签是两套维度：开始输入时清空属性标签，避免「云服务器里搜公益镜像 = 0 条」
+        var isMulti = Array.isArray(state[cfg[2]]);
+        var hasCat = isMulti ? state[cfg[2]].length > 0 : state[cfg[2]] !== 'all';
+        if (q.trim() && hasCat) {
+          state[cfg[2]] = isMulti ? [] : 'all';
           renderFilters();
         }
         cfg[3]();
@@ -1377,7 +1476,7 @@
         if (e.key === 'Escape') {
           input.value = '';
           state[cfg[1]] = '';
-          state[cfg[2]] = 'all';
+          state[cfg[2]] = Array.isArray(state[cfg[2]]) ? [] : 'all';
           renderFilters();
           cfg[3]();
         }
@@ -1652,7 +1751,9 @@
       ];
       catMap.forEach(function (pair) {
         var list = (DATA.categories && DATA.categories[pair[0]]) || [];
-        if (list.some(function (c) { return c.id === cat; })) state[pair[1]] = cat;
+        if (!list.some(function (c) { return c.id === cat; })) return;
+        // 多选的组用数组接收，单选组保持字符串
+        state[pair[1]] = Array.isArray(state[pair[1]]) ? [cat] : cat;
       });
     }
 

@@ -1542,6 +1542,54 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
 .filter-search input::placeholder { color: var(--ink-mute); }
 .filter-search input::-webkit-search-cancel-button { display: none; }
 
+/* ---------- 多选属性标签 + 时间维度筛选 ---------- */
+
+/* 分类行：上面一排属性标签（可多选），下面一排时间标签，两组各自横向滚动 */
+.filter-row {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-row .chips {
+  flex: none;
+  width: 100%;
+  margin-bottom: 0;
+  padding-bottom: 4px;
+}
+
+/* 时间维度：用细分隔线跟属性标签区分开，视觉上表明是另一个维度 */
+.chips-period {
+  padding-top: 2px;
+}
+
+.chip-period {
+  padding: 5px 14px;
+  font-size: 12.5px;
+  background: var(--bg-soft);
+}
+
+.chip-period.is-active {
+  background: var(--accent-deep);
+}
+
+/* 多选态：选中的属性标签右上角带一个对勾，明确「可以多选」 */
+.chips[aria-multiselectable="true"] .chip.is-active::after {
+  content: "✓";
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+/* 窄屏时两组标签各自占一行 */
+@media (max-width: 900px) {
+  .filter-bar { flex-wrap: wrap; }
+  .filter-row { flex: 1 1 100%; }
+  .filter-search { flex: 1 1 100%; max-width: none; }
+}
+
 .result-count {
   margin-bottom: 16px;
   font-size: 12.5px;
