@@ -1,51 +1,54 @@
 ---
 id: r-cloudflare-workers
-order: 1
+order: 101
 name:
-  zh: Cloudflare Workers
+  zh: "Cloudflare 免费档"
 tag:
-  zh: Serverless · 全球边缘
-  en: Serverless · Global edge
+  zh: "Workers / Pages 免费部署 · 全球边缘 · 不用绑卡"
 desc:
-  zh: 每天 10 万次免费请求，写个小 API、反代或定时任务完全够用，绑定自定义域名也免费。
-  en: 100k free requests per day. Enough for a small API, a reverse proxy, or cron jobs — custom domains included.
-logo: CF
-url: https://workers.cloudflare.com/
+  zh: "不要 VPS 也能白嫖一套「全球服务器」——Cloudflare 免费档把 Workers（边缘函数，每天 10 万次请求）、Pages（静态站托管，流量和请求不限量）一起送，叠加免费 CDN、DNS、SSL、R2 对象存储和 D1/KV。最爽的是注册不要信用卡，部署一行 wrangler 命令，全球节点就近响应。serverless 路子，跟传统 VPS 互补。"
+logo: CL
+url: "https://www.cloudflare.com/plans/free/"
 badge:
-  zh: 长期可薅
-  en: Long-term
-provider: Cloudflare
-requirements: 需注册 Cloudflare 账号；免费额度每日 10 万次请求，超出按量计费。
+  zh: "免费"
+provider: "Cloudflare 免费档"
+requirements: "Workers 免费档有每日请求数和单次 CPU 时长上限，跑重计算 / 长任务会被掐；是 serverless 不是常驻虚拟机，没法 SSH 进去当传统 VPS 用；部分高级特性（更高 CPU 时长、Durable Objects 等）要付费档。"
 region: [cn, overseas]
-tags:
-  - 云服务器
-  - 免费额度
 detail:
-  quota: 每天 10 万次请求，超出后按 $5/百万次计费；静态资源请求不计费。
-  limit: 免费版单次请求 CPU 时间上限 10ms（付费 30s）；不支持长连接和文件系统写入。
-  avoid: 免费额度按 UTC 每日 0 点重置，不是 24 小时滚动窗口；Workers KV 另有独立额度，注意不要混算。
-  valid: 长期有效，官方未公布截止时间。
-  scope: 2026-11 官方文档确认：免费计划每日 10 万次请求，含自定义域名绑定。
+  quota: "Workers 免费档每天 10 万次请求、单次 10ms CPU；Pages 静态托管的请求与带宽不限量、每月 500 次构建、可绑 100 个自定义域名；另含免费 CDN / DNS / 通用 SSL、R2 对象存储免费额度（约 10G 存储）、KV 与 D1 数据库免费档。具体配额以官方 plans 页为准。"
+  limit: "Workers 免费档有每日请求数和单次 CPU 时长上限，跑重计算 / 长任务会被掐；是 serverless 不是常驻虚拟机，没法 SSH 进去当传统 VPS 用；部分高级特性（更高 CPU 时长、Durable Objects 等）要付费档。"
+  avoid: "免费够个人项目和中小流量，但请求量冲上去要么限流要么得升 $5 付费档；Pages 构建次数每月有上限，频繁推送会用完；它是函数 / 静态托管思路，想要「一台能装软件的机器」请看 Oracle / GCP 那两条。"
+  valid: "长期有效"
+  scope: "整理自原文档，2026-11。"
+categories:
+  - server
+tags:
+  - "Cloudflare"
+  - "CND"
 ---
 
 ## 教程
 
 ### 注册 Cloudflare 账号
 
-访问 dash.cloudflare.com，用邮箱注册并完成验证。
+上 Cloudflare 官网注册账号（邮箱即可，免费档不用绑卡）。
 
-### 开通 Workers
+### 安装 wrangler 并登录
 
-左侧菜单进入「Workers & Pages」，首次使用会引导创建子域（形如 your-name.workers.dev）。
+装命令行工具 wrangler，登录后一行命令部署：
 
-### 创建第一个 Worker
+### 部署 Workers
 
-点「Create application」→「Create Worker」，直接在线编辑代码并点「Deploy」。
+npm i -g wrangler
+
+### 改用 Pages 连 Git 部署
+
+wrangler login
 
 ### 绑定自定义域名
 
-在 Worker 的 Settings → Triggers → Custom Domains 里添加你的域名，需该域名已托管在 Cloudflare。
+wrangler deploy # Workers 项目，或用 Pages 连 Git 自动构建
 
-### 查看用量
+### 验证全球访问
 
-在 Workers & Pages 概览页可以看到当天的请求数与免费额度剩余情况。
+静态站走 Pages 更省事：后台 Workers & Pages → 连接 Git 仓库，选好构建命令，推代码就自动部署、自动分配 *.pages.dev 域名，也能绑自己的域名。

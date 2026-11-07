@@ -1,84 +1,5 @@
 [
   {
-    "id": "r-cloudflare-workers",
-    "order": 1,
-    "group": "resource",
-    "name": {
-      "zh": "Cloudflare Workers",
-      "en": "Cloudflare Workers"
-    },
-    "tag": {
-      "zh": "Serverless · 全球边缘",
-      "en": "Serverless · Global edge"
-    },
-    "desc": {
-      "zh": "每天 10 万次免费请求，写个小 API、反代或定时任务完全够用，绑定自定义域名也免费。",
-      "en": "100k free requests per day. Enough for a small API, a reverse proxy, or cron jobs — custom domains included."
-    },
-    "logo": "CF",
-    "url": "https://workers.cloudflare.com/",
-    "badge": {
-      "zh": "长期可薅",
-      "en": "Long-term"
-    },
-    "tags": [
-      "云服务器",
-      "免费额度"
-    ],
-    "region": [
-      "cn",
-      "overseas"
-    ],
-    "period": {
-      "from": "",
-      "to": "",
-      "shape": "long"
-    },
-    "periodLabel": {
-      "zh": "长期有效",
-      "en": "Long-term"
-    },
-    "expired": false,
-    "categories": [
-      "server"
-    ],
-    "category": "server",
-    "pageCat": "server",
-    "provider": "Cloudflare",
-    "requirements": "需注册 Cloudflare 账号；免费额度每日 10 万次请求，超出按量计费。",
-    "expire": null,
-    "org": null,
-    "detail": {
-      "quota": "每天 10 万次请求，超出后按 $5/百万次计费；静态资源请求不计费。",
-      "limit": "免费版单次请求 CPU 时间上限 10ms（付费 30s）；不支持长连接和文件系统写入。",
-      "avoid": "免费额度按 UTC 每日 0 点重置，不是 24 小时滚动窗口；Workers KV 另有独立额度，注意不要混算。",
-      "valid": "长期有效，官方未公布截止时间。",
-      "scope": "2026-11 官方文档确认：免费计划每日 10 万次请求，含自定义域名绑定。"
-    },
-    "guide": [
-      {
-        "title": "注册 Cloudflare 账号",
-        "body": "访问 dash.cloudflare.com，用邮箱注册并完成验证。"
-      },
-      {
-        "title": "开通 Workers",
-        "body": "左侧菜单进入「Workers & Pages」，首次使用会引导创建子域（形如 your-name.workers.dev）。"
-      },
-      {
-        "title": "创建第一个 Worker",
-        "body": "点「Create application」→「Create Worker」，直接在线编辑代码并点「Deploy」。"
-      },
-      {
-        "title": "绑定自定义域名",
-        "body": "在 Worker 的 Settings → Triggers → Custom Domains 里添加你的域名，需该域名已托管在 Cloudflare。"
-      },
-      {
-        "title": "查看用量",
-        "body": "在 Workers & Pages 概览页可以看到当天的请求数与免费额度剩余情况。"
-      }
-    ]
-  },
-  {
     "id": "r-github-pages",
     "order": 2,
     "group": "resource",
@@ -1503,76 +1424,6 @@
     ]
   },
   {
-    "id": "r-google-cloud-free-tier",
-    "order": 23,
-    "group": "resource",
-    "name": {
-      "zh": "Google Cloud 免费层",
-      "en": "Google Cloud free tier"
-    },
-    "tag": {
-      "zh": "云服务 · 首年赠金",
-      "en": "Cloud · First-year credit"
-    },
-    "desc": {
-      "zh": "新账号有 300 美元试用金，另有一批长期免费额度（e2-micro 实例等），注意绑定卡会扣验证费。",
-      "en": "New accounts get $300 in credit plus a set of always-free services. Card verification may leave a small hold."
-    },
-    "logo": "GC",
-    "url": "https://cloud.google.com/free",
-    "badge": {
-      "zh": "限新号",
-      "en": "New accounts"
-    },
-    "tags": [
-      "Google 服务",
-      "限时活动"
-    ],
-    "region": [
-      "overseas"
-    ],
-    "period": {
-      "from": "",
-      "to": "",
-      "shape": "long"
-    },
-    "periodLabel": {
-      "zh": "长期有效",
-      "en": "Long-term"
-    },
-    "expired": false,
-    "categories": [
-      "google"
-    ],
-    "category": "google",
-    "pageCat": "google",
-    "provider": "Google Cloud",
-    "requirements": "需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。",
-    "expire": null,
-    "org": null,
-    "detail": {
-      "quota": "需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。",
-      "limit": "需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。",
-      "avoid": "使用前请确认官方最新条款，免费额度可能随时调整。",
-      "valid": "以官网公告为准。",
-      "scope": "本页信息整理自官方公开资料，仅供参考。"
-    },
-    "guide": [
-      {
-        "title": "打开官网",
-        "body": "点击页面上的「访问官网」按钮进入官方页面。"
-      },
-      {
-        "title": "注册账号",
-        "body": "按官方指引完成注册与验证，部分服务需要绑定支付方式。"
-      },
-      {
-        "title": "确认额度",
-        "body": "在账户的用量或额度页面确认免费额度是否已到账。"
-      }
-    ]
-  },
-  {
     "id": "r-google-notebooklm",
     "order": 24,
     "group": "resource",
@@ -1848,6 +1699,832 @@
       {
         "title": "确认额度",
         "body": "在账户的用量或额度页面确认免费额度是否已到账。"
+      }
+    ]
+  },
+  {
+    "id": "r-aws-free-tier",
+    "order": 100,
+    "group": "resource",
+    "name": {
+      "zh": "AWS 亚马逊云 Free Tier",
+      "en": "AWS 亚马逊云 Free Tier"
+    },
+    "tag": {
+      "zh": "最高 $200 + 30 多项长期免费服务",
+      "en": "最高 $200 + 30 多项长期免费服务"
+    },
+    "desc": {
+      "zh": "亚马逊云现在不是EC2 永久免费：2025 年 7 月后，新账户可选最长 6 个月的 Free Plan，先得 $100、完成指定任务最多再得 $100；同时保留 30 多项按月限额的 Always Free 服务。适合学云计算、跑轻量函数和数据库实验，但想长期白嫖必须分清新人额度、长期月度额度和超额计费。",
+      "en": "亚马逊云现在不是EC2 永久免费：2025 年 7 月后，新账户可选最长 6 个月的 Free Plan，先得 $100、完成指定任务最多再得 $100；同时保留 30 多项按月限额的 Always Free 服务。适合学云计算、跑轻量函数和数据库实验，但想长期白嫖必须分清新人额度、长期月度额度和超额计费。"
+    },
+    "logo": "AWS",
+    "url": "https://aws.amazon.com/free/",
+    "badge": {
+      "zh": "新人权益",
+      "en": "新人权益"
+    },
+    "tags": [
+      "AWS",
+      "新人权益"
+    ],
+    "region": [
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "AWS",
+    "requirements": "Free Plan 不是永久账号，6 个月到期或额度耗尽会关闭；EC2 对 2025-07-15 以后新账户主要消耗 Credits，并非永久免费的 VPS。要在到期后保留资源，需升级 Paid Plan；Always Free 超额部分会按量收费。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "新账户注册即得 $100 AWS Credits，完成控制台指定的 5 项探索任务最多再得 $100；Free Plan 最长 6 个月或额度用完即结束。另有 30 多项 Always Free 服务提供长期月度免费用量，具体项目和额度随官方清单调整。",
+      "limit": "Free Plan 不是永久账号，6 个月到期或额度耗尽会关闭；EC2 对 2025-07-15 以后新账户主要消耗 Credits，并非永久免费的 VPS。要在到期后保留资源，需升级 Paid Plan；Always Free 超额部分会按量收费。",
+      "avoid": "注册需要支付方式做身份验证；不要把「最高 $200」当现金或永久免费余额，额外 $100 要完成指定任务。中国北京 / 宁夏区域不适用全球版 Free Plan 与 Credits；升级付费计划后务必设置 Budget 和账单告警，避免 Always Free 超额产生费用。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "注册新账户",
+        "body": "打开 AWS Free Tier 注册入口，创建一个此前没有使用过 AWS Free Tier 的新账户；"
+      },
+      {
+        "title": "验证支付方式并选 Free Plan",
+        "body": "按流程填写支付方式完成身份验证，然后选择 Free Plan，不要误选 Paid Plan；"
+      },
+      {
+        "title": "完成探索任务领 Credits",
+        "body": "进入 AWS Console 首页的 Explore AWS 区域，查看可赚取额外 Credits 的任务和完成期限；"
+      },
+      {
+        "title": "设置预算告警",
+        "body": "在 Billing and Cost Management 里确认剩余额度、Free Plan 到期日，并创建 AWS Budget 预算提醒；"
+      },
+      {
+        "title": "确认 Free Tier 标识",
+        "body": "创建资源前先确认页面带有 Free Tier 标识，使用后及时停止或删除不再需要的 EC2、磁盘、公网 IPv4 等资源。"
+      }
+    ]
+  },
+  {
+    "id": "r-cloudflare-workers",
+    "order": 101,
+    "group": "resource",
+    "name": {
+      "zh": "Cloudflare 免费档",
+      "en": "Cloudflare 免费档"
+    },
+    "tag": {
+      "zh": "Workers / Pages 免费部署 · 全球边缘 · 不用绑卡",
+      "en": "Workers / Pages 免费部署 · 全球边缘 · 不用绑卡"
+    },
+    "desc": {
+      "zh": "不要 VPS 也能白嫖一套「全球服务器」——Cloudflare 免费档把 Workers（边缘函数，每天 10 万次请求）、Pages（静态站托管，流量和请求不限量）一起送，叠加免费 CDN、DNS、SSL、R2 对象存储和 D1/KV。最爽的是注册不要信用卡，部署一行 wrangler 命令，全球节点就近响应。serverless 路子，跟传统 VPS 互补。",
+      "en": "不要 VPS 也能白嫖一套「全球服务器」——Cloudflare 免费档把 Workers（边缘函数，每天 10 万次请求）、Pages（静态站托管，流量和请求不限量）一起送，叠加免费 CDN、DNS、SSL、R2 对象存储和 D1/KV。最爽的是注册不要信用卡，部署一行 wrangler 命令，全球节点就近响应。serverless 路子，跟传统 VPS 互补。"
+    },
+    "logo": "CL",
+    "url": "https://www.cloudflare.com/plans/free/",
+    "badge": {
+      "zh": "免费",
+      "en": "免费"
+    },
+    "tags": [
+      "Cloudflare",
+      "CND"
+    ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "Cloudflare 免费档",
+    "requirements": "Workers 免费档有每日请求数和单次 CPU 时长上限，跑重计算 / 长任务会被掐；是 serverless 不是常驻虚拟机，没法 SSH 进去当传统 VPS 用；部分高级特性（更高 CPU 时长、Durable Objects 等）要付费档。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "Workers 免费档每天 10 万次请求、单次 10ms CPU；Pages 静态托管的请求与带宽不限量、每月 500 次构建、可绑 100 个自定义域名；另含免费 CDN / DNS / 通用 SSL、R2 对象存储免费额度（约 10G 存储）、KV 与 D1 数据库免费档。具体配额以官方 plans 页为准。",
+      "limit": "Workers 免费档有每日请求数和单次 CPU 时长上限，跑重计算 / 长任务会被掐；是 serverless 不是常驻虚拟机，没法 SSH 进去当传统 VPS 用；部分高级特性（更高 CPU 时长、Durable Objects 等）要付费档。",
+      "avoid": "免费够个人项目和中小流量，但请求量冲上去要么限流要么得升 $5 付费档；Pages 构建次数每月有上限，频繁推送会用完；它是函数 / 静态托管思路，想要「一台能装软件的机器」请看 Oracle / GCP 那两条。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "注册 Cloudflare 账号",
+        "body": "上 Cloudflare 官网注册账号（邮箱即可，免费档不用绑卡）。"
+      },
+      {
+        "title": "安装 wrangler 并登录",
+        "body": "装命令行工具 wrangler，登录后一行命令部署："
+      },
+      {
+        "title": "部署 Workers",
+        "body": "npm i -g wrangler"
+      },
+      {
+        "title": "改用 Pages 连 Git 部署",
+        "body": "wrangler login"
+      },
+      {
+        "title": "绑定自定义域名",
+        "body": "wrangler deploy # Workers 项目，或用 Pages 连 Git 自动构建"
+      },
+      {
+        "title": "验证全球访问",
+        "body": "静态站走 Pages 更省事：后台 Workers & Pages → 连接 Git 仓库，选好构建命令，推代码就自动部署、自动分配 *.pages.dev 域名，也能绑自己的域名。"
+      }
+    ]
+  },
+  {
+    "id": "r-google-cloud-free-tier",
+    "order": 102,
+    "group": "resource",
+    "name": {
+      "zh": "Google Cloud 永久免费小鸡",
+      "en": "Google Cloud 永久免费小鸡"
+    },
+    "tag": {
+      "zh": "e2-micro · 美国三区 · 谷歌全家桶另送 $300",
+      "en": "e2-micro · 美国三区 · 谷歌全家桶另送 $300"
+    },
+    "desc": {
+      "zh": "谷歌云的 Always Free 里藏着一台永久免费的 e2-micro 小鸡——每月一台、限美国 us-west1 / us-central1 / us-east1 三个区，配 30G 标准硬盘。规格小（共享 2 核 + 1G 内存），但谷歌的网真顶，拿来挂轻量服务、做跳板很稳。新账号另有 90 天 $300 试用额度可叠着玩。",
+      "en": "谷歌云的 Always Free 里藏着一台永久免费的 e2-micro 小鸡——每月一台、限美国 us-west1 / us-central1 / us-east1 三个区，配 30G 标准硬盘。规格小（共享 2 核 + 1G 内存），但谷歌的网真顶，拿来挂轻量服务、做跳板很稳。新账号另有 90 天 $300 试用额度可叠着玩。"
+    },
+    "logo": "GC",
+    "url": "https://cloud.google.com/free",
+    "badge": {
+      "zh": "永久免费",
+      "en": "永久免费"
+    },
+    "tags": [
+      "google"
+    ],
+    "region": [
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "Google Cloud",
+    "requirements": "永久免费只认那三个美区 + e2-micro 这一种规格，换区或升配立刻按量计费；免费出站流量每月仅 1G、且发往中国大陆 / 澳洲不算在内；$300 是 90 天试用、到期不续，别和永久免费混。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "Always Free 永久免费：每月 1 台 e2-micro 实例（共享核心 + 1G 内存），仅限美国 us-west1（俄勒冈）/ us-central1（爱荷华）/ us-east1（南卡）三区；含 30G 标准持久磁盘、5G 快照、每月 1G 从北美出站流量（不含中国大陆 / 澳洲）。另送新用户 90 天 $300 试用额度（与永久免费分开）。具体以官方 Free 页为准。",
+      "limit": "永久免费只认那三个美区 + e2-micro 这一种规格，换区或升配立刻按量计费；免费出站流量每月仅 1G、且发往中国大陆 / 澳洲不算在内；$300 是 90 天试用、到期不续，别和永久免费混。",
+      "avoid": "要绑卡且默认开「自动升级到付费账号」——只想白嫖永久免费的，留意别手滑触发计费项目；e2-micro 是共享 CPU、突发性能有限，跑重负载会被限速；区域和机型一字之差就脱离免费档，建实例时盯紧选项。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "开通并绑卡验证",
+        "body": "上 Google Cloud 官网用谷歌账号开通，绑卡验证（同样是预授权验证，不主动扣）。"
+      },
+      {
+        "title": "创建 e2-micro 实例",
+        "body": "进 Console → Compute Engine → 创建实例，区域必须选那三个美区之一，机型在 E2 系列里挑 e2-micro，磁盘用标准持久盘、别超 30G。"
+      },
+      {
+        "title": "确认落在 Always Free",
+        "body": "镜像选 Debian / Ubuntu，建好放行防火墙端口即用。建完去 Billing 确认这台落在「Always Free」里、没产生费用。"
+      }
+    ]
+  },
+  {
+    "id": "r-oracle-always-free",
+    "order": 103,
+    "group": "resource",
+    "name": {
+      "zh": "Oracle 甲骨文云永久免费",
+      "en": "Oracle 甲骨文云永久免费"
+    },
+    "tag": {
+      "zh": "Always Free · 最多 4 核 ARM + 24G 内存 · 常驻不限时",
+      "en": "Always Free · 最多 4 核 ARM + 24G 内存 · 常驻不限时"
+    },
+    "desc": {
+      "zh": "白嫖圈的常青树——甲骨文云的 Always Free 档不是 12 个月试用，是只要不删就一直白嫖。最香的是那台 ARM Ampere A1：最多 4 核 + 24G 内存可以拆成 1~4 台机器随你分，外加 2 台 AMD 小鸡、200G 块存储、每月 10T 出站流量。注册要张能过验证的卡，ARM 机型常年「抢不到容量」得蹲，但白到手就是一台能常驻的真服务器。",
+      "en": "白嫖圈的常青树——甲骨文云的 Always Free 档不是 12 个月试用，是只要不删就一直白嫖。最香的是那台 ARM Ampere A1：最多 4 核 + 24G 内存可以拆成 1~4 台机器随你分，外加 2 台 AMD 小鸡、200G 块存储、每月 10T 出站流量。注册要张能过验证的卡，ARM 机型常年「抢不到容量」得蹲，但白到手就是一台能常驻的真服务器。"
+    },
+    "logo": "OR",
+    "url": "https://www.oracle.com/cloud/free/",
+    "badge": {
+      "zh": "永久免费",
+      "en": "永久免费"
+    },
+    "tags": [
+      "Oracle"
+    ],
+    "region": [
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "Oracle",
+    "requirements": "ARM A1 在热门区常年「Out of host capacity」抢不到，得换区或挂脚本蹲容量；账号注册时选的区域之后基本锁死；官方对长期闲置的 Always Free 实例有回收政策，别开了不管。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "Always Free 永久免费档（与 30 天 $300 试用额度分开）：2 台 AMD VM.Standard.E2.1.Micro（各 1/8 OCPU + 1G 内存）+ ARM Ampere A1 共 4 核 / 24G 内存（可拆成 1~4 台）+ 200G 块存储 + 10G 对象存储 + 每月 10T 出站流量 + 2 个自治数据库。具体配额以官方 Always Free 页为准。",
+      "limit": "ARM A1 在热门区常年「Out of host capacity」抢不到，得换区或挂脚本蹲容量；账号注册时选的区域之后基本锁死；官方对长期闲置的 Always Free 实例有回收政策，别开了不管。",
+      "avoid": "注册要绑信用卡 / 借记卡过验证（会有约 $1 预授权），国内卡偶尔被拒，换张 Visa 多试；别把 30 天 $300 试用额度和永久免费搞混——试用到期机器不会停，但超出 Always Free 规格的部分会开始计费，建账号后进控制台把账单告警设上。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "注册并绑卡验证",
+        "body": "上 甲骨文云官网注册账号，绑一张能过验证的信用卡 / 借记卡（仅验证身份，不主动扣费，会有约 $1 预授权后退回）。"
+      },
+      {
+        "title": "选择区域",
+        "body": "注册时选的区域之后基本改不了，挑一个你常用、且 ARM 容量相对宽松的区（日本东京 / 大阪、韩国、新加坡国内连着顺，但人多抢得凶；美区容量松些但延迟高）。"
+      },
+      {
+        "title": "创建实例",
+        "body": "进控制台 → Compute → Instances 建实例，镜像选 Ubuntu / Oracle Linux，机型挑 VM.Standard.A1.Flex（ARM）填核数和内存，或 E2.1.Micro（AMD 小鸡）。建好分配公网 IP、放行安全组端口即用。"
+      }
+    ]
+  },
+  {
+    "id": "r-orkestr-free-tier",
+    "order": 104,
+    "group": "resource",
+    "name": {
+      "zh": "Orkestr 欧盟免费服务器",
+      "en": "Orkestr 欧盟免费服务器"
+    },
+    "tag": {
+      "zh": "512MB 容器 · 100GB 月流量 · 免绑卡",
+      "en": "512MB 容器 · 100GB 月流量 · 免绑卡"
+    },
+    "desc": {
+      "zh": "Orkestr Starter 是一个无需信用卡的永久免费容器托管档，可部署 1 个项目与 1 个环境，提供 0.25 vCPU、512MB 内存、每月 100GB 流量和 300 分钟构建时间，还能添加约 256MB 的 Postgres 或 Redis。它会在空闲时休眠，适合个人网站、轻量 API 和演示项目，不是能长期 SSH 登录的传统 VPS。",
+      "en": "Orkestr Starter 是一个无需信用卡的永久免费容器托管档，可部署 1 个项目与 1 个环境，提供 0.25 vCPU、512MB 内存、每月 100GB 流量和 300 分钟构建时间，还能添加约 256MB 的 Postgres 或 Redis。它会在空闲时休眠，适合个人网站、轻量 API 和演示项目，不是能长期 SSH 登录的传统 VPS。"
+    },
+    "logo": "OK",
+    "url": "console.orkestr.eu/register",
+    "badge": {
+      "zh": "永久免费",
+      "en": "永久免费"
+    },
+    "tags": [],
+    "region": [
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "Orkestr",
+    "requirements": "免费应用空闲时会休眠，重新访问可能遇到冷启动；月流量达到 100GB 后应用暂停服务，次月 1 日自动恢复；构建用完 300 分钟后本月不能继续发布新版本。Starter 只有 1 个项目和环境，不提供常驻运行保证。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "Starter 免费档可创建 1 个项目和 1 个环境，容器规格为 0.25 vCPU / 512MB；每月含 100GB 流量、300 分钟构建时间、1 个自定义域名与自动 SSL，并可选约 256MB 的 Postgres 或 Redis 附加服务。",
+      "limit": "免费应用空闲时会休眠，重新访问可能遇到冷启动；月流量达到 100GB 后应用暂停服务，次月 1 日自动恢复；构建用完 300 分钟后本月不能继续发布新版本。Starter 只有 1 个项目和环境，不提供常驻运行保证。",
+      "avoid": "Orkestr 是从 Git 仓库部署应用的容器 PaaS，不是提供 root 权限和固定公网 IP 的传统 VPS。平台托管与 Agent Sandbox 是两个独立产品；Sandbox 的赠送额度、有效期和规格不要与永久免费 Starter 混为一谈。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "打开注册入口并验证邮箱",
+        "body": "怎么部署第一个项目"
+      },
+      {
+        "title": "连接代码仓库",
+        "body": "打开上面的注册入口，创建账号并完成邮箱验证。"
+      },
+      {
+        "title": "新建项目并选分支",
+        "body": "在控制台连接 GitHub、GitLab、Bitbucket 或 Codeberg 中存放代码的账号。"
+      },
+      {
+        "title": "确认框架识别",
+        "body": "新建项目，选择仓库和要发布的分支。"
+      },
+      {
+        "title": "配置构建与启动命令",
+        "body": "让平台自动识别 Node.js、Python、Go、PHP 等项目；仓库已有 Dockerfile 时也可直接使用。"
+      },
+      {
+        "title": "部署第一个版本",
+        "body": "核对环境变量后开始部署，成功后访问平台分配的 *.orkestr.run HTTPS 地址。"
+      },
+      {
+        "title": "验证访问",
+        "body": "需要自己的域名时，在项目设置中绑定域名并按提示配置 DNS，SSL 会自动签发。"
+      }
+    ]
+  },
+  {
+    "id": "r-render-free-hosting",
+    "order": 105,
+    "group": "resource",
+    "name": {
+      "zh": "Render 免费托管",
+      "en": "Render 免费托管"
+    },
+    "tag": {
+      "zh": "静态站永久免费 + 免费 Web 服务 · 连 Git 一键部署",
+      "en": "静态站永久免费 + 免费 Web 服务 · 连 Git 一键部署"
+    },
+    "desc": {
+      "zh": "Render 把 Heroku 那套「连 Git 自动部署」做得更顺，还留了免费档：静态站永久免费、带全球 CDN；免费 Web 服务给 512M 内存，缺点是闲置 15 分钟休眠、冷启动慢。拿来挂个人项目、demo、小工具的后端正合适，不想碰服务器运维的首选。",
+      "en": "Render 把 Heroku 那套「连 Git 自动部署」做得更顺，还留了免费档：静态站永久免费、带全球 CDN；免费 Web 服务给 512M 内存，缺点是闲置 15 分钟休眠、冷启动慢。拿来挂个人项目、demo、小工具的后端正合适，不想碰服务器运维的首选。"
+    },
+    "logo": "RE",
+    "url": "https://render.com/",
+    "badge": {
+      "zh": "免费托管",
+      "en": "免费托管"
+    },
+    "tags": [],
+    "region": [
+      "cn",
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "Render",
+    "requirements": "免费 Web 服务闲置即休眠，下次请求要等几十秒冷启动，不适合要求随叫随到的服务；免费数据库有时限 / 容量限制；规格小，跑重负载会 OOM。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "静态站点免费、带全球 CDN 与自动 HTTPS；免费 Web 服务实例 512M 内存、共享 CPU，闲置约 15 分钟后休眠、有请求再冷启动；免费实例时长按月份配额。免费 PostgreSQL / Redis 有额度但存在时限政策。具体配额与是否变动以官方 pricing 页为准。",
+      "limit": "免费 Web 服务闲置即休眠，下次请求要等几十秒冷启动，不适合要求随叫随到的服务；免费数据库有时限 / 容量限制；规格小，跑重负载会 OOM。",
+      "avoid": "别拿免费 Web 服务挂需要保活的关键业务——休眠 + 冷启动是硬伤；想保活得升付费档或自己定时 ping（也可能违反免费档政策）；免费 PostgreSQL 的留存期政策变过几次，重要数据务必另外备份。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "注册账号",
+        "body": "上 Render 官网用 GitHub / GitLab / 邮箱注册。"
+      },
+      {
+        "title": "新建 Static Site 或 Web Service",
+        "body": "New → Static Site（静态站）或 New → Web Service（后端服务），授权连上你的仓库。"
+      },
+      {
+        "title": "填构建命令并部署",
+        "body": "填构建命令和启动命令（常见框架有预设），选 Free 实例档，点部署。构建完会分配一个 *.onrender.com 域名，也能绑自定义域名 + 免费证书。"
+      }
+    ]
+  },
+  {
+    "id": "r-wispbyte-free-server",
+    "order": 106,
+    "group": "resource",
+    "name": {
+      "zh": "Wispbyte 免费 24/7 服务器",
+      "en": "Wispbyte 免费 24/7 服务器"
+    },
+    "tag": {
+      "zh": "翼龙面板 · 512M 内存 · 注册即用 · 挂 bot / 节点",
+      "en": "翼龙面板 · 512M 内存 · 注册即用 · 挂 bot / 节点"
+    },
+    "desc": {
+      "zh": "用翼龙面板（Pterodactyl）的免费服务器，直接注册就送一台——512M 内存 + 1G 硬盘，24/7 常开不休眠，每账号一台。拿来挂 Discord bot、跑小型 Node / Python 服务、搭小节点、练手 Minecraft 小服都行。不要钱、不看广告，唯一要求是每两周登录一次保活，官方称服务器不会被删。规格小，别压重负载。",
+      "en": "用翼龙面板（Pterodactyl）的免费服务器，直接注册就送一台——512M 内存 + 1G 硬盘，24/7 常开不休眠，每账号一台。拿来挂 Discord bot、跑小型 Node / Python 服务、搭小节点、练手 Minecraft 小服都行。不要钱、不看广告，唯一要求是每两周登录一次保活，官方称服务器不会被删。规格小，别压重负载。"
+    },
+    "logo": "WS",
+    "url": "https://wispbyte.com/",
+    "badge": {
+      "zh": "免费服务器",
+      "en": "免费服务器"
+    },
+    "tags": [],
+    "region": [
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "Wispbyte",
+    "requirements": "512M 内存 + 1G 盘，体量小，只够小 bot / 轻量服务，跑重应用会爆内存；每账号限一台；要每两周登录一次维持，长期不登可能被回收。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "quota": "免费档：512M 内存 + 1G（1024M）硬盘，翼龙面板（Pterodactyl）管理，24/7 常开。每个账号一台免费服务器。注册即用、不要钱、不用看广告续期；需每两周登录一次保活，官方称服务器不会被删。具体规格以官方为准。",
+      "limit": "512M 内存 + 1G 盘，体量小，只够小 bot / 轻量服务，跑重应用会爆内存；每账号限一台；要每两周登录一次维持，长期不登可能被回收。",
+      "avoid": "512M 内存是硬上限，挂大型 Minecraft 服或多开会 OOM，量力而行；记得每两周登录保活别让它睡死；面板是翼龙系，部署靠选 egg / 传文件，第一次玩先翻下文档；当 bot / 小节点 / 练手机用合适，别接正经业务。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "注册账号",
+        "body": "上 Wispbyte 官网注册账号（直接注册即可，不用付款）。"
+      },
+      {
+        "title": "创建翼龙面板服务器",
+        "body": "进翼龙面板创建服务器，按用途选对应的 egg（Discord bot / Node.js / Python / Minecraft 等），套用那 512M / 1G 的免费配额。"
+      },
+      {
+        "title": "上传代码并启动",
+        "body": "传你的代码 / 配置，启动即跑，24/7 常开；记得隔两周回来登一次。"
+      }
+    ]
+  },
+  {
+    "id": "r-baishouqijia-hk-vps",
+    "order": 107,
+    "group": "resource",
+    "name": {
+      "zh": "白手起家免费香港云服务器",
+      "en": "白手起家免费香港云服务器"
+    },
+    "tag": {
+      "zh": "首月 0 元 · 2 核 2G · 香港 CN2",
+      "en": "首月 0 元 · 2 核 2G · 香港 CN2"
+    },
+    "desc": {
+      "zh": "白手起家提供一台首月 0 元的香港 CN2 云服务器：2 核 CPU、2GB 内存、5Mbps 带宽、系统盘 50GB + 数据盘 50GB，并带 1 个公网 IP。领取需要注册并按活动要求完成实名认证；免费仅限首月，产品页当前标价为次月 29 元。",
+      "en": "白手起家提供一台首月 0 元的香港 CN2 云服务器：2 核 CPU、2GB 内存、5Mbps 带宽、系统盘 50GB + 数据盘 50GB，并带 1 个公网 IP。领取需要注册并按活动要求完成实名认证；免费仅限首月，产品页当前标价为次月 29 元。"
+    },
+    "logo": "BS",
+    "url": "https://www.0168.cn/recommend/X3Gi2Fz4p4oo",
+    "badge": {
+      "zh": "首月 0 元",
+      "en": "首月 0 元"
+    },
+    "tags": [],
+    "region": [
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
+    "provider": "白手起家",
+    "requirements": "",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "进入官网",
+        "body": "进入白手起家官网。"
+      },
+      {
+        "title": "注册并找到免费机型",
+        "body": "注册或登录账号，在产品列表里找到“免费香港云服务器”。"
+      },
+      {
+        "title": "核对配置",
+        "body": "核对配置是 香港 CN2、2 核 2G、5Mbps、50G + 50G、1 个 IP。"
+      },
+      {
+        "title": "完成实名认证",
+        "body": "按页面要求完成实名认证，再确认首月订单金额为 0 元。"
+      },
+      {
+        "title": "确认首月 0 元并记录到期日",
+        "body": "开通后立即记下到期日，并检查是否存在自动续费或余额扣款设置。"
+      },
+      {
+        "title": "检查自动续费",
+        "body": "不要只看“购买”按钮就一路提交。实名信息属于敏感个人资料，上传前先确认当前域名是 0168.cn，并阅读页面展示的隐私政策、认证主体和信息用途；如果结算页不是 0 元，先不要付款。"
+      }
+    ]
+  },
+  {
+    "id": "r-cloudflare-tunnels",
+    "order": 108,
+    "group": "resource",
+    "name": {
+      "zh": "Cloudflare Tunnels 免费内网穿透",
+      "en": "Cloudflare Tunnels 免费内网穿透"
+    },
+    "tag": {
+      "zh": "cloudflared · 自建服务公网访问",
+      "en": "cloudflared · 自建服务公网访问"
+    },
+    "desc": {
+      "zh": "Cloudflare Tunnel 让家里电脑、NAS、本地开发服务或小服务器主动连接 Cloudflare，再通过自定义域名把 HTTP 服务公开到公网，不需要在路由器开入站端口或暴露源站 IP。适合临时演示、Webhook 调试和带访问控制的个人服务；稳定入口需自备并接入 Cloudflare 的域名。",
+      "en": "Cloudflare Tunnel 让家里电脑、NAS、本地开发服务或小服务器主动连接 Cloudflare，再通过自定义域名把 HTTP 服务公开到公网，不需要在路由器开入站端口或暴露源站 IP。适合临时演示、Webhook 调试和带访问控制的个人服务；稳定入口需自备并接入 Cloudflare 的域名。"
+    },
+    "logo": "CF",
+    "url": "https://cloudflare.com/",
+    "badge": {
+      "zh": "免费",
+      "en": "免费"
+    },
+    "tags": [
+      "cloudflare"
+    ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "tunnel"
+    ],
+    "category": "tunnel",
+    "pageCat": "tunnel",
+    "provider": "Cloudflare",
+    "requirements": "不是一台可 SSH 的免费 VPS，也不是把所有内网端口随意暴露到公网的工具。公开 Web 服务通常需要一个已接入 Cloudflare 的自定义域名；Quick Tunnel 的随机 trycloudflare.com 地址适合临时测试，不适合正式入口。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "usage": "Cloudflare Tunnel 可由本地的 cloudflared 主动建立到 Cloudflare 的出站连接，再把公开域名的请求代理到本地 HTTP 服务。临时 Quick Tunnel 可用于短时试跑；长期使用应创建和管理命名 Tunnel，具体免费资格、功能和限制以 Cloudflare 账户及官方文档为准。",
+      "limit": "不是一台可 SSH 的免费 VPS，也不是把所有内网端口随意暴露到公网的工具。公开 Web 服务通常需要一个已接入 Cloudflare 的自定义域名；Quick Tunnel 的随机 trycloudflare.com 地址适合临时测试，不适合正式入口。",
+      "avoid": "Tunnel 解决的是公网入口和隐藏源站，不等于应用本身已经安全。NAS、路由器、数据库、远程桌面或后台管理页必须加认证、HTTPS、访问策略和最小权限；不要把高权限服务直接公开。DNSHE 域名只有在能修改 NS 并成功接入 Cloudflare 后，才适合拿来当自定义入口。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "接入域名",
+        "body": "在 Cloudflare 控制台添加自己的域名，并按提示完成 nameserver 接入；"
+      },
+      {
+        "title": "创建命名 Tunnel",
+        "body": "到 Zero Trust / Networks / Tunnels 创建一个命名 Tunnel；"
+      },
+      {
+        "title": "安装并运行 cloudflared",
+        "body": "在本地设备安装 cloudflared，按控制台生成的命令或 token 运行连接器；"
+      },
+      {
+        "title": "绑定公网 hostname",
+        "body": "给 Tunnel 添加公网 hostname，例如 demo.example.com，并把它指向本地 http://localhost:3000；"
+      },
+      {
+        "title": "验证公网访问",
+        "body": "用手机流量打开域名，确认公网访问、登录保护和业务功能都正常。"
+      }
+    ]
+  },
+  {
+    "id": "r-loliafrp",
+    "order": 109,
+    "group": "resource",
+    "name": {
+      "zh": "LoliaFRP 洛链映射免费内网穿透",
+      "en": "LoliaFRP 洛链映射免费内网穿透"
+    },
+    "tag": {
+      "zh": "签到领流量 · 国内海外节点 · 公测",
+      "en": "签到领流量 · 国内海外节点 · 公测"
+    },
+    "desc": {
+      "zh": "LoliaFRP（洛链映射）是 Lolia Team 等发起的公益 FRP 项目，公测期免费提供 TCP / UDP / HTTP / HTTPS 隧道，节点由捐赠者维护，支持图形客户端、CLI 和原版 frpc。国内节点按法规要实名，部分海外节点也要求认证；国内节点不能拿 TCP 隧道搭网站，建站要走海外节点。单隧道限速 80Mbps，每天签到领随机流量，适合 MC 联机、远程桌面、NAS 和本地调试。",
+      "en": "LoliaFRP（洛链映射）是 Lolia Team 等发起的公益 FRP 项目，公测期免费提供 TCP / UDP / HTTP / HTTPS 隧道，节点由捐赠者维护，支持图形客户端、CLI 和原版 frpc。国内节点按法规要实名，部分海外节点也要求认证；国内节点不能拿 TCP 隧道搭网站，建站要走海外节点。单隧道限速 80Mbps，每天签到领随机流量，适合 MC 联机、远程桌面、NAS 和本地调试。"
+    },
+    "logo": "LO",
+    "url": "https://lolia.link/",
+    "badge": {
+      "zh": "公测免费",
+      "en": "公测免费"
+    },
+    "tags": [
+      "签到领流量",
+      "远程桌面",
+      "NAS"
+    ],
+    "region": [
+      "cn"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "tunnel"
+    ],
+    "category": "tunnel",
+    "pageCat": "tunnel",
+    "provider": "Lolia Team",
+    "requirements": "国内节点按法规要求实名，需是支付宝实名用户，认证费用由支付宝收取，不支持微信；部分海外节点也要求实名。国内节点禁止用 TCP 隧道搭 HTTP/HTTPS 网站，需改用海外节点。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "usage": "公测期免费。每天在面板签到可领随机流量，实际到账以仪表盘为准；单隧道限速 80Mbps，捐赠者可解除；可用隧道数、流量和节点能力以登录后的面板为准。",
+      "limit": "国内节点按法规要求实名，需是支付宝实名用户，认证费用由支付宝收取，不支持微信；部分海外节点也要求实名。国内节点禁止用 TCP 隧道搭 HTTP/HTTPS 网站，需改用海外节点。",
+      "avoid": "免费公益 FRP 不适合正式生产 SLA。映射前先给服务加认证和 HTTPS，别把数据库、RDP、SSH、NAS 后台直接裸奔。HTTP(S) 用 HTTP(S) 隧道，不要用 TCP 隧道穿透 Web；同一节点同一域名只能由一个 frpc 转发，重复启动会报 router config conflict。遇到 TLS SNI 被 RST 导致 EOF / session shutdown，可把 transport.tls.serverName 设为空格，Lolia CLI 已内置。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "注册并登录控制台",
+        "body": "打开 LoliaFRP 官网，进 控制台 注册 / 登录；"
+      },
+      {
+        "title": "确认节点实名要求",
+        "body": "看目标节点是否要求实名，需要就先完成认证；"
+      },
+      {
+        "title": "创建隧道",
+        "body": "在面板创建隧道，选协议（TCP / UDP / HTTP / HTTPS）、节点和本地服务地址；"
+      },
+      {
+        "title": "安装客户端",
+        "body": "装客户端：官方提供 Windows / macOS / Linux 图形客户端、Lolia CLI，也可以直接用原版 frpc；Android 也有社区客户端；"
+      },
+      {
+        "title": "本地验证服务",
+        "body": "在本机确认服务能访问，例如 http://127.0.0.1:8080，再按面板给的配置启动隧道；"
+      },
+      {
+        "title": "通过公网地址复测",
+        "body": "用手机流量或另一条网络测公网地址，别只在同一个 Wi-Fi 里自测。"
+      },
+      {
+        "title": "自定义域名与 HTTPS",
+        "body": "如果不想装新客户端，原版 frpc 也能连，Lolia 说保持与原版配置兼容；但官方 CLI 内置了一些避坑项（比如 SNI 处理），新手用官方客户端更省事。"
+      }
+    ]
+  },
+  {
+    "id": "r-github-codespaces",
+    "order": 110,
+    "group": "resource",
+    "name": {
+      "zh": "GitHub Codespaces 免费云开发环境",
+      "en": "GitHub Codespaces 免费云开发环境"
+    },
+    "tag": {
+      "zh": "每月 120 核时 · 浏览器里的真 Linux + VS Code",
+      "en": "每月 120 核时 · 浏览器里的真 Linux + VS Code"
+    },
+    "desc": {
+      "zh": "GitHub 给个人账号每月白送 120 核时的云端开发容器——浏览器里打开就是一台真 Ubuntu，VS Code 界面直接连，能装软件、跑服务、开端口预览。2 核机型约够 60 小时/月，4 核约 30 小时。不是常驻服务器，但当临时开发机、跑脚本、连远程白嫖一台 Linux 用，太方便。",
+      "en": "GitHub 给个人账号每月白送 120 核时的云端开发容器——浏览器里打开就是一台真 Ubuntu，VS Code 界面直接连，能装软件、跑服务、开端口预览。2 核机型约够 60 小时/月，4 核约 30 小时。不是常驻服务器，但当临时开发机、跑脚本、连远程白嫖一台 Linux 用，太方便。"
+    },
+    "logo": "GH",
+    "url": "https://github.com/features/codespaces",
+    "badge": {
+      "zh": "每月 120 核时",
+      "en": "每月 120 核时"
+    },
+    "tags": [],
+    "region": [
+      "cn",
+      "overseas"
+    ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "categories": [
+      "dev-cloud"
+    ],
+    "category": "dev-cloud",
+    "pageCat": "dev-cloud",
+    "provider": "GitHub",
+    "requirements": "是「开发容器」不是常驻 VPS——闲置一段时间自动 stop、长期不用会被删（停机后数据默认保留 30 天）；免费核时按机器规格折算，开大机器烧得快；超额需绑卡才会继续（默认不超不扣）。",
+    "expire": null,
+    "org": null,
+    "detail": {
+      "usage": "个人账号每月免费 120 核时（core-hours）+ 15 GB·月 存储。核时按机型折算：2 核机器约 60 小时/月、4 核约 30 小时、8 核约 15 小时。每个 Codespace 是一台独立的 Ubuntu 容器，含 VS Code（浏览器 / 桌面 / JetBrains 均可连）。具体额度以官方计费页为准。",
+      "limit": "是「开发容器」不是常驻 VPS——闲置一段时间自动 stop、长期不用会被删（停机后数据默认保留 30 天）；免费核时按机器规格折算，开大机器烧得快；超额需绑卡才会继续（默认不超不扣）。",
+      "avoid": "别拿它当长期在线的服务器挂服务，闲置必停；核时是「核数 × 小时」，手滑开 8 核会四倍速烧额度，日常用 2 核够了；想长期跑后台进程请看 Oracle / GCP，Codespaces 的定位是临时开发机。",
+      "valid": "长期有效",
+      "scope": "整理自原文档，2026-11。"
+    },
+    "guide": [
+      {
+        "title": "准备 GitHub 账号",
+        "body": "有 GitHub 账号就行（免费账号即享额度，开发用途不强制绑卡）。"
+      },
+      {
+        "title": "创建 Codespace",
+        "body": "打开任意仓库，点绿色 Code → Codespaces → Create codespace，稍等就进了浏览器里的 VS Code；空手玩可以建个空仓库或 fork 一个模板。"
+      },
+      {
+        "title": "使用终端与端口转发",
+        "body": "进去后就是标准终端 + 编辑器，sudo 权限齐全，装环境、起服务、Ports 面板转发端口在线预览，都行。"
       }
     ]
   }

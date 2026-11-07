@@ -48,6 +48,20 @@
         "zh": "Google 服务",
         "en": "Google"
       }
+    },
+    {
+      "id": "tunnel",
+      "label": {
+        "zh": "内网穿透",
+        "en": "Tunnels"
+      }
+    },
+    {
+      "id": "dev-cloud",
+      "label": {
+        "zh": "云开发",
+        "en": "Cloud IDE"
+      }
     }
   ],
   "baipiao": [

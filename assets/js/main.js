@@ -1296,6 +1296,25 @@
     });
   }
 
+  /** 分组键：详情页用它找到对应的分类表 */
+  function groupKeyOf(item) {
+    return item.group === 'baipiao' ? 'baipiao'
+      : item.group === 'charity' ? 'charity'
+      : item.group === 'resource' ? 'resource' : 'resource';
+  }
+
+  /** 把条目的 categories id 数组翻成中文标签名 */
+  function categoryLabels(item, catKey) {
+    var cats = (DATA.categories && DATA.categories[catKey]) || [];
+    var ids = item.categories && item.categories.length ? item.categories : [item.category];
+    var out = [];
+    ids.forEach(function (id) {
+      var hit = cats.filter(function (c) { return c.id === id; })[0];
+      if (hit) out.push(pick(hit.label, state.lang));
+    });
+    return out;
+  }
+
   /* ---------- 复制按钮（邮箱等） ---------- */
 
   /**
@@ -1840,8 +1859,9 @@
     var statusTag = getPeriodLabel(item);
     var contentTags = tags;
 
+    // 分类优先用 categories 的中文名（tags[0] 可能是个自定义标签，如 cloudflare）
     var catEl = $('#detailCategory');
-    if (catEl) catEl.textContent = contentTags[0] || group.crumb;
+    if (catEl) catEl.textContent = categoryLabels(item, groupKeyOf(item)).join(' · ') || group.crumb;
 
     var statusEl = $('#detailStatus');
     if (statusEl) {

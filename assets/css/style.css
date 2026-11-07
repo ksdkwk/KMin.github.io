@@ -2380,10 +2380,27 @@ a.rc-detail:hover svg { transform: translateX(2px); }
    18. 详情页（对齐参考图：面包屑 → 概览 → 结构化数据 → 领取教程）
    ========================================================================== */
 
+/* 详情页与列表页共用同一套容器宽度：max-width + gutter 与 .container 一致，
+   这样从卡片点进详情时，内容区的左右边缘完全对齐，不会出现"缩窄一圈"的跳变。
+   高度不设限，由内容自然撑开。 */
 .detail-wrap {
-  max-width: 940px;
+  width: 100%;
+  max-width: var(--container);
   margin: 0 auto;
   padding: clamp(24px, 4vw, 44px) var(--gutter) 0;
+}
+
+/* 正文仍然限制在舒适阅读宽度内，避免 1120px 一行太长；
+   外框（hero / spec / guide）保持与卡片同宽。 */
+.detail-summary,
+.guide-body p,
+.spec-row dd {
+  max-width: 78ch;
+}
+
+/* 窄屏时详情页内边距跟列表页一致，保证左右边缘继续对齐 */
+@media (max-width: 720px) {
+  .detail-wrap { padding-top: 20px; }
 }
 
 /* ---------- 面包屑 ---------- */
