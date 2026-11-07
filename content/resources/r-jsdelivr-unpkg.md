@@ -16,6 +16,7 @@ badge:
   en: Not for prod
 provider: jsDelivr / unpkg
 requirements: 仅建议用于演示与开发；生产环境请自托管关键依赖，避免 CDN 故障影响站点。
+region: [cn, overseas]
 tags:
   - 国内镜像源
   - 公益镜像

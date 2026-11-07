@@ -17,6 +17,7 @@ badge:
   en: Free
 provider: Mozilla
 requirements: 纯文档站点，无需注册；内容以英文为主，部分页面有中文翻译。
+region: [cn, overseas]
 tags:
   - 学生/学习资源
   - 免费额度

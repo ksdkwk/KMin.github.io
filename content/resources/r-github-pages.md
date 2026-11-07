@@ -16,6 +16,7 @@ badge:
   en: In use
 provider: GitHub
 requirements: 仓库需为公开仓库；单站 1GB、月流量 100GB；不支持服务端逻辑。
+region: [cn, overseas]
 tags:
   - 云服务器
   - 静态托管

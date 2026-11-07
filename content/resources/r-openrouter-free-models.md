@@ -17,6 +17,7 @@ badge:
   en: Rate limited
 provider: OpenRouter
 requirements: 需注册并创建 API Key；:free 模型有每分钟与每日调用上限，超额需充值。
+region: overseas
 tags:
   - API 羊毛
   - 免费额度

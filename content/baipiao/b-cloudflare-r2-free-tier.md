@@ -21,6 +21,7 @@ expire:
 categories:
   - api
   - server
+region: [cn, overseas]
 tags:
   - "免费 API"
   - "VPS/服务器"

@@ -146,5 +146,28 @@
         "en": "System"
       }
     }
+  ],
+  "regions": [
+    {
+      "id": "cn",
+      "label": {
+        "zh": "中国大陆",
+        "en": "Mainland China"
+      }
+    },
+    {
+      "id": "overseas",
+      "label": {
+        "zh": "港澳台及国外",
+        "en": "HK/Macau/Taiwan & overseas"
+      }
+    },
+    {
+      "id": "global",
+      "label": {
+        "zh": "全球",
+        "en": "Global"
+      }
+    }
   ]
 }

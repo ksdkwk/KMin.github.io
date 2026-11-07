@@ -283,6 +283,45 @@ function isExpired(period) {
   return Date.now() > end.getTime();
 }
 
+/* ---------- 4.0.5 地区归属 ---------- */
+
+/**
+ * 地区是条目的固有属性，只参与筛选，不影响时效。
+ *
+ * 卡片只有两种归属：
+ *   cn       中国大陆（运营商 / 高校 / 国内公司提供的服务）
+ *   overseas 港澳台及国外
+ *
+ * 筛选栏的第三个「全球」不是一个归属值，而是「不做地区过滤」的意思——
+ * 因为任何一张卡片都必然属于 cn 或 overseas 其中之一，没有第三种。
+ *
+ * 一个条目可以同时归属两边（例如公共 DNS 既有 114 也有 1.1.1.1），
+ * 所以内部统一存成数组，筛选时取交集非空即命中。
+ */
+var REGION_IDS = ['cn', 'overseas'];
+
+/**
+ * region 字段可以写单个值，也可以写列表：
+ *   region: cn           → ['cn']        只属于中国大陆
+ *   region: overseas     → ['overseas']  只属于港澳台及国外
+ *   region: [cn, overseas] 或 region: global → 两边都算（不限地区的基础设施）
+ * 不写时按「两边都算」兜底：宁可多显示，也不要凭空把一个条目藏起来。
+ */
+function normalizeRegion(raw) {
+  var list = toArray(raw);
+  var out = [];
+  list.forEach(function (v) {
+    var s = String(v).trim().toLowerCase();
+    if (s === 'cn' || s === 'china' || s === 'mainland' || s === '中国大陆') s = 'cn';
+    else if (s === 'overseas' || s === 'global-outside' || s === '港澳台及国外' || s === '国际') s = 'overseas';
+    else if (s === 'global' || s === '全球') { s = ''; if (out.indexOf('cn') === -1) out.push('cn'); if (out.indexOf('overseas') === -1) out.push('overseas'); return; }
+    else return;
+    if (s && out.indexOf(s) === -1) out.push(s);
+  });
+  if (!out.length) out = ['cn', 'overseas'];
+  return out;
+}
+
 /* ---------- 4.1 统一卡片数据接口（资源 / 白嫖 / 公益站共用） ---------- */
 
 /**
@@ -399,6 +438,8 @@ function buildEntry(parsed, groupKey) {
     url: fm.url || '',
     badge: bilingual(fm, 'badge'),
     tags: tags,
+    // ---- 地区归属（三类列表共用）----
+    region: normalizeRegion(fm.region),
     // ---- 时效区间（三类列表共用同一套规则） ----
     period: { from: period.from, to: period.to, shape: periodShape(period) },
     periodLabel: { zh: periodLabel(period, 'zh'), en: periodLabel(period, 'en') },

@@ -25,6 +25,10 @@
       "云服务器",
       "免费额度"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -100,6 +104,10 @@
       "云服务器",
       "静态托管"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -172,6 +180,9 @@
       "限时活动",
       "学生认证"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -243,6 +254,9 @@
       "API 羊毛",
       "免费额度"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -309,6 +323,10 @@
     "tags": [
       "API 羊毛",
       "开发接口"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -377,6 +395,9 @@
       "API 羊毛",
       "免费额度"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -444,6 +465,9 @@
       "国内镜像源",
       "公益镜像"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -497,6 +521,9 @@
     "tags": [
       "国内镜像源",
       "公益镜像"
+    ],
+    "region": [
+      "cn"
     ],
     "period": {
       "from": "",
@@ -552,6 +579,9 @@
       "国内镜像源",
       "公益镜像"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "2026.1.1",
@@ -605,6 +635,10 @@
     "tags": [
       "域名/TLS",
       "免费证书"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -673,6 +707,10 @@
       "域名/TLS",
       "限时活动"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -739,6 +777,10 @@
     "tags": [
       "学生/学习资源",
       "免费额度"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -807,6 +849,9 @@
       "云服务器",
       "免费额度"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -873,6 +918,9 @@
     "tags": [
       "云服务器",
       "免费额度"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -941,6 +989,9 @@
       "API 羊毛",
       "免费额度"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1007,6 +1058,10 @@
     "tags": [
       "API 羊毛",
       "开发接口"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -1075,6 +1130,9 @@
       "国内镜像源",
       "公益镜像"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1129,6 +1187,10 @@
       "国内镜像源",
       "公益镜像"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1182,6 +1244,10 @@
     "tags": [
       "域名/TLS",
       "免费额度"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -1250,6 +1316,10 @@
       "学生/学习资源",
       "免费额度"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1316,6 +1386,10 @@
     "tags": [
       "学生/学习资源",
       "免费额度"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -1384,6 +1458,9 @@
       "Google 服务",
       "免费额度"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1451,6 +1528,9 @@
       "Google 服务",
       "限时活动"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1516,6 +1596,9 @@
     },
     "tags": [
       "Google 服务"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -1584,6 +1667,9 @@
       "Google 服务",
       "免费额度"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1651,6 +1737,9 @@
       "云服务器",
       "限时活动"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -1717,6 +1806,9 @@
     "tags": [
       "云服务器",
       "限时活动"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",

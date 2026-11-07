@@ -19,6 +19,7 @@ org:
   zh: "多家机构"
   en: "Multiple orgs"
 category: api
+region: [cn, overseas]
 tags:
   - "公益 API"
   - "免注册"

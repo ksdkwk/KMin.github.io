@@ -317,6 +317,10 @@
     resourcePeriod: 'all',
     baipiaoPeriod: 'all',
     charityPeriod: 'all',
+    // 地区标签：多选（数组），与属性标签、时间标签三者是 AND 关系
+    resourceRegion: [],
+    baipiaoRegion: [],
+    charityRegion: [],
     // 工具 / 笔记：仍是单选
     toolFilter: 'all',
     noteFilter: 'all',
@@ -329,6 +333,31 @@
 
   /** 时效筛选的三个互斥取值 */
   var PERIOD_OPTIONS = ['all', 'active', 'expired'];
+
+  /**
+   * 地区标签（与属性标签、时间标签并列的第三个维度，同样可多选）。
+   *
+   * 卡片自带的地域归属是数组，只有两种值：
+   *     ['cn']              只在中国大陆
+   *     ['overseas']        只在港澳台及国外
+   *     ['cn','overseas']   不限地区（全球通用）
+   *
+   * 筛选栏三个标签：
+   *     全球           → 不做地区过滤，显示全部
+   *     中国大陆       → 只保留归属里含 cn 的
+   *     港澳台及国外   → 只保留归属里含 overseas 的
+   *   多选取并集（OR）；「全球」优先级最高，勾上即取消地区限制。
+   */
+  function matchRegion(item, pickedRegions) {
+    if (!pickedRegions || !pickedRegions.length) return true;
+    if (pickedRegions.indexOf('global') !== -1) return true;
+
+    var owned = item.region;
+    if (!Array.isArray(owned) || !owned.length) owned = ['cn', 'overseas'];
+    return pickedRegions.some(function (want) {
+      return owned.indexOf(want) !== -1;
+    });
+  }
 
   function t(key, vars) {
     var dict = I18N[state.lang] || I18N.zh;
@@ -614,7 +643,7 @@
    *   - 时间标签：单选，与属性标签是 AND 关系——先按属性筛，再按时间筛
    *   - 关键词：同时搜标题、简介、副标题与全部标签
    */
-  function filterList(list, cats, query, labelMap, period) {
+  function filterList(list, cats, query, labelMap, period, regions) {
     var q = (query || '').trim().toLowerCase();
     var picked = Array.isArray(cats) ? cats : (cats && cats !== 'all' ? [cats] : []);
 
@@ -640,6 +669,9 @@
         if (period === 'expired' && !expired) return false;
         if (period === 'active' && expired) return false;
       }
+
+      // ③ 地区标签：与属性、时间三个维度叠加（AND）
+      if (!matchRegion(item, regions)) return false;
 
       if (!q) return true;
       var hay = [
@@ -677,21 +709,30 @@
       dataKey: 'resources', catKey: 'resource', labelKey: 'resPage',
       filterKey: 'resourceFilter', periodKey: 'resourcePeriod', queryKey: 'resourceQuery',
       grid: '#resourceGrid', count: '#resourceCount', empty: '#resourceEmpty',
-      search: '#resourceSearch', periodBox: '#resourcePeriodFilters',
+      search: '#resourceSearch',
+      topBox: '#resourceTopFilters',
+      periodTopBox: '#resourcePeriodTop', periodBox: '#resourcePeriodFilters',
+      regionTopBox: '#resourceRegionTop', regionBox: '#resourceRegionFilters', regionKey: 'resourceRegion',
       page: 'resources.html'
     },
     baipiao: {
       dataKey: 'baipiao', catKey: 'baipiao', labelKey: 'bpPage',
       filterKey: 'baipiaoFilter', periodKey: 'baipiaoPeriod', queryKey: 'baipiaoQuery',
       grid: '#baipiaoGrid', count: '#baipiaoCount', empty: '#baipiaoEmpty',
-      search: '#baipiaoSearch', periodBox: '#baipiaoPeriodFilters',
+      search: '#baipiaoSearch',
+      topBox: '#baipiaoTopFilters',
+      periodTopBox: '#baipiaoPeriodTop', periodBox: '#baipiaoPeriodFilters',
+      regionTopBox: '#baipiaoRegionTop', regionBox: '#baipiaoRegionFilters', regionKey: 'baipiaoRegion',
       page: 'baipiao.html'
     },
     charity: {
       dataKey: 'charity', catKey: 'charity', labelKey: 'chPage',
       filterKey: 'charityFilter', periodKey: 'charityPeriod', queryKey: 'charityQuery',
       grid: '#charityGrid', count: '#charityCount', empty: '#charityEmpty',
-      search: '#charitySearch', periodBox: '#charityPeriodFilters',
+      search: '#charitySearch',
+      topBox: '#charityTopFilters',
+      periodTopBox: '#charityPeriodTop', periodBox: '#charityPeriodFilters',
+      regionTopBox: '#charityRegionTop', regionBox: '#charityRegionFilters', regionKey: 'charityRegion',
       page: 'charity.html'
     }
   };
@@ -709,7 +750,8 @@
       state[g.filterKey],
       state[g.queryKey],
       catLabelMap(g.catKey),
-      g.periodKey ? state[g.periodKey] : 'all'
+      g.periodKey ? state[g.periodKey] : 'all',
+      g.regionKey ? state[g.regionKey] : []
     );
     var shown = applyLimit(list, g.grid);
 
@@ -1108,6 +1150,9 @@
 
       box.innerHTML = '';
       var isMulti = cfg[3] === 'multi';
+      // 顶级标签（全部）单独一列，二级标签放另一列
+      var topBox = isMulti ? $((LIST_GROUPS[cfg[1]] || {}).topBox) : null;
+      if (topBox) topBox.innerHTML = '';
 
       cats.forEach(function (cat) {
         var count = cat.id === 'all'
@@ -1118,7 +1163,11 @@
           ? (cat.id === 'all' ? !state[cfg[2]].length : state[cfg[2]].indexOf(cat.id) !== -1)
           : state[cfg[2]] === cat.id;
 
-        var btn = el('button', 'chip' + (active ? ' is-active' : ''));
+        // 「全部」是顶级标签，其余是二级标签
+        var isTop = cat.id === 'all';
+        var cls = 'chip' + (isTop ? ' chip-top' : '') + (active ? ' is-active' : '');
+
+        var btn = el('button', cls);
         btn.type = 'button';
         btn.setAttribute('aria-pressed', String(active));
         btn.setAttribute('data-cat', cat.id);
@@ -1142,11 +1191,17 @@
           else if (cfg[1] === 'baipiao') renderBaipiao();
           else if (cfg[1] === 'charity') renderCharity();
         });
-        box.appendChild(btn);
+
+        // 顶级标签进顶级列，其余进二级列
+        if (isTop && topBox) topBox.appendChild(btn);
+        else box.appendChild(btn);
       });
 
-      // 属性标签右侧追加时间维度筛选（三类列表才有）
-      if (isMulti) renderPeriodChips(cfg[1]);
+      // 三类列表还有时间、地区两个维度，各自一行，同样拆顶级/二级
+      if (isMulti) {
+        renderPeriodChips(cfg[1]);
+        renderRegionChips(cfg[1]);
+      }
     });
 
     // 笔记标签筛选（从数据动态生成）
@@ -1204,8 +1259,9 @@
     var all = DATA[g.dataKey] || [];
     var current = state[g.periodKey];
 
-    // 计数口径：先应用属性标签，再统计该子集里各种时效的数量
-    var scoped = filterList(all, state[g.filterKey], '', catLabelMap(g.catKey), 'all');
+    // 计数口径：先应用属性标签、关键词、地区标签，再统计该子集里各种时效的数量
+    var scoped = filterList(all, state[g.filterKey], state[g.queryKey], catLabelMap(g.catKey), 'all',
+      g.regionKey ? state[g.regionKey] : []);
     var expiredCount = scoped.filter(function (x) { return isExpired(x); }).length;
     var activeCount = scoped.length - expiredCount;
 
@@ -1216,9 +1272,15 @@
     };
     var counts = { all: scoped.length, active: activeCount, expired: expiredCount };
 
+    // 「所有时间」是顶级标签（= 不过滤），单独放一列；其余是二级标签
+    var topBox = $(g.periodTopBox);
+    if (topBox) topBox.innerHTML = '';
     box.innerHTML = '';
+
     PERIOD_OPTIONS.forEach(function (key) {
-      var btn = el('button', 'chip chip-period' + (current === key ? ' is-active' : ''));
+      var isTop = key === 'all';
+      var btn = el('button', 'chip chip-period' + (isTop ? ' chip-top' : '') +
+        (current === key ? ' is-active' : ''));
       btn.type = 'button';
       btn.setAttribute('aria-pressed', String(current === key));
       btn.setAttribute('data-period', key);
@@ -1228,7 +1290,9 @@
         renderFilters();
         renderEntryGrid(groupKey);
       });
-      box.appendChild(btn);
+
+      if (isTop && topBox) topBox.appendChild(btn);
+      else box.appendChild(btn);
     });
   }
 
@@ -1293,6 +1357,70 @@
         });
       });
     });
+  }
+
+  /** 地区标签：中国大陆 / 港澳台及国外 / 全球，可多选，与属性、时间三者叠加 */
+  function renderRegionChips(groupKey) {
+    var g = LIST_GROUPS[groupKey];
+    if (!g || !g.regionBox) return;
+    var box = $(g.regionBox);
+    if (!box) return;
+
+    var all = DATA[g.dataKey] || [];
+    var current = state[g.regionKey];
+    var regions = (DATA.categories && DATA.categories.regions) || [];
+
+    // 计数口径：在当前属性+时间筛选结果里，各地域有多少条
+    var base = filterList(all, state[g.filterKey], state[g.queryKey], catLabelMap(g.catKey),
+      g.periodKey ? state[g.periodKey] : 'all', []);
+
+    // 「全球」是顶级标签（= 不过滤），单独放一列；其余是二级标签
+    var topBox = $(g.regionTopBox);
+    if (topBox) topBox.innerHTML = '';
+    box.innerHTML = '';
+
+    regions.forEach(function (reg) {
+      var isGlobal = reg.id === 'global';
+      var count = isGlobal
+        ? base.length
+        : base.filter(function (it) { return matchRegion(it, [reg.id]); }).length;
+
+      var active = isGlobal ? current.length === 0 : current.indexOf(reg.id) !== -1;
+      var btn = el('button', 'chip chip-region' +
+        (isGlobal ? ' chip-region-all chip-top' : '') +
+        (active ? ' is-active' : ''));
+      btn.type = 'button';
+      btn.setAttribute('aria-pressed', String(active));
+      btn.setAttribute('data-region', reg.id);
+      btn.innerHTML = esc(pick(reg.label, state.lang)) + '<span class="chip-count">' + count + '</span>';
+
+      on(btn, 'click', function () {
+        toggleRegionFilter(groupKey, reg.id);
+        renderFilters();
+        renderEntryGrid(groupKey);
+      });
+
+      if (isGlobal && topBox) topBox.appendChild(btn);
+      else box.appendChild(btn);
+    });
+  }
+
+  /** 地区标签可多选；勾「全球」等于取消地区限制，其它地区自动清空 */
+  function toggleRegionFilter(groupKey, regionId) {
+    var g = LIST_GROUPS[groupKey];
+    if (!g || !g.regionKey) return;
+    var key = g.regionKey;
+
+    if (regionId === 'global') {
+      // 全球 = 不过滤，等价于清空所有已选地区
+      state[key] = [];
+      return;
+    }
+
+    var list = state[key].slice();
+    var i = list.indexOf(regionId);
+    if (i === -1) list.push(regionId); else list.splice(i, 1);
+    state[key] = list;
   }
 
   function renderAbout() {
@@ -1538,8 +1666,9 @@
         var hasCat = isMulti ? state[cfg[2]].length > 0 : state[cfg[2]] !== 'all';
         if (q.trim() && hasCat) {
           state[cfg[2]] = isMulti ? [] : 'all';
-          renderFilters();
         }
+        // 关键词变化也要刷新筛选栏，否则时间/地区 chip 上的计数会停留在旧结果
+        renderFilters();
         cfg[3]();
       });
 

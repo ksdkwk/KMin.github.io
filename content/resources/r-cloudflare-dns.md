@@ -16,6 +16,7 @@ badge:
   en: Free
 provider: Cloudflare
 requirements: 需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF 与自定义证书托管。
+region: [cn, overseas]
 tags:
   - 域名/TLS
   - 免费额度

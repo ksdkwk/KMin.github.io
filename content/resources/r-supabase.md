@@ -16,6 +16,7 @@ badge:
   en: Sleeps
 provider: Supabase
 requirements: 免费库闲置约一周会被暂停，需手动恢复；生产环境请升级付费计划。
+region: overseas
 tags:
   - 云服务器
   - 免费额度

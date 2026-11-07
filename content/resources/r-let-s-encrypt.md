@@ -16,6 +16,7 @@ badge:
   en: Free
 provider: ISRG
 requirements: 证书有效期 90 天，需配置自动续期；单域名每周签发次数有上限。
+region: [cn, overseas]
 tags:
   - 域名/TLS
   - 免费证书

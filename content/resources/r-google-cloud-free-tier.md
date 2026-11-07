@@ -17,6 +17,7 @@ badge:
   en: New accounts
 provider: Google Cloud
 requirements: 需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。
+region: overseas
 tags:
   - Google 服务
   - 限时活动

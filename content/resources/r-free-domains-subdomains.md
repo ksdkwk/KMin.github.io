@@ -17,6 +17,7 @@ badge:
   en: Caution
 provider: eu.org 等
 requirements: 免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。
+region: [cn, overseas]
 tags:
   - 域名/TLS
   - 限时活动

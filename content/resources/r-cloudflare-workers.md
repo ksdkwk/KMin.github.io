@@ -16,6 +16,7 @@ badge:
   en: Long-term
 provider: Cloudflare
 requirements: 需注册 Cloudflare 账号；免费额度每日 10 万次请求，超出按量计费。
+region: [cn, overseas]
 tags:
   - 云服务器
   - 免费额度

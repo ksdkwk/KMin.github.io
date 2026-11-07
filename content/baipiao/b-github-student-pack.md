@@ -20,6 +20,7 @@ expire:
 categories:
   - student
   - api
+region: [cn, overseas]
 tags:
   - "学生权益"
   - "免费 API"

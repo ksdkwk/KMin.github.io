@@ -15,7 +15,7 @@
   <meta name="twitter:card" content="summary" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/img/favicon.svg" />
-  <link rel="stylesheet" href="assets/css/style.css?v=20261108e" />
+  <link rel="stylesheet" href="assets/css/style.css?v=202611092" />
   <script>
     (function () {
       var d = document.documentElement;
@@ -126,15 +126,34 @@
       <div class="container">
         <div class="filter-bar reveal">
           <div class="filter-row">
-            <div class="chips" id="resourceFilters" role="group" aria-label="资源分类" aria-multiselectable="true"></div>
-            <div class="chips chips-period" id="resourcePeriodFilters" role="group" aria-label="时效筛选"></div>
+
+            <!-- 属性标签：左侧顶级标签（全部），右侧二级标签，每行最多 6 个 -->
+            <div class="filter-line" role="group" aria-label="资源分类">
+              <div class="chips chips-top" id="resourceTopFilters"></div>
+              <div class="chips chips-sub" id="resourceFilters" aria-multiselectable="true"></div>
+            </div>
+
+            <!-- 时间标签 -->
+            <div class="filter-line" role="group" aria-label="时效筛选">
+              <div class="chips chips-top" id="resourcePeriodTop"></div>
+              <div class="chips chips-sub chips-period" id="resourcePeriodFilters"></div>
+            </div>
+
+            <!-- 地区标签 -->
+            <div class="filter-line" role="group" aria-label="地区筛选">
+              <div class="chips chips-top" id="resourceRegionTop"></div>
+              <div class="chips chips-sub chips-region" id="resourceRegionFilters" aria-multiselectable="true"></div>
+            </div>
+
           </div>
+        </div>
+        <div class="result-bar">
+          <p class="result-count" id="resourceCount" aria-live="polite"></p>
           <label class="filter-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
             <input type="search" id="resourceSearch" data-i18n-placeholder="resPage.filter" placeholder="在本页筛选资源…" />
           </label>
         </div>
-        <p class="result-count" id="resourceCount" aria-live="polite"></p>
         <div class="card-grid" id="resourceGrid"></div>
         <p class="empty-state" id="resourceEmpty" hidden>
           <span data-i18n="resPage.empty">没有匹配的资源。换个关键词，或切回「全部」。</span>
@@ -184,7 +203,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M12 5 6.5 10.5M12 5l5.5 5.5" /></svg>
   </button>
 
-  <script src="assets/js/data-loader.js?v=20261108e"></script>
-  <script src="assets/js/main.js?v=20261108e"></script>
+  <script src="assets/js/data-loader.js?v=202611092"></script>
+  <script src="assets/js/main.js?v=202611092"></script>
 </body>
 </html>

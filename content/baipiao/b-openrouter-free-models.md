@@ -20,6 +20,7 @@ expire:
   en: "May change"
 categories:
   - api
+region: overseas
 tags:
   - "免费 API"
   - "有限速"

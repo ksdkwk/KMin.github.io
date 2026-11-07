@@ -25,6 +25,9 @@
       "免费 API",
       "需手机实名"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -99,6 +102,10 @@
       "免费 API",
       "VPS/服务器",
       "需绑卡"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -176,6 +183,10 @@
       "免费 API",
       "需学生认证"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -251,6 +262,9 @@
       "免费 API",
       "有限速"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -320,6 +334,9 @@
     "tags": [
       "免费 API",
       "每月刷新"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -392,6 +409,9 @@
       "免费 API",
       "每月刷新"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -463,6 +483,9 @@
       "VPS/服务器",
       "首年低价"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -532,6 +555,9 @@
     "tags": [
       "VPS/服务器",
       "首年低价"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",

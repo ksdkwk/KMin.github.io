@@ -16,6 +16,7 @@ badge:
   en: Stable
 provider: GitHub
 requirements: 未认证 60 次/小时，带 Token 5000 次/小时；请勿高频轮询，建议加缓存。
+region: [cn, overseas]
 tags:
   - API 羊毛
   - 开发接口

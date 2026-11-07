@@ -17,6 +17,7 @@ badge:
   en: Check renewal
 provider: 雨云
 requirements: 首年低价，续费价格明显上涨；购买前务必确认续费价与退款政策。
+region: cn
 tags:
   - 云服务器
   - 限时活动

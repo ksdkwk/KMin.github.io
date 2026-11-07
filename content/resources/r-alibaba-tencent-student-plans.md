@@ -17,6 +17,7 @@ badge:
   en: Verified only
 provider: 阿里云 / 腾讯云
 requirements: 需通过学生身份认证；首年优惠价，续费恢复原价，购买前先算三年总价。
+region: cn
 tags:
   - 云服务器
   - 限时活动

@@ -19,6 +19,7 @@ org:
   zh: "NTP Pool 社区"
   en: "NTP Pool"
 category: api
+region: [cn, overseas]
 tags:
   - "公益 API"
   - "免注册"

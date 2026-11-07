@@ -16,6 +16,7 @@ badge:
   en: Capped
 provider: Google
 requirements: 免费额度按每日提问次数限制；上传文档有数量与体积上限。
+region: overseas
 tags:
   - Google 服务
 detail:

@@ -1485,14 +1485,15 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
 #noteFilters { scrollbar-width: thin; }
 .filter-bar {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 14px;
+  gap: 18px;
   flex-wrap: nowrap;
   margin-bottom: 18px;
 }
-/* 左侧分类与右侧搜索固定在同一行；分类过多时自身横向滚动 */
-.filter-bar .chips {
+/* 单层筛选栏（工具页 / 笔记页）：分类过多时自身横向滚动。
+   只匹配 .filter-bar 的直接子级，避免误伤资源/白嫖/公益站的三层结构。 */
+.filter-bar > .chips {
   flex: 1 1 0;
   min-width: 0;
   flex-wrap: nowrap;
@@ -1502,9 +1503,9 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
 }
-.filter-bar .chips .chip { flex: none; }
-.filter-bar .chips::-webkit-scrollbar { height: 5px; }
-.filter-bar .chips::-webkit-scrollbar-thumb {
+.filter-bar > .chips .chip { flex: none; }
+.filter-bar > .chips::-webkit-scrollbar { height: 5px; }
+.filter-bar > .chips::-webkit-scrollbar-thumb {
   background: var(--line-soft);
   border-radius: 3px;
 }
@@ -1542,52 +1543,144 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
 .filter-search input::placeholder { color: var(--ink-mute); }
 .filter-search input::-webkit-search-cancel-button { display: none; }
 
-/* ---------- 多选属性标签 + 时间维度筛选 ---------- */
+/* ==========================================================================
+   筛选栏：三个维度各自一行，每行「顶级标签 | 二级标签」两列
+   ========================================================================== */
 
-/* 分类行：上面一排属性标签（可多选），下面一排时间标签，两组各自横向滚动 */
 .filter-row {
   flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+/* 每一行：左侧顶级标签固定宽度一列，右侧二级标签占满剩余宽度 */
+.filter-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* 顶级标签列：固定宽度 + 右侧竖线，视觉上跟二级标签分开。
+   固定 min-width 是为了让三行的二级标签左边缘对齐，不会参差不齐。 */
+.chips-top {
+  flex: 0 0 auto;
+  display: flex;
   gap: 8px;
-}
-
-.filter-row .chips {
-  flex: none;
-  width: 100%;
   margin-bottom: 0;
-  padding-bottom: 4px;
+  padding-right: 14px;
+  border-right: 1.5px dashed var(--line-soft);
+  min-width: 130px;
+  min-height: 36px;
+  align-items: center;
 }
 
-/* 时间维度：用细分隔线跟属性标签区分开，视觉上表明是另一个维度 */
-.chips-period {
-  padding-top: 2px;
+.chips-top .chip { white-space: nowrap; }
+
+/* 三行结构里的两组标签都由 grid / flex 负责排布，禁用旧规则的横向滚动 */
+.filter-bar .filter-line > .chips {
+  flex: none;
+  overflow: visible;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  width: auto;
 }
 
-.chip-period {
-  padding: 5px 14px;
-  font-size: 12.5px;
-  background: var(--bg-soft);
+/* 二级标签列：一行最多 6 个，第 7 个起自动折到下一行。
+   minmax(auto, max-content) 让标签按自身文字宽度排布，不压扁、不截断。 */
+.filter-bar .filter-line > .chips-sub {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(auto, max-content));
+  gap: 8px;
+  margin-bottom: 0;
+  align-content: start;
 }
 
-.chip-period.is-active {
-  background: var(--accent-deep);
+.chips-sub .chip {
+  white-space: nowrap;
+  justify-content: center;
 }
 
-/* 多选态：选中的属性标签右上角带一个对勾，明确「可以多选」 */
-.chips[aria-multiselectable="true"] .chip.is-active::after {
+/* 顶级标签：加粗描边，跟二级标签区分开 */
+.chip-top {
+  background: var(--surface-alt);
+  border-width: 2px;
+  font-weight: 800;
+}
+.chip-top.is-active {
+  background: var(--accent);
+}
+
+/* 时间 / 地区两个维度的二级标签仍保留各自的识别特征 */
+.chip-period { background: var(--bg-soft); }
+.chip-period.is-active { background: var(--accent-deep); }
+
+.chip-region {
+  border-style: dashed;
+  background: var(--bg);
+}
+.chip-region.is-active {
+  border-style: solid;
+  background: var(--accent);
+}
+
+/* 多选态的对勾；「全球」是总开关，不带对勾 */
+.chips-sub[aria-multiselectable="true"] .chip.is-active:not(.chip-region-all)::after {
   content: "✓";
   margin-left: 6px;
   font-size: 11px;
   font-weight: 900;
 }
 
-/* 窄屏时两组标签各自占一行 */
+/* 顶级标签被选中时同样给出对勾（属性「全部」除外，它表示"不筛选"） */
+.chips-top .chip-top.is-active:not([data-cat="all"])::after {
+  content: "✓";
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+/* 结果计数 + 搜索框同一行：左边「共 N 条」，右边搜索 */
+.result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.result-bar .result-count { margin: 0; }
+.result-bar .filter-search {
+  min-width: 240px;
+  max-width: 320px;
+  height: 40px;
+  box-shadow: none;
+}
+.result-bar .filter-search:focus-within { box-shadow: var(--shadow-sm); }
+
+/* 窄屏：顶级标签与二级标签改为上下排列，二级标签每行 3 个 */
 @media (max-width: 900px) {
-  .filter-bar { flex-wrap: wrap; }
-  .filter-row { flex: 1 1 100%; }
-  .filter-search { flex: 1 1 100%; max-width: none; }
+  .result-bar { flex-wrap: wrap; }
+  .result-bar .filter-search { flex: 1 1 100%; max-width: none; }
+  .filter-line { flex-wrap: wrap; }
+  .chips-top {
+    padding-right: 0;
+    border-right: 0;
+    border-bottom: 1.5px dashed var(--line-soft);
+    padding-bottom: 8px;
+    width: 100%;
+  }
+  .chips-sub {
+    grid-template-columns: repeat(3, minmax(auto, max-content));
+    padding-top: 8px;
+  }
+}
+
+@media (max-width: 520px) {
+  .chips-sub { grid-template-columns: repeat(2, minmax(auto, max-content)); }
 }
 
 .result-count {
@@ -1785,7 +1878,7 @@ html[data-theme="dark"] .copy-btn.is-copied { color: var(--ok); }
 
 @media (max-width: 640px) {
   .filter-bar { flex-direction: column; align-items: stretch; flex-wrap: wrap; }
-  .filter-bar .chips { flex: 1 1 auto; }
+  .filter-bar > .chips { flex: 1 1 auto; }
   .filter-search { max-width: none; width: 100%; }
   .page-stats { width: 100%; }
   .page-stats > div { flex: 1; padding: 10px 8px; }

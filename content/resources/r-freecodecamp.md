@@ -16,6 +16,7 @@ badge:
   en: Free
 provider: freeCodeCamp
 requirements: 完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。
+region: [cn, overseas]
 tags:
   - 学生/学习资源
   - 免费额度

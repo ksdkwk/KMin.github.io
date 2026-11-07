@@ -19,6 +19,7 @@ org:
   zh: "清华大学"
   en: "Tsinghua University"
 category: mirror
+region: cn
 tags:
   - "公益镜像"
   - "容器镜像"

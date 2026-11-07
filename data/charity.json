@@ -25,6 +25,9 @@
       "公益镜像",
       "教育网加速"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -94,6 +97,9 @@
     "tags": [
       "公益镜像",
       "容器镜像"
+    ],
+    "region": [
+      "cn"
     ],
     "period": {
       "from": "",
@@ -165,6 +171,9 @@
       "公益镜像",
       "全国直连"
     ],
+    "region": [
+      "cn"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -234,6 +243,10 @@
     "tags": [
       "公益 API",
       "免注册"
+    ],
+    "region": [
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -305,6 +318,10 @@
       "公益 API",
       "免注册"
     ],
+    "region": [
+      "cn",
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -374,6 +391,9 @@
     "tags": [
       "公益工具",
       "免注册"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",
@@ -445,6 +465,9 @@
       "公益工具",
       "免注册"
     ],
+    "region": [
+      "overseas"
+    ],
     "period": {
       "from": "",
       "to": "",
@@ -514,6 +537,9 @@
     "tags": [
       "公益工具",
       "免注册"
+    ],
+    "region": [
+      "overseas"
     ],
     "period": {
       "from": "",

@@ -16,6 +16,7 @@ badge:
   en: Free tier
 provider: Vercel / Netlify
 requirements: 个人项目免费；商用需确认条款；超额会暂停服务到下个计费周期。
+region: overseas
 tags:
   - 云服务器
   - 免费额度

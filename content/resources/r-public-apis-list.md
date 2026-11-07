@@ -17,6 +17,7 @@ badge:
   en: Open source
 provider: 社区（GitHub）
 requirements: 清单为社区维护，接口可用性需自行验证；部分接口需申请 Key 或有调用限制。
+region: [cn, overseas]
 tags:
   - API 羊毛
   - 开发接口

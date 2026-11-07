@@ -17,6 +17,7 @@ badge:
   en: Backup
 provider: 中科大 / 阿里云
 requirements: 公益服务，请控制请求频率；建议作为主镜像的备用上游一起配置。
+region: cn
 tags:
   - 国内镜像源
   - 公益镜像
