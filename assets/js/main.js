@@ -171,7 +171,11 @@
       'aboutPage.storyTitle': '我在做什么',
       'aboutPage.story3': '资源页里的每条记录都自己验证过一遍才写进去；工具页只放真的装了、用了一个月以上的。宁可少收，也不想让你点进去发现是坑。',
       'aboutPage.elsewhere': '在别处',
-      'aboutPage.email': '邮箱',
+      'aboutPage.email': '主邮箱',
+      'aboutPage.email2': '备用邮箱',
+      'aboutPage.copy': '复制',
+      'aboutPage.copied': '已复制',
+      'aboutPage.copyMail': '复制邮箱地址',
       'aboutPage.entries': '{n} 条收录',
       'aboutPage.site': '这个站点',
       'aboutPage.spec1': '技术栈', 'aboutPage.spec2': '依赖', 'aboutPage.spec3': '托管', 'aboutPage.spec4': '更新',
@@ -291,7 +295,11 @@
       'aboutPage.storyTitle': 'What I am working on',
       'aboutPage.story3': 'Every resource is verified before it goes in; tools only make the list after a month of real use. I would rather list less than send you into a dead end.',
       'aboutPage.elsewhere': 'Elsewhere',
-      'aboutPage.email': 'Email',
+      'aboutPage.email': 'Primary email',
+      'aboutPage.email2': 'Backup email',
+      'aboutPage.copy': 'Copy',
+      'aboutPage.copied': 'Copied',
+      'aboutPage.copyMail': 'Copy email address',
       'aboutPage.entries': '{n} entries',
       'aboutPage.site': 'This site',
       'aboutPage.spec1': 'Stack', 'aboutPage.spec2': 'Dependencies', 'aboutPage.spec3': 'Hosting', 'aboutPage.spec4': 'Updated',
@@ -1224,6 +1232,69 @@
     });
   }
 
+  /* ---------- 复制按钮（邮箱等） ---------- */
+
+  /**
+   * 复制文本：优先异步 Clipboard API（https 和 localhost 可用），
+   * file:// 或旧浏览器回退到隐藏 textarea + execCommand。
+   */
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return legacyCopy(text);
+  }
+
+  function legacyCopy(text) {
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      ok ? resolve() : reject(new Error('copy failed'));
+    });
+  }
+
+  /** 给 [data-copy] 按钮绑定点击复制，并在按钮上给出短暂反馈 */
+  function initCopyButtons() {
+    $$('[data-copy]').forEach(function (btn) {
+      if (btn.dataset.copyBound) return;
+      btn.dataset.copyBound = '1';
+
+      var label = btn.querySelector('.copy-btn-text');
+      var original = label ? label.textContent : '';
+      var timer = null;
+
+      on(btn, 'click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        copyText(btn.getAttribute('data-copy')).then(function () {
+          btn.classList.add('is-copied');
+          if (label) label.textContent = t('aboutPage.copied');
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            btn.classList.remove('is-copied');
+            if (label) label.textContent = t('aboutPage.copy');
+          }, 1600);
+        }).catch(function (err) {
+          if (window.console && console.warn) console.warn('[KMin] 复制失败:', err);
+          if (label) {
+            label.textContent = '×';
+            setTimeout(function () { label.textContent = original; }, 1600);
+          }
+        });
+      });
+    });
+  }
+
   function renderAbout() {
     var timeline = $('#timeline');
     if (timeline) {
@@ -1768,6 +1839,7 @@
       ['initPageFilters', initPageFilters],
       ['initScroll', initScroll],
       ['initReveal', initReveal],
+      ['initCopyButtons', initCopyButtons],
       ['applyStaticText', applyStaticText],
       // 详情页没有列表容器，跳过列表渲染
       ['renderAll', isDetail ? function () {} : renderAll],

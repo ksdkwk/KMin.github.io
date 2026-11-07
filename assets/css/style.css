@@ -1685,6 +1685,77 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
   white-space: nowrap;
 }
 
+/* ---------- 邮箱行 + 复制按钮 ---------- */
+
+/* 邮箱条目：正文是链接，右侧并排放复制按钮 */
+.ew-mail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.ew-mail-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.16s var(--ease);
+}
+.ew-mail-main:hover { background: var(--surface-alt); }
+
+.copy-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--line);
+  transition: transform 0.16s var(--ease), box-shadow 0.16s var(--ease),
+              background-color 0.16s var(--ease), color 0.16s var(--ease);
+}
+.copy-btn svg { width: 13px; height: 13px; flex: none; }
+.copy-btn:hover {
+  background: var(--accent-soft);
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-sm);
+}
+.copy-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+.copy-btn:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 2px;
+}
+
+/* 复制成功后的短暂反馈 */
+.copy-btn.is-copied {
+  background: var(--ok-soft);
+  border-color: var(--ok);
+  color: #2f6b43;
+  box-shadow: none;
+}
+html[data-theme="dark"] .copy-btn.is-copied { color: var(--ok); }
+
+/* 窄屏：邮箱要看得全，复制按钮不换行挤压 */
+@media (max-width: 480px) {
+  .ew-body small { white-space: normal; word-break: break-all; }
+  .copy-btn-text { display: none; }
+  .copy-btn { padding: 7px 9px; }
+}
+
 .spec-list { display: flex; flex-direction: column; gap: 0; }
 .spec-list li {
   display: flex;
