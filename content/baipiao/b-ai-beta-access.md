@@ -22,6 +22,7 @@ category: lottery
 tags:
   - "抽奖福利"
   - "失效"
+  - "名额有限"
 detail:
   quota: "新模型上线前常放内测名额，官方 Discord 或社区会发邀请码，靠运气。"
   limit: "以官方活动页说明为准。"

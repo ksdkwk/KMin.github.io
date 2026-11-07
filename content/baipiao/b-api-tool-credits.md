@@ -22,6 +22,7 @@ category: lottery
 tags:
   - "抽奖福利"
   - "长期有效"
+  - "活动制"
 detail:
   quota: "部分 API 聚合平台会做注册送额度的活动，金额不大，够验证一次想法。"
   limit: "以官方活动页说明为准。"

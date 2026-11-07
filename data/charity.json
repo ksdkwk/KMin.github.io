@@ -2,6 +2,7 @@
   {
     "id": "c-ustc-open-source-mirror",
     "order": 1,
+    "group": "charity",
     "name": {
       "zh": "中科大开源镜像",
       "en": "USTC open-source mirror"
@@ -20,15 +21,20 @@
       "zh": "长期",
       "en": "Long-term"
     },
+    "tags": [
+      "公益镜像",
+      "长期有效",
+      "教育网加速"
+    ],
+    "category": "mirror",
+    "pageCat": "mirror",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "中国科学技术大学",
       "en": "USTC"
     },
-    "tags": [
-      "公益镜像",
-      "长期有效"
-    ],
-    "pageCat": "mirror",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -54,6 +60,7 @@
   {
     "id": "c-tsinghua-tuna-mirror",
     "order": 2,
+    "group": "charity",
     "name": {
       "zh": "清华 TUNA 镜像",
       "en": "Tsinghua TUNA mirror"
@@ -72,15 +79,20 @@
       "zh": "长期",
       "en": "Long-term"
     },
+    "tags": [
+      "公益镜像",
+      "长期有效",
+      "容器镜像"
+    ],
+    "category": "mirror",
+    "pageCat": "mirror",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "清华大学",
       "en": "Tsinghua University"
     },
-    "tags": [
-      "公益镜像",
-      "长期有效"
-    ],
-    "pageCat": "mirror",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -106,6 +118,7 @@
   {
     "id": "c-aliyun-open-source-mirror",
     "order": 3,
+    "group": "charity",
     "name": {
       "zh": "阿里云开源镜像站",
       "en": "Aliyun open-source mirror"
@@ -124,15 +137,20 @@
       "zh": "长期",
       "en": "Long-term"
     },
+    "tags": [
+      "公益镜像",
+      "长期有效",
+      "全国直连"
+    ],
+    "category": "mirror",
+    "pageCat": "mirror",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "阿里云",
       "en": "Alibaba Cloud"
     },
-    "tags": [
-      "公益镜像",
-      "长期有效"
-    ],
-    "pageCat": "mirror",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -158,6 +176,7 @@
   {
     "id": "c-public-dns-resolvers",
     "order": 4,
+    "group": "charity",
     "name": {
       "zh": "公共 DNS 服务",
       "en": "Public DNS resolvers"
@@ -176,15 +195,20 @@
       "zh": "免注册",
       "en": "No signup"
     },
+    "tags": [
+      "公益 API",
+      "长期有效",
+      "免注册"
+    ],
+    "category": "api",
+    "pageCat": "api",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "多家机构",
       "en": "Multiple orgs"
     },
-    "tags": [
-      "公益 API",
-      "长期有效"
-    ],
-    "pageCat": "api",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -210,6 +234,7 @@
   {
     "id": "c-public-ntp-pool",
     "order": 5,
+    "group": "charity",
     "name": {
       "zh": "公共时间同步 NTP",
       "en": "Public NTP pool"
@@ -228,15 +253,20 @@
       "zh": "免注册",
       "en": "No signup"
     },
+    "tags": [
+      "公益 API",
+      "长期有效",
+      "免注册"
+    ],
+    "category": "api",
+    "pageCat": "api",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "NTP Pool 社区",
       "en": "NTP Pool"
     },
-    "tags": [
-      "公益 API",
-      "长期有效"
-    ],
-    "pageCat": "api",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -262,6 +292,7 @@
   {
     "id": "c-can-i-use",
     "order": 6,
+    "group": "charity",
     "name": {
       "zh": "Can I use",
       "en": "Can I use"
@@ -280,15 +311,20 @@
       "zh": "免费",
       "en": "Free"
     },
+    "tags": [
+      "公益工具",
+      "长期有效",
+      "免注册"
+    ],
+    "category": "tool",
+    "pageCat": "tool",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "社区维护",
       "en": "Community"
     },
-    "tags": [
-      "公益工具",
-      "长期有效"
-    ],
-    "pageCat": "tool",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -314,6 +350,7 @@
   {
     "id": "c-regex101",
     "order": 7,
+    "group": "charity",
     "name": {
       "zh": "Regex101",
       "en": "Regex101"
@@ -332,15 +369,20 @@
       "zh": "免费",
       "en": "Free"
     },
+    "tags": [
+      "公益工具",
+      "长期有效",
+      "免注册"
+    ],
+    "category": "tool",
+    "pageCat": "tool",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "社区维护",
       "en": "Community"
     },
-    "tags": [
-      "公益工具",
-      "长期有效"
-    ],
-    "pageCat": "tool",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",
@@ -366,6 +408,7 @@
   {
     "id": "c-carbon-ray-so",
     "order": 8,
+    "group": "charity",
     "name": {
       "zh": "Carbon / Ray.so",
       "en": "Carbon / Ray.so"
@@ -384,15 +427,20 @@
       "zh": "免费",
       "en": "Free"
     },
+    "tags": [
+      "公益工具",
+      "长期有效",
+      "免注册"
+    ],
+    "category": "tool",
+    "pageCat": "tool",
+    "provider": "",
+    "requirements": "",
+    "expire": null,
     "org": {
       "zh": "社区维护",
       "en": "Community"
     },
-    "tags": [
-      "公益工具",
-      "长期有效"
-    ],
-    "pageCat": "tool",
     "detail": {
       "quota": "完全免费，由维护方自费提供。",
       "limit": "公益服务，禁止压测、批量抓取和商业用途。",

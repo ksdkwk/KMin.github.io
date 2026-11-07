@@ -176,7 +176,39 @@ tags:
 
 ---
 
-## 六、工具、笔记、白嫖、公益站的特殊字段
+## 六、统一卡片数据结构（资源 / 白嫖 / 公益站）
+
+资源、白嫖、公益站三类条目**共用同一套数据接口**，构建后每条都长这样：
+
+```js
+{
+  id, order,                // 标识与排序
+  group,                    // 'resource' | 'baipiao' | 'charity'
+  name, tag, desc, badge,   // 双语对象 { zh, en }
+  logo, url,                // 卡片角标与官网直达链接
+  tags: [],                 // 标签数组，第一个分类标签决定头部展示
+  category,                 // 分类 id（resource: server/domain…；
+                            //  baipiao: quota/api/event/lottery；
+                            //  charity: mirror/api/tool）
+  // 可选扩展槽位，由 group 决定卡片上显示哪一条：
+  provider, requirements,   // 资源：来源署名 + 红框使用要求
+  expire,                   // 白嫖：有效期
+  org,                      // 公益站：维护方
+  detail, guide             // 详情页数据表与教程
+}
+```
+
+渲染侧只有一个组件 `buildEntryCard(item, i, groupKey)` 和一个列表渲染器
+`renderEntryGrid(groupKey)`，三张列表页都走这条路径；页面差异（容器、统计口径、
+附加元信息）登记在 `LIST_GROUPS` / `GROUP_STATS` / `ENTRY_META` 三张配置表里，
+新增一类列表只要各加一项，不用再复制一遍渲染代码。
+
+> 资源卡片的 `category` 在构建期由 `tags` 里的分类中文名自动折算，
+> 白嫖/公益站沿用 Markdown 里的 `category` 字段；两类写法都兼容，前端只看 `category`。
+
+---
+
+## 七、工具、笔记的特殊字段
 
 ### 工具 `content/tools/*.md`
 
@@ -198,10 +230,10 @@ url: "https://code.visualstudio.com/"
 
 ### 白嫖 `content/baipiao/*.md`
 
-在资源字段基础上增加：
+在资源字段基础上增加两个字段（与资源共用同一套卡片组件）：
 
 ```yaml
-expire:
+expire:                # 卡片上「有效期」那一行
   zh: "长期有效"
   en: "Ongoing"
 category: quota        # quota / api / event / lottery
@@ -210,11 +242,15 @@ category: quota        # quota / api / event / lottery
 ### 公益站 `content/charity/*.md`
 
 ```yaml
-org:
+org:                   # 卡片上「维护方」那一行
   zh: "清华大学"
   en: "Tsinghua University"
 category: mirror       # mirror / api / tool
 ```
+
+> 三类卡片的公共信息完全一致：都是「logo + 名称 + 副标题 + 状态 + 标签 + 简介 +
+> 一行附加信息 + 官网直达 + 详情」。附加信息那一行的取值字段由 `ENTRY_META` 决定，
+> 所以白嫖/公益站不需要单独写一套渲染逻辑。
 
 ### 笔记 `content/posts/*.md`
 

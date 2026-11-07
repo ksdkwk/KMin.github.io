@@ -123,7 +123,7 @@
       'detail.valid': '有效期',
       'detail.scope': '核实范围',
       'resPage.requirements': '使用要求',
-      'resPage.site': '官网入口',
+      'resPage.site': '官网直达',
       'resPage.visit': '访问',
       'resPage.detail': '详情',
       'resPage.spec.cat': '分类',
@@ -565,8 +565,8 @@
   }
 
   /**
-   * 通用筛选：
-   *   - 分类：命中 item.tags 里任意一个标签即算匹配（多标签模型）
+   * 通用筛选（三类列表共用）：
+   *   - 分类：优先比 item.category（统一后的分类 id），再退回 tags 里的分类标签
    *   - 关键词：同时搜标题、简介、副标题与全部标签
    */
   function filterList(list, cat, query, labelMap) {
@@ -574,13 +574,13 @@
     var catZh = (cat && cat !== 'all' && labelMap) ? labelMap[cat] : null;
 
     return list.filter(function (item) {
-      // tags 有两种形态：资源是纯字符串数组，工具是 {zh:[], en:[]} 双语对象
+      // tags 有两种形态：资源/白嫖/公益站是纯字符串数组，工具是 {zh:[], en:[]} 双语对象
       var tags = tagArray(item);
 
       if (cat && cat !== 'all') {
+        var byCategory = item.category === cat;
         var byTag = catZh ? tags.indexOf(catZh) !== -1 : false;
-        var byPageCat = item.pageCat === cat;
-        if (!byTag && !byPageCat) return false;
+        if (!byCategory && !byTag) return false;
       }
       if (!q) return true;
       var hay = [
@@ -608,137 +608,257 @@
     return limit ? list.slice(0, parseInt(limit, 10)) : list;
   }
 
-  function renderResources() {
-    var grid = $('#resourceGrid');
+  /**
+   * 三类列表（资源 / 白嫖 / 公益站）的页面级配置。
+   * 数据键、状态键、容器选择器集中登记一次，渲染逻辑只有一份，
+   * 新增一类列表时只要在这里加一行，再写个统计回调即可。
+   */
+  var LIST_GROUPS = {
+    resource: {
+      dataKey: 'resources', catKey: 'resource', labelKey: 'resPage',
+      filterKey: 'resourceFilter', queryKey: 'resourceQuery',
+      grid: '#resourceGrid', count: '#resourceCount', empty: '#resourceEmpty', search: '#resourceSearch',
+      page: 'resources.html'
+    },
+    baipiao: {
+      dataKey: 'baipiao', catKey: 'baipiao', labelKey: 'bpPage',
+      filterKey: 'baipiaoFilter', queryKey: 'baipiaoQuery',
+      grid: '#baipiaoGrid', count: '#baipiaoCount', empty: '#baipiaoEmpty', search: '#baipiaoSearch',
+      page: 'baipiao.html'
+    },
+    charity: {
+      dataKey: 'charity', catKey: 'charity', labelKey: 'chPage',
+      filterKey: 'charityFilter', queryKey: 'charityQuery',
+      grid: '#charityGrid', count: '#charityCount', empty: '#charityEmpty', search: '#charitySearch',
+      page: 'charity.html'
+    }
+  };
+
+  /** 统一列表渲染：筛选 → 限流 → 逐条交给 buildEntryCard → 计数 + 统计 */
+  function renderEntryGrid(groupKey) {
+    var g = LIST_GROUPS[groupKey];
+    if (!g) return;
+    var grid = $(g.grid);
     if (!grid) return;
 
-    var all = DATA.resources || [];
-    var list = filterList(all, state.resourceFilter, state.resourceQuery, catLabelMap('resource'));
-    var shown = applyLimit(list, '#resourceGrid');
+    var all = DATA[g.dataKey] || [];
+    var list = filterList(all, state[g.filterKey], state[g.queryKey], catLabelMap(g.catKey));
+    var shown = applyLimit(list, g.grid);
 
     grid.innerHTML = '';
     if (!shown.length) {
-      var empty = $('#resourceEmpty');
+      var empty = $(g.empty);
       if (empty) empty.hidden = false;
-      updateCount('#resourceCount', 0, all.length);
+      updateCount(g.count, 0, all.length);
+      updateGroupStats(groupKey, all);
       return;
     }
-    var emptyEl = $('#resourceEmpty');
+    var emptyEl = $(g.empty);
     if (emptyEl) emptyEl.hidden = true;
 
     shown.forEach(function (item, i) {
-      grid.appendChild(buildResourceCard(item, i));
+      grid.appendChild(buildEntryCard(item, i, groupKey));
     });
 
-    updateCount('#resourceCount', shown.length, all.length);
-    updateStatusCounts(all);
+    updateCount(g.count, shown.length, all.length);
+    updateGroupStats(groupKey, all);
   }
 
   /**
-   * 资源卡片（整条长卡）：
-   *   ① logo + 名称 + 状态徽章 + 来源 + 标签
-   *   ② 详情摘要（可展开）
-   *   ③ 使用要求（红框样式）
-   *   ④ 官网入口按钮
-   *   ⑤ 底部操作区：标签区 + 详情按钮
+   * 各列表页顶部的统计数字。
+   * 每个 group 提供一个 run(all) 回调，由 renderEntryGrid 统一调用，
+   * 这样卡片渲染与统计口径互不干扰，新增列表只要追加一项。
    */
-  function buildResourceCard(item, i) {
-    var card = el('article', 'res-card');
+  var GROUP_STATS = {
+    resource: { run: function (all) { updateStatusCounts(all); } },
+    baipiao: {
+      run: function (all) {
+        var claimable = 0, ended = 0;
+        all.forEach(function (x) {
+          if (getStatusTag(x) === '失效') ended++; else claimable++;
+        });
+        setText('[data-total]', all.length);
+        setText('[data-claimable-count]', claimable);
+        setText('[data-ended-count]', ended);
+      }
+    },
+    charity: {
+      run: function (all) {
+        var mirrors = 0;
+        all.forEach(function (x) { if (x.category === 'mirror') mirrors++; });
+        setText('[data-charity-total]', all.length);
+        setText('[data-cat-mirror]', mirrors);
+        setText('[data-cat-other]', all.length - mirrors);
+      }
+    }
+  };
+
+  function setText(sel, value) {
+    $$(sel).forEach(function (n) { n.textContent = String(value); });
+  }
+
+  function updateGroupStats(groupKey, all) {
+    var conf = GROUP_STATS[groupKey];
+    if (conf && typeof conf.run === 'function') conf.run(all);
+  }
+
+  function renderResources() { renderEntryGrid('resource'); }
+
+  /* ---------- 5.1 统一卡片组件（资源 / 白嫖 / 公益站共用） ---------- */
+
+  /**
+   * 每组卡片额外展示哪一条「元信息」。
+   * 资源显示使用要求（红框），白嫖显示有效期，公益站显示维护方，
+   * 三者结构一致，只是取值字段和文案不同。
+   */
+  var ENTRY_META = {
+    resource: { field: 'requirements', labelKey: 'resPage.requirements', style: 'req' },
+    baipiao: { field: 'expire', labelKey: 'bpPage.expire', style: 'meta' },
+    charity: { field: 'org', labelKey: 'chPage.org', style: 'meta' }
+  };
+
+  /** 从 url 里取出域名，作为「官网直达」按钮上的可见文字，比一句「访问」信息量大 */
+  function siteHost(url) {
+    var s = String(url || '').trim();
+    if (!s || s === '#') return '';
+    try {
+      return new URL(s, location.href).hostname.replace(/^www\./, '');
+    } catch (e) {
+      return s.replace(/^https?:\/\//, '').split('/')[0].replace(/^www\./, '');
+    }
+  }
+
+  /** 渲染一条卡片；groupKey 决定附加元信息与标签筛选的作用域 */
+  function buildEntryCard(item, i, groupKey) {
+    var card = el('article', 'res-card entry-card');
     card.style.animationDelay = Math.min((i || 0) * 20, 200) + 'ms';
 
+    var nameText = pick(item.name, state.lang) || item.name || '';
+    var descText = pick(item.desc, state.lang);
+    var subText = pick(item.tag, state.lang);
+    var badgeText = pick(item.badge, state.lang);
     var statusTag = getStatusTag(item);
     var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
-    var contentTags = getContentTags(item);
-    var provider = item.provider || '';
-    var requirements = item.requirements || '';
-    var descText = pick(item.desc, state.lang);
-    var nameText = pick(item.name, state.lang);
 
-    // 去重，避免数据里同一标签写两次导致卡片上重复显示
-    contentTags = contentTags.filter(function (tg, idx) {
-      return contentTags.indexOf(tg) === idx;
+    // 标签去重 + 去掉状态标签（状态已经在徽章上单独展示）
+    var tags = getContentTags(item).filter(function (tg, idx, arr) {
+      return arr.indexOf(tg) === idx;
     });
 
-    // 头部只显示主分类标签，完整标签放到卡片底部
-    var headTag = contentTags[0];
-    var headTags = headTag
-      ? '<button type="button" class="pill-tag" data-tag="' + esc(headTag) + '">' + esc(headTag) + '</button>'
-      : '';
+    // 头部只放主分类标签，其余全部放到卡片底部的标签行；
+    // 只有一个标签时头部不重复展示，避免同一枚标签出现两次
+    var headTag = tags.length > 1 ? tags[0] : '';
+    var footTags = tags.length > 1 ? tags.slice(1) : tags;
 
-    // 底部标签：去掉与头部重复的那一个
-    var footTags = contentTags.slice(1).map(function (tg) {
-      return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
-    }).join('');
+    var meta = ENTRY_META[groupKey] || ENTRY_META.resource;
+    var metaRaw = item[meta.field];
+    var metaText = typeof metaRaw === 'string' ? metaRaw : pick(metaRaw, state.lang);
 
-    // 若底部为空（只有一个标签），底部就显示这个标签本身
-    if (!footTags && headTag) {
-      footTags = '<button type="button" class="pill-tag" data-tag="' + esc(headTag) + '">' + esc(headTag) + '</button>';
-    }
+    // 头部右侧的来源署名（资源用 provider，其余组留空不显示）
+    var credit = item.provider || '';
 
     card.innerHTML =
       '<div class="rc-head">' +
         '<span class="rc-logo">' + esc(item.logo || nameText.slice(0, 2)) + '</span>' +
-        '<h3 class="rc-name">' + esc(nameText) + '</h3>' +
+        '<div class="rc-titles">' +
+          '<h3 class="rc-name">' + esc(nameText) + '</h3>' +
+          (subText ? '<p class="rc-sub">' + esc(subText) + '</p>' : '') +
+        '</div>' +
         '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTag) + '</span>' +
-        (provider ? '<span class="rc-provider">by ' + esc(provider) + '</span>' : '') +
-        '<div class="rc-head-tags">' + headTags + '</div>' +
+        (credit ? '<span class="rc-provider">by ' + esc(credit) + '</span>' : '') +
+        (headTag
+          ? '<div class="rc-head-tags"><button type="button" class="pill-tag" data-tag="' + esc(headTag) + '">' + esc(headTag) + '</button></div>'
+          : '') +
       '</div>' +
 
       '<p class="rc-summary">' + esc(descText) + '</p>' +
 
-      (requirements
-        ? '<div class="rc-req"><span class="rc-req-label">' + esc(t('resPage.requirements')) + '</span>' + esc(requirements) + '</div>'
+      (metaText
+        ? '<div class="' + (meta.style === 'req' ? 'rc-req' : 'rc-meta') + '">' +
+            '<span class="' + (meta.style === 'req' ? 'rc-req-label' : 'rc-meta-label') + '">' + esc(t(meta.labelKey)) + '</span>' +
+            esc(metaText) +
+          '</div>'
         : '') +
 
       '<div class="rc-actions">' +
-        '<a class="rc-site" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
+        '<a class="rc-site" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer"' +
+          ' title="' + esc(siteHost(item.url)) + '" aria-label="' + esc(nameText + ' · ' + t('resPage.site')) + '">' +
           '<span class="rc-site-label">' + esc(t('resPage.site')) + '</span>' +
-          '<span class="rc-site-text">' + esc(t('resPage.visit')) + '</span>' +
+          '<span class="rc-site-text">' + esc(siteHost(item.url)) + '</span>' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
         '</a>' +
       '</div>' +
 
       '<div class="rc-foot">' +
-        '<div class="rc-foot-tags">' + footTags + '</div>' +
-        '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
-          '<span>' + esc(t('resPage.detail')) + '</span>' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
-        '</a>' +
+        '<div class="rc-foot-tags">' +
+          footTags.map(function (tg) {
+            return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
+          }).join('') +
+        '</div>' +
+        '<div class="rc-foot-right">' +
+          (badgeText ? '<span class="rc-badge">' + esc(badgeText) + '</span>' : '') +
+          '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
+            '<span>' + esc(t('resPage.detail')) + '</span>' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+          '</a>' +
+        '</div>' +
       '</div>';
 
-    // 点任意标签 → 按标签筛选
+    // 点任意标签 → 在当前页按该标签筛选
     $$('[data-tag]', card).forEach(function (btn) {
       on(btn, 'click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        setFilterByTag(btn.getAttribute('data-tag'));
+        setFilterByTag(btn.getAttribute('data-tag'), groupKey);
       });
     });
 
     return card;
   }
 
-  /** 点击任意标签，把筛选切换到该标签对应的分类；没有对应分类时退回关键词搜索 */
-  function setFilterByTag(tagName) {
-    var cats = (DATA.categories && DATA.categories.resource) || [];
-    var matched = cats.filter(function (c) { return pick(c.label, 'zh') === tagName; });
-    if (matched.length) {
-      state.resourceFilter = matched[0].id;
-      state.resourceQuery = '';
-    } else {
-      // 不是分类标签 → 当作关键词筛选
-      state.resourceFilter = 'all';
-      state.resourceQuery = tagName;
-      var input = $('#resourceSearch');
-      if (input) input.value = tagName;
-    }
-    renderFilters();
-    renderResources();
+  /**
+   * 点击标签：优先切到对应分类，没有对应分类就退回关键词搜索。
+   * groupKey 决定在哪个列表里生效——白嫖页点标签不会再跳去资源页。
+   */
+  function setFilterByTag(tagName, groupKey) {
+    var key = groupKey || 'resource';
+    var g = LIST_GROUPS[key];
+    if (!g) return;
 
-    var target = $('#resources') || $('#resourceGrid');
+    var cats = (DATA.categories && DATA.categories[g.catKey]) || [];
+    var matched = cats.filter(function (c) { return pick(c.label, 'zh') === tagName; });
+
+    if (matched.length) {
+      state[g.filterKey] = matched[0].id;
+      state[g.queryKey] = '';
+      var input = $(g.search);
+      if (input) input.value = '';
+    } else {
+      state[g.filterKey] = 'all';
+      state[g.queryKey] = tagName;
+      var box = $(g.search);
+      if (box) box.value = tagName;
+    }
+
+    renderFilters();
+    renderEntryGrid(key);
+
+    var target = $(g.grid);
     if (target && target.scrollIntoView) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  /** 按三态标签统计：可薅（含长期有效）/ 失效 */
+  function updateStatusCounts(list) {
+    var now = 0, off = 0;
+    list.forEach(function (item) {
+      var s = getStatusTag(item);
+      if (s === '失效') off++;
+      else now++;
+    });
+    $$('[data-now-count]').forEach(function (n) { n.textContent = String(now); });
+    $$('[data-off-count]').forEach(function (n) { n.textContent = String(off); });
   }
 
   /** 按三态标签统计：可薅（含长期有效）/ 失效 */
@@ -806,136 +926,8 @@
     $$('[data-cat-count]').forEach(function (n) { n.textContent = String(Object.keys(cats).length); });
   }
 
-  /** 白嫖区卡片：比资源卡多一行「有效期」 */
-  function renderBaipiao() {
-    var grid = $('#baipiaoGrid');
-    if (!grid) return;
-
-    var all = DATA.baipiao || [];
-    var list = filterList(all, state.baipiaoFilter, state.baipiaoQuery);
-
-    grid.innerHTML = '';
-    if (!list.length) {
-      var empty = $('#baipiaoEmpty');
-      if (empty) empty.hidden = false;
-      updateCount('#baipiaoCount', 0, all.length);
-      return;
-    }
-    var emptyEl = $('#baipiaoEmpty');
-    if (emptyEl) emptyEl.hidden = true;
-
-    list.forEach(function (item, i) {
-      var card = el('article', 'res-card');
-      card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
-
-      var statusTag = getStatusTag(item);
-      var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
-      var statusTxt = statusTag;
-      var expire = pick(item.expire, state.lang);
-
-      card.innerHTML =
-        '<div class="res-head">' +
-          '<span class="res-logo">' + esc(item.logo || pick(item.name, state.lang).slice(0, 2)) + '</span>' +
-          '<div class="res-titles">' +
-            '<h3 class="res-name">' + esc(pick(item.name, state.lang)) + '</h3>' +
-            '<p class="res-tag">' + esc(pick(item.tag, state.lang)) + '</p>' +
-          '</div>' +
-        '</div>' +
-        '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
-        (expire ? '<p class="res-expire"><span>' + esc(t('bpPage.expire')) + '</span>' + esc(expire) + '</p>' : '') +
-        '<div class="res-foot rc-foot">' +
-          '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
-          '<div class="rc-foot-right">' +
-            '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
-              esc(pick(item.badge, state.lang) || 'Open') +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
-            '</a>' +
-            '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
-              '<span>' + esc(t('resPage.detail')) + '</span>' +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
-            '</a>' +
-          '</div>' +
-        '</div>';
-      grid.appendChild(card);
-    });
-
-    updateCount('#baipiaoCount', list.length, all.length);
-
-    // 白嫖页统计：在列 / 可领 / 已结束（按三态标签区分）
-    var claimable = 0, ended = 0;
-    all.forEach(function (x) {
-      var st = getStatusTag(x);
-      if (st === '失效') ended++;
-      else claimable++;
-    });
-    $$('[data-total]').forEach(function (n) { n.textContent = String(all.length); });
-    $$('[data-claimable-count]').forEach(function (n) { n.textContent = String(claimable); });
-    $$('[data-ended-count]').forEach(function (n) { n.textContent = String(ended); });
-  }
-
-  /** 公益站卡片：多一行「维护方」 */
-  function renderCharity() {
-    var grid = $('#charityGrid');
-    if (!grid) return;
-
-    var all = DATA.charity || [];
-    var list = filterList(all, state.charityFilter, state.charityQuery);
-
-    grid.innerHTML = '';
-    if (!list.length) {
-      var empty = $('#charityEmpty');
-      if (empty) empty.hidden = false;
-      updateCount('#charityCount', 0, all.length);
-      return;
-    }
-    var emptyEl = $('#charityEmpty');
-    if (emptyEl) emptyEl.hidden = true;
-
-    list.forEach(function (item, i) {
-      var card = el('article', 'res-card');
-      card.style.animationDelay = Math.min(i * 24, 220) + 'ms';
-
-      var org = pick(item.org, state.lang);
-      var statusTag = getStatusTag(item);
-      var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
-      var statusTxt = statusTag;
-
-      card.innerHTML =
-        '<div class="res-head">' +
-          '<span class="res-logo">' + esc(item.logo || pick(item.name, state.lang).slice(0, 2)) + '</span>' +
-          '<div class="res-titles">' +
-            '<h3 class="res-name">' + esc(pick(item.name, state.lang)) + '</h3>' +
-            '<p class="res-tag">' + esc(pick(item.tag, state.lang)) + '</p>' +
-          '</div>' +
-        '</div>' +
-        '<p class="res-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
-        (org ? '<p class="res-expire"><span>' + esc(t('chPage.org')) + '</span>' + esc(org) + '</p>' : '') +
-        '<div class="res-foot rc-foot">' +
-          '<span class="status ' + statusCls + '"><i aria-hidden="true"></i>' + esc(statusTxt) + '</span>' +
-          '<div class="rc-foot-right">' +
-            '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer">' +
-              esc(pick(item.badge, state.lang) || 'Open') +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
-            '</a>' +
-            '<a class="rc-detail" href="detail.html?id=' + encodeURIComponent(item.id || '') + '">' +
-              '<span>' + esc(t('resPage.detail')) + '</span>' +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
-            '</a>' +
-          '</div>' +
-        '</div>';
-      grid.appendChild(card);
-    });
-
-    updateCount('#charityCount', list.length, all.length);
-    var mirrors = 0, other = 0;
-    all.forEach(function (x) {
-      // 数据里已没有 category 字段，改用 pageCat 表示归属分类
-      if (x.pageCat === 'mirror') mirrors++; else other++;
-    });
-    $$('[data-charity-total]').forEach(function (n) { n.textContent = String(all.length); });
-    $$('[data-cat-mirror]').forEach(function (n) { n.textContent = String(mirrors); });
-    $$('[data-cat-other]').forEach(function (n) { n.textContent = String(other); });
-  }
+  function renderBaipiao() { renderEntryGrid('baipiao'); }
+  function renderCharity() { renderEntryGrid('charity'); }
 
   function renderPosts() {
     var list = $('#postList');
@@ -1009,29 +1001,17 @@
       : t('common.filtered', { n: shown, total: total });
   }
 
-  /** 判断某条目是否属于某个分类：优先比标签，其次比 pageCat（白嫖/公益专用） */
   /**
-   * 判断某条目是否属于某个分类。不同数据类型的归属方式不同：
-   *   - 资源：靠 tags 里的「分类标签」中文名匹配
-   *   - 白嫖 / 公益站：靠 pageCat 存的是分类 id
-   *   - 工具：靠 category 字段（id），没有 tags 概念
+   * 判断某条目是否属于某个分类。
+   * 统一数据接口后，资源/白嫖/公益站都有 category 字段（分类 id），
+   * 只有工具仍用 category 表示「开发/设计」这类工具分组，规则一致。
    */
   function countByCategory(item, cat, groupKey) {
-    // 工具：直接用 category 字段比较
-    if (groupKey === 'tool') {
-      return item.category === cat.id;
-    }
+    if (item.category) return item.category === cat.id;
 
-    // 白嫖 / 公益站：pageCat 存分类 id
-    if (item.pageCat) {
-      return item.pageCat === cat.id;
-    }
-
-    // 资源：靠 tags 里的分类中文名
+    // 兼容没有 category 字段的老数据：退回按标签中文名匹配
     var labelZh = pick(cat.label, 'zh');
-    if (tagArray(item).indexOf(labelZh) !== -1) return true;
-
-    return false;
+    return tagArray(item).indexOf(labelZh) !== -1;
   }
 
   function renderFilters() {

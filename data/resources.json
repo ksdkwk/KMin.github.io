@@ -2,6 +2,7 @@
   {
     "id": "r-cloudflare-workers",
     "order": 1,
+    "group": "resource",
     "name": {
       "zh": "Cloudflare Workers",
       "en": "Cloudflare Workers"
@@ -25,8 +26,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "Cloudflare",
     "requirements": "需注册 Cloudflare 账号；免费额度每日 10 万次请求，超出按量计费。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "每天 10 万次请求，超出后按 $5/百万次计费；静态资源请求不计费。",
       "limit": "免费版单次请求 CPU 时间上限 10ms（付费 30s）；不支持长连接和文件系统写入。",
@@ -60,6 +65,7 @@
   {
     "id": "r-github-pages",
     "order": 2,
+    "group": "resource",
     "name": {
       "zh": "GitHub Pages",
       "en": "GitHub Pages"
@@ -83,8 +89,12 @@
       "静态托管",
       "长期有效"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "GitHub",
     "requirements": "仓库需为公开仓库；单站 1GB、月流量 100GB；不支持服务端逻辑。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "公开仓库免费，单站容量 1GB，每月流量 100GB，每小时构建 10 次。",
       "limit": "只能托管静态文件，不支持服务端逻辑；私有仓库使用 Pages 需 GitHub Pro。",
@@ -114,6 +124,7 @@
   {
     "id": "r-alibaba-tencent-student-plans",
     "order": 3,
+    "group": "resource",
     "name": {
       "zh": "阿里云 / 腾讯云学生机",
       "en": "Alibaba / Tencent student plans"
@@ -138,8 +149,12 @@
       "学生认证",
       "现在可薅"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "阿里云 / 腾讯云",
     "requirements": "需通过学生身份认证；首年优惠价，续费恢复原价，购买前先算三年总价。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "学生认证后首年约 9-99 元/年，配置通常 2 核 2G 起。",
       "limit": "必须完成学生身份认证；每人限购数量；续费恢复原价。",
@@ -169,6 +184,7 @@
   {
     "id": "r-openrouter-free-models",
     "order": 4,
+    "group": "resource",
     "name": {
       "zh": "OpenRouter 免费模型",
       "en": "OpenRouter free models"
@@ -192,8 +208,12 @@
       "免费额度",
       "现在可薅"
     ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "OpenRouter",
     "requirements": "需注册并创建 API Key；:free 模型有每分钟与每日调用上限，超额需充值。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "需注册并创建 API Key；:free 模型有每分钟与每日调用上限，超额需充值。",
       "limit": "需注册并创建 API Key；:free 模型有每分钟与每日调用上限，超额需充值。",
@@ -219,6 +239,7 @@
   {
     "id": "r-github-rest-api",
     "order": 5,
+    "group": "resource",
     "name": {
       "zh": "GitHub REST API",
       "en": "GitHub REST API"
@@ -242,8 +263,12 @@
       "开发接口",
       "长期有效"
     ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "GitHub",
     "requirements": "未认证 60 次/小时，带 Token 5000 次/小时；请勿高频轮询，建议加缓存。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "未认证 60 次/小时，带 Token 5000 次/小时；请勿高频轮询，建议加缓存。",
       "limit": "未认证 60 次/小时，带 Token 5000 次/小时；请勿高频轮询，建议加缓存。",
@@ -269,6 +294,7 @@
   {
     "id": "r-google-fonts-icons",
     "order": 6,
+    "group": "resource",
     "name": {
       "zh": "Google Fonts / 图标库",
       "en": "Google Fonts & icons"
@@ -292,8 +318,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "Google",
     "requirements": "CDN 引入方式在部分地区访问较慢，建议自托管字体文件或换用镜像。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "CDN 引入方式在部分地区访问较慢，建议自托管字体文件或换用镜像。",
       "limit": "CDN 引入方式在部分地区访问较慢，建议自托管字体文件或换用镜像。",
@@ -319,6 +349,7 @@
   {
     "id": "r-tsinghua-tuna-mirror",
     "order": 7,
+    "group": "resource",
     "name": {
       "zh": "清华 TUNA 镜像",
       "en": "Tsinghua TUNA mirror"
@@ -342,8 +373,12 @@
       "公益镜像",
       "长期有效"
     ],
+    "category": "mirror",
+    "pageCat": "mirror",
     "provider": "清华大学 TUNA 协会",
     "requirements": "公益服务，请勿用于压测或批量抓取；同步有延迟，重要依赖建议配多个上游。",
+    "expire": null,
+    "org": null,
     "detail": {
       "usage": "系统软件源（Ubuntu/Debian/CentOS 等）、PyPI、Docker、Anaconda 等多种上游的国内镜像。",
       "limit": "公益服务，请勿用于压测或批量抓取；同步有延迟，重要依赖建议同时配置多个上游。",
@@ -356,6 +391,7 @@
   {
     "id": "r-npmmirror",
     "order": 8,
+    "group": "resource",
     "name": {
       "zh": "npmmirror",
       "en": "npmmirror"
@@ -379,8 +415,12 @@
       "公益镜像",
       "长期有效"
     ],
+    "category": "mirror",
+    "pageCat": "mirror",
     "provider": "阿里巴巴",
     "requirements": "替换 npm registry 即可；私有包请仍走官方源，避免发布失败。",
+    "expire": null,
+    "org": null,
     "detail": {
       "usage": "npm 包的国内镜像源，替换 registry 地址即可加速依赖安装。",
       "limit": "仅镜像公开包；私有包发布仍应走官方源，避免发布失败。",
@@ -393,6 +433,7 @@
   {
     "id": "r-docker-hub-proxies",
     "order": 9,
+    "group": "resource",
     "name": {
       "zh": "Docker Hub 镜像代理",
       "en": "Docker Hub proxies"
@@ -416,8 +457,12 @@
       "公益镜像",
       "失效"
     ],
+    "category": "mirror",
+    "pageCat": "mirror",
     "provider": "社区维护",
     "requirements": "公共加速地址变动频繁，已在本文标注失效；请自行寻找可用代理并配置多个备用。",
+    "expire": null,
+    "org": null,
     "detail": {
       "usage": "Docker Hub 官方镜像的国内加速代理，配置 registry-mirrors 后拉取速度提升明显。",
       "limit": "公共加速地址变动频繁，可用性不稳定，不建议作为唯一来源。",
@@ -430,6 +475,7 @@
   {
     "id": "r-let-s-encrypt",
     "order": 10,
+    "group": "resource",
     "name": {
       "zh": "Let's Encrypt",
       "en": "Let's Encrypt"
@@ -453,8 +499,12 @@
       "免费证书",
       "长期有效"
     ],
+    "category": "domain",
+    "pageCat": "domain",
     "provider": "ISRG",
     "requirements": "证书有效期 90 天，需配置自动续期；单域名每周签发次数有上限。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "证书有效期 90 天，需配置自动续期；单域名每周签发次数有上限。",
       "limit": "证书有效期 90 天，需配置自动续期；单域名每周签发次数有上限。",
@@ -480,6 +530,7 @@
   {
     "id": "r-free-domains-subdomains",
     "order": 11,
+    "group": "resource",
     "name": {
       "zh": "免费域名 / 子域",
       "en": "Free domains & subdomains"
@@ -503,8 +554,12 @@
       "限时活动",
       "现在可薅"
     ],
+    "category": "domain",
+    "pageCat": "domain",
     "provider": "eu.org 等",
     "requirements": "免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。",
       "limit": "免费二级域名审核周期长且稳定性一般；长期项目建议直接购买付费域名。",
@@ -530,6 +585,7 @@
   {
     "id": "r-mdn-modern-js-docs",
     "order": 12,
+    "group": "resource",
     "name": {
       "zh": "MDN / 现代 JS 教程",
       "en": "MDN & modern JS docs"
@@ -553,8 +609,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "learn",
+    "pageCat": "learn",
     "provider": "Mozilla",
     "requirements": "纯文档站点，无需注册；内容以英文为主，部分页面有中文翻译。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "纯文档站点，无需注册；内容以英文为主，部分页面有中文翻译。",
       "limit": "纯文档站点，无需注册；内容以英文为主，部分页面有中文翻译。",
@@ -580,6 +640,7 @@
   {
     "id": "r-vercel-netlify",
     "order": 13,
+    "group": "resource",
     "name": {
       "zh": "Vercel / Netlify",
       "en": "Vercel / Netlify"
@@ -603,8 +664,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "Vercel / Netlify",
     "requirements": "个人项目免费；商用需确认条款；超额会暂停服务到下个计费周期。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "个人项目免费；商用需确认条款；超额会暂停服务到下个计费周期。",
       "limit": "个人项目免费；商用需确认条款；超额会暂停服务到下个计费周期。",
@@ -630,6 +695,7 @@
   {
     "id": "r-supabase",
     "order": 14,
+    "group": "resource",
     "name": {
       "zh": "Supabase",
       "en": "Supabase"
@@ -653,8 +719,12 @@
       "免费额度",
       "现在可薅"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "Supabase",
     "requirements": "免费库闲置约一周会被暂停，需手动恢复；生产环境请升级付费计划。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "免费库闲置约一周会被暂停，需手动恢复；生产环境请升级付费计划。",
       "limit": "免费库闲置约一周会被暂停，需手动恢复；生产环境请升级付费计划。",
@@ -680,6 +750,7 @@
   {
     "id": "r-deepseek-platform",
     "order": 15,
+    "group": "resource",
     "name": {
       "zh": "DeepSeek 开放平台",
       "en": "DeepSeek Platform"
@@ -703,8 +774,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "DeepSeek",
     "requirements": "按 token 计费，需先充值；注册赠送额度有有效期，注意查看到期时间。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "按 token 计费，需先充值；注册赠送额度有有效期，注意查看到期时间。",
       "limit": "按 token 计费，需先充值；注册赠送额度有有效期，注意查看到期时间。",
@@ -730,6 +805,7 @@
   {
     "id": "r-public-apis-list",
     "order": 16,
+    "group": "resource",
     "name": {
       "zh": "Public APIs 清单",
       "en": "Public APIs list"
@@ -753,8 +829,12 @@
       "开发接口",
       "长期有效"
     ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "社区（GitHub）",
     "requirements": "清单为社区维护，接口可用性需自行验证；部分接口需申请 Key 或有调用限制。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "清单为社区维护，接口可用性需自行验证；部分接口需申请 Key 或有调用限制。",
       "limit": "清单为社区维护，接口可用性需自行验证；部分接口需申请 Key 或有调用限制。",
@@ -780,6 +860,7 @@
   {
     "id": "r-ustc-aliyun-mirrors",
     "order": 17,
+    "group": "resource",
     "name": {
       "zh": "USTC / 阿里云镜像",
       "en": "USTC & Aliyun mirrors"
@@ -803,8 +884,12 @@
       "公益镜像",
       "长期有效"
     ],
+    "category": "mirror",
+    "pageCat": "mirror",
     "provider": "中科大 / 阿里云",
     "requirements": "公益服务，请控制请求频率；建议作为主镜像的备用上游一起配置。",
+    "expire": null,
+    "org": null,
     "detail": {
       "usage": "中科大与阿里云提供的开源软件镜像，覆盖主流 Linux 发行版与开发工具链。",
       "limit": "公益服务，请控制请求频率；建议作为主镜像的备用上游一起配置。",
@@ -817,6 +902,7 @@
   {
     "id": "r-jsdelivr-unpkg",
     "order": 18,
+    "group": "resource",
     "name": {
       "zh": "jsDelivr / unpkg",
       "en": "jsDelivr / unpkg"
@@ -840,8 +926,12 @@
       "公益镜像",
       "现在可薅"
     ],
+    "category": "mirror",
+    "pageCat": "mirror",
     "provider": "jsDelivr / unpkg",
     "requirements": "仅建议用于演示与开发；生产环境请自托管关键依赖，避免 CDN 故障影响站点。",
+    "expire": null,
+    "org": null,
     "detail": {
       "usage": "可直接从 npm / GitHub 引用前端资源的 CDN，适合演示页和原型开发。",
       "limit": "仅建议用于演示与开发；生产环境请自托管关键依赖。",
@@ -854,6 +944,7 @@
   {
     "id": "r-cloudflare-dns",
     "order": 19,
+    "group": "resource",
     "name": {
       "zh": "Cloudflare DNS",
       "en": "Cloudflare DNS"
@@ -877,8 +968,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "domain",
+    "pageCat": "domain",
     "provider": "Cloudflare",
     "requirements": "需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF 与自定义证书托管。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF 与自定义证书托管。",
       "limit": "需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF 与自定义证书托管。",
@@ -904,6 +999,7 @@
   {
     "id": "r-freecodecamp",
     "order": 20,
+    "group": "resource",
     "name": {
       "zh": "freeCodeCamp",
       "en": "freeCodeCamp"
@@ -927,8 +1023,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "learn",
+    "pageCat": "learn",
     "provider": "freeCodeCamp",
     "requirements": "完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。",
       "limit": "完全免费，需注册账号保存进度；课程以英文为主，完成项目可获得认证。",
@@ -954,6 +1054,7 @@
   {
     "id": "r-roadmap-sh",
     "order": 21,
+    "group": "resource",
     "name": {
       "zh": "Roadmap.sh",
       "en": "Roadmap.sh"
@@ -977,8 +1078,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "learn",
+    "pageCat": "learn",
     "provider": "社区（GitHub）",
     "requirements": "纯参考路线图，无需注册；内容由社区贡献，具体技术选型仍需自行判断。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "纯参考路线图，无需注册；内容由社区贡献，具体技术选型仍需自行判断。",
       "limit": "纯参考路线图，无需注册；内容由社区贡献，具体技术选型仍需自行判断。",
@@ -1004,6 +1109,7 @@
   {
     "id": "r-google-colab",
     "order": 22,
+    "group": "resource",
     "name": {
       "zh": "Google Colab",
       "en": "Google Colab"
@@ -1027,8 +1133,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "google",
+    "pageCat": "google",
     "provider": "Google",
     "requirements": "需 Google 账号；免费 GPU 会话闲置约 90 分钟会被回收，单次最长 12 小时。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "需 Google 账号；免费 GPU 会话闲置约 90 分钟会被回收，单次最长 12 小时。",
       "limit": "需 Google 账号；免费 GPU 会话闲置约 90 分钟会被回收，单次最长 12 小时。",
@@ -1054,6 +1164,7 @@
   {
     "id": "r-google-cloud-free-tier",
     "order": 23,
+    "group": "resource",
     "name": {
       "zh": "Google Cloud 免费层",
       "en": "Google Cloud free tier"
@@ -1077,8 +1188,12 @@
       "限时活动",
       "现在可薅"
     ],
+    "category": "google",
+    "pageCat": "google",
     "provider": "Google Cloud",
     "requirements": "需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。",
       "limit": "需绑定信用卡验证（可能产生小额预授权）；300 美元试用金有效期 90 天。",
@@ -1104,6 +1219,7 @@
   {
     "id": "r-google-notebooklm",
     "order": 24,
+    "group": "resource",
     "name": {
       "zh": "Google NotebookLM",
       "en": "Google NotebookLM"
@@ -1126,8 +1242,12 @@
       "Google 服务",
       "现在可薅"
     ],
+    "category": "google",
+    "pageCat": "google",
     "provider": "Google",
     "requirements": "免费额度按每日提问次数限制；上传文档有数量与体积上限。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "免费额度按每日提问次数限制；上传文档有数量与体积上限。",
       "limit": "免费额度按每日提问次数限制；上传文档有数量与体积上限。",
@@ -1153,6 +1273,7 @@
   {
     "id": "r-google-ai-studio",
     "order": 25,
+    "group": "resource",
     "name": {
       "zh": "Google AI Studio",
       "en": "Google AI Studio"
@@ -1176,8 +1297,12 @@
       "免费额度",
       "长期有效"
     ],
+    "category": "google",
+    "pageCat": "google",
     "provider": "Google",
     "requirements": "免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。",
       "limit": "免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。",
@@ -1203,6 +1328,7 @@
   {
     "id": "r-rainyun-student-vps",
     "order": 26,
+    "group": "resource",
     "name": {
       "zh": "雨云 / 学生机",
       "en": "Rainyun / student VPS"
@@ -1226,8 +1352,12 @@
       "限时活动",
       "现在可薅"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "雨云",
     "requirements": "首年低价，续费价格明显上涨；购买前务必确认续费价与退款政策。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "首年低价，续费价格明显上涨；购买前务必确认续费价与退款政策。",
       "limit": "首年低价，续费价格明显上涨；购买前务必确认续费价与退款政策。",
@@ -1253,6 +1383,7 @@
   {
     "id": "r-bandwagonhost",
     "order": 27,
+    "group": "resource",
     "name": {
       "zh": "搬瓦工 / BandwagonHost",
       "en": "BandwagonHost"
@@ -1276,8 +1407,12 @@
       "限时活动",
       "长期有效"
     ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "BandwagonHost",
     "requirements": "按年付更划算；不同套餐线路差异较大，购买前确认机房与线路。",
+    "expire": null,
+    "org": null,
     "detail": {
       "quota": "按年付更划算；不同套餐线路差异较大，购买前确认机房与线路。",
       "limit": "按年付更划算；不同套餐线路差异较大，购买前确认机房与线路。",

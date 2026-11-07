@@ -21,6 +21,7 @@ category: quota
 tags:
   - "免费额度"
   - "长期有效"
+  - "需学生认证"
 detail:
   quota: "学生认证后可领 Copilot Pro、免费域名、云服务额度等数十项权益。"
   limit: "必须是在校学生，需提供学生证或在读证明；每年需重新验证。"

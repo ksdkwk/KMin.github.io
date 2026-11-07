@@ -219,42 +219,87 @@ function detailFromFm(fm) {
   return out;
 }
 
-function buildResource(parsed) {
-  var fm = parsed.fm;
-  var out = {
-    id: fm.id,
-    order: fm.order != null ? Number(fm.order) : null,
-    name: bilingual(fm, 'name'),
-    tag: bilingual(fm, 'tag'),
-    desc: bilingual(fm, 'desc'),
-    logo: fm.logo || '',
-    url: fm.url || '',
-    badge: bilingual(fm, 'badge'),
-    tags: fm.tags || [],
-    provider: fm.provider || '',
-    requirements: fm.requirements || ''
-  };
-  var d = detailFromFm(fm);
-  if (d) out.detail = d;
-  out.guide = extractGuide(parsed);
-  return out;
+/* ---------- 4.1 统一卡片数据接口（资源 / 白嫖 / 公益站共用） ---------- */
+
+/**
+ * 三类条目在 Markdown 里高度重合，统一产出同一套结构，
+ * 前端因此可以用同一个卡片组件渲染；差异字段放在可选槽位里：
+ *   资源   → provider / requirements
+ *   白嫖   → expire
+ *   公益站 → org
+ * 公共字段（三类都一定有）：id / order / group / name / tag / desc /
+ *   logo / url / badge / tags / category / detail / guide
+ */
+var ENTRY_SCHEMA = {
+  resources: { group: 'resource', catKey: 'resource', defaultCategory: '' },
+  baipiao:   { group: 'baipiao', catKey: 'baipiao', defaultCategory: 'quota' },
+  charity:   { group: 'charity', catKey: 'charity', defaultCategory: 'mirror' }
+};
+
+/** 分类中文名 → 分类 id 的索引，按功能区分组，避免 api 之类的重名冲突 */
+var CATEGORY_INDEX = null;
+
+function categoryLabelIndex() {
+  if (CATEGORY_INDEX) return CATEGORY_INDEX;
+  CATEGORY_INDEX = {};
+  try {
+    var cats = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'categories.json'), 'utf8'));
+    Object.keys(cats).forEach(function (key) {
+      var map = {};
+      (cats[key] || []).forEach(function (c) {
+        if (c && c.id && c.id !== 'all' && c.label && c.label.zh) map[c.label.zh] = c.id;
+      });
+      CATEGORY_INDEX[key] = map;
+    });
+  } catch (e) {
+    // categories.json 缺失时退化为「无分类」，不影响构建
+  }
+  return CATEGORY_INDEX;
 }
 
-function buildBaipiao(parsed) {
+/**
+ * 从 tags 里反推分类 id。
+ * 资源页的历史数据没有 category 字段，分类是靠 tags 里的中文分类标签表达的，
+ * 统一数据接口时在构建期折算成 category，前端就不用再区分两套规则。
+ */
+function deriveCategory(tags, catKey) {
+  var map = categoryLabelIndex()[catKey] || {};
+  for (var i = 0; i < tags.length; i++) {
+    if (map[tags[i]]) return map[tags[i]];
+  }
+  return '';
+}
+
+/** 统一构建一个条目；groupKey 取 resources / baipiao / charity */
+function buildEntry(parsed, groupKey) {
   var fm = parsed.fm;
+  var conf = ENTRY_SCHEMA[groupKey] || {};
+  var tags = toArray(fm.tags);
+  var category = fm.category
+    ? String(fm.category)
+    : (deriveCategory(tags, conf.catKey) || conf.defaultCategory || '');
+
   var out = {
     id: fm.id,
     order: fm.order != null ? Number(fm.order) : null,
+    group: conf.group || groupKey,
     name: bilingual(fm, 'name'),
     tag: bilingual(fm, 'tag'),
     desc: bilingual(fm, 'desc'),
     logo: fm.logo || '',
     url: fm.url || '',
     badge: bilingual(fm, 'badge'),
+    tags: tags,
+    category: category,
+    // pageCat 是旧字段名，保留一份，避免老代码/老缓存读到 undefined
+    pageCat: category,
+    // ---- 可选扩展槽位：没有的组就留空，前端按 group 决定是否渲染 ----
+    provider: fm.provider || '',
+    requirements: fm.requirements || '',
     expire: bilingual(fm, 'expire'),
-    tags: fm.tags || [],
-    pageCat: fm.category || 'quota'
+    org: bilingual(fm, 'org')
   };
+
   var d = detailFromFm(fm);
   if (d) out.detail = d;
   out.guide = extractGuide(parsed);
@@ -275,26 +320,10 @@ function fm_flag(parsed) {
   return 'auto';
 }
 
-function buildCharity(parsed) {
-  var fm = parsed.fm;
-  var out = {
-    id: fm.id,
-    order: fm.order != null ? Number(fm.order) : null,
-    name: bilingual(fm, 'name'),
-    tag: bilingual(fm, 'tag'),
-    desc: bilingual(fm, 'desc'),
-    logo: fm.logo || '',
-    url: fm.url || '',
-    badge: bilingual(fm, 'badge'),
-    org: bilingual(fm, 'org'),
-    tags: fm.tags || [],
-    pageCat: fm.category || 'mirror'
-  };
-  var d = detailFromFm(fm);
-  if (d) out.detail = d;
-  out.guide = extractGuide(parsed);
-  return out;
-}
+/** 三类列表卡片走同一套构建逻辑，只按 groupKey 决定分类口径 */
+function buildResource(parsed) { return buildEntry(parsed, 'resources'); }
+function buildBaipiao(parsed) { return buildEntry(parsed, 'baipiao'); }
+function buildCharity(parsed) { return buildEntry(parsed, 'charity'); }
 
 function buildTool(parsed) {
   var fm = parsed.fm;

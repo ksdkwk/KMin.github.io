@@ -22,6 +22,7 @@ category: api
 tags:
   - "免费 API"
   - "长期有效"
+  - "有限速"
 detail:
   quota: "标注 :free 的模型可以直接调，适合做原型；并发和每日次数会随模型变化。"
   limit: "以官方活动页说明为准。"
