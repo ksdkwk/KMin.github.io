@@ -21,7 +21,6 @@ org:
 category: mirror
 tags:
   - "公益镜像"
-  - "长期有效"
   - "教育网加速"
 detail:
   quota: "完全免费，由维护方自费提供。"

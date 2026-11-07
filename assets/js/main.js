@@ -104,7 +104,7 @@
       'search.empty': '没有找到相关内容，换个关键词试试。',
       'search.type.resource': '资源', 'search.type.tool': '工具', 'search.type.post': '笔记',
       'search.type.baipiao': '白嫖', 'search.type.charity': '公益',
-      'status.ok': '现在可薅', 'status.warn': '有限制', 'status.off': '已失效',
+      'period.ended': '活动已结束',
       'unit.entry': '条', 'unit.tool': '个',
 
       'detail.guide': '使用说明',
@@ -132,7 +132,7 @@
       'resPage.spec.badge': '获取',
       'resPage.title': '免费资源库',
       'resPage.desc': '能用、稳定、现在还能薅的才收录。每条都标注当前状态，失效或名额已满的直接标出来，省你一个个试。',
-      'resPage.stat1': '收录', 'resPage.stat2': '可薅', 'resPage.stat3': '失效',
+      'resPage.stat1': '收录', 'resPage.stat2': '可用', 'resPage.stat3': '已结束',
       'resPage.filter': '在本页筛选资源…',
       'resPage.empty': '没有匹配的资源。换个关键词，或切回「全部」。',
       'resPage.statsLabel': '资源统计',
@@ -151,7 +151,7 @@
 
       'bpPage.title': '白嫖专区',
       'bpPage.desc': '低价或免费服务器、免费 API、学生权益集中放这里。每条都标了有效期口径，一条可以同时属于多个分类。',
-      'bpPage.stat1': '在列', 'bpPage.stat2': '可领', 'bpPage.stat3': '已结束',
+      'bpPage.stat1': '在列', 'bpPage.stat2': '可用', 'bpPage.stat3': '已结束',
       'bpPage.filter': '在本页筛选白嫖项目…',
       'bpPage.empty': '没有匹配的项目。换个关键词，或切回「全部」。',
       'bpPage.note': '提示：活动类条目时效性强，看到就尽快领取；本站只做信息汇总，不代领也不担保。',
@@ -223,7 +223,7 @@
       'search.empty': 'Nothing found. Try another keyword.',
       'search.type.resource': 'Resource', 'search.type.tool': 'Tool', 'search.type.post': 'Note',
       'search.type.baipiao': 'Freebie', 'search.type.charity': 'Public',
-      'status.ok': 'Available', 'status.warn': 'Limited', 'status.off': 'Expired',
+      'period.ended': 'Ended',
       'unit.entry': 'entries', 'unit.tool': 'tools',
 
       'detail.guide': 'How to use',
@@ -251,7 +251,7 @@
       'resPage.spec.badge': 'Access',
       'resPage.title': 'Free resource library',
       'resPage.desc': 'Only what works and is still free gets listed. Every entry carries its current status, so you do not have to test them one by one.',
-      'resPage.stat1': 'Listed', 'resPage.stat2': 'Available', 'resPage.stat3': 'Expired',
+      'resPage.stat1': 'Listed', 'resPage.stat2': 'Available', 'resPage.stat3': 'Ended',
       'resPage.filter': 'Filter resources on this page…',
       'resPage.empty': 'No matching resources. Try another keyword, or switch back to All.',
       'resPage.statsLabel': 'Resource statistics',
@@ -270,7 +270,7 @@
 
       'bpPage.title': 'Freebie board',
       'bpPage.desc': 'Cheap or free servers, free APIs and student perks that still work, collected in one place. Each entry states its validity, and one entry can belong to several categories.',
-      'bpPage.stat1': 'Listed', 'bpPage.stat2': 'Claimable', 'bpPage.stat3': 'Ended',
+      'bpPage.stat1': 'Listed', 'bpPage.stat2': 'Available', 'bpPage.stat3': 'Ended',
       'bpPage.filter': 'Filter freebies on this page…',
       'bpPage.empty': 'No matching entries. Try another keyword, or switch back to All.',
       'bpPage.note': 'Offers expire fast — claim when you see them. This site only lists information; it does not claim on your behalf or guarantee anything.',
@@ -517,32 +517,58 @@
   /* ---------- 5. 内容渲染 ---------- */
 
   /**
-   * 状态标签：每个卡片必须有且仅有一个
-   *   长期有效 —— 活动结束时间未知 / 长期开放
-   *   现在可薅 —— 活动尚未结束，还能用
-   *   失效     —— 活动已结束或服务已下线
+   * 时效标签（四段式，由构建期算好的 period 决定）：
+   *   无 from 无 to → 「长期有效」
+   *   有 from 无 to → 「2026.11.8 -- ∞」
+   *   无 from 有 to → 「2026.11.10结束」
+   *   两者都有      → 「2026.11.8 -- 2026.11.10」
+   * 结束日期已过 → 卡片置灰并追加「活动已结束」标签
    */
-  var STATUS_LABELS = ['长期有效', '现在可薅', '失效'];
-  var STATUS_CLASS_MAP = {
-    '长期有效': 'is-ok',
-    '现在可薅': 'is-warn',
-    '失效': 'is-off'
-  };
+  var PERIOD_FALLBACK = { from: '', to: '', shape: 'long' };
 
-  /** 从卡片的 tags 里取出状态标签（没有则视为失效） */
-  function getStatusTag(item) {
-    var tags = tagArray(item);
-    for (var i = 0; i < STATUS_LABELS.length; i++) {
-      if (tags.indexOf(STATUS_LABELS[i]) !== -1) return STATUS_LABELS[i];
-    }
-    return '失效';
+  /** 取条目的时效区间（兼容老数据：没有 period 就当作长期有效） */
+  function getPeriod(item) {
+    return (item && item.period) || PERIOD_FALLBACK;
   }
 
-  /** 取非状态标签，用于卡片底部的标签行 */
+  /** 时效区间的展示文字，按当前语言取 */
+  function getPeriodLabel(item) {
+    var p = item.periodLabel;
+    if (p && (p.zh || p.en)) return pick(p, state.lang);
+    return periodLabelFallback(getPeriod(item));
+  }
+
+  /** 前端兜底：数据没带 periodLabel 时按同一套规则现算，保证老缓存也不出错 */
+  function periodLabelFallback(per) {
+    if (per.from && per.to) return per.from + ' -- ' + per.to;
+    if (per.from) return per.from + ' -- ∞';
+    if (per.to) return per.to + (state.lang === 'en' ? ' ended' : '结束');
+    return state.lang === 'en' ? 'Long-term' : '长期有效';
+  }
+
+  /**
+   * 是否已过期。
+   * 一律按「当前时间」现算，不依赖构建期写死的 item.expired：
+   * 站点是静态部署的，构建一次可能放很久，日期一到就该自动变灰，
+   * 不能等到下次重新构建才更新。
+   */
+  function isExpired(item) {
+    var per = getPeriod(item);
+    if (!per.to) return false;
+    var parts = String(per.to).split('.');
+    if (parts.length !== 3) return !!(item && item.expired);
+    var end = new Date(+parts[0], +parts[1] - 1, +parts[2], 23, 59, 59, 999);
+    return Date.now() > end.getTime();
+  }
+
+  /** 状态徽章的样式类：长期/未结束按可用来算，过期才算失效 */
+  function periodClass(item) {
+    return isExpired(item) ? 'is-off' : 'is-ok';
+  }
+
+  /** 取卡片上的标签（时效已独立成徽章，不再混在 tags 里） */
   function getContentTags(item) {
-    return tagArray(item).filter(function (x) {
-      return STATUS_LABELS.indexOf(x) === -1;
-    });
+    return tagArray(item);
   }
 
   /** 把 tags 归一成字符串数组：兼容「纯数组」与「{zh:[], en:[]} 双语对象」两种写法 */
@@ -677,7 +703,7 @@
       run: function (all) {
         var claimable = 0, ended = 0;
         all.forEach(function (x) {
-          if (getStatusTag(x) === '失效') ended++; else claimable++;
+          if (isExpired(x)) ended++; else claimable++;
         });
         setText('[data-total]', all.length);
         setText('[data-claimable-count]', claimable);
@@ -739,8 +765,11 @@
     var descText = pick(item.desc, state.lang);
     var subText = pick(item.tag, state.lang);
     var badgeText = pick(item.badge, state.lang);
-    var statusTag = getStatusTag(item);
-    var statusCls = STATUS_CLASS_MAP[statusTag] || 'is-off';
+    var statusTag = getPeriodLabel(item);
+    var statusCls = periodClass(item);
+    var expired = isExpired(item);
+    // 过期卡片整卡置灰（只改视觉，不动布局与交互）
+    if (expired) card.classList.add('is-expired');
 
     // 标签去重 + 去掉状态标签（状态已经在徽章上单独展示）
     var tags = getContentTags(item).filter(function (tg, idx, arr) {
@@ -755,6 +784,10 @@
     var meta = ENTRY_META[groupKey] || ENTRY_META.resource;
     var metaRaw = item[meta.field];
     var metaText = typeof metaRaw === 'string' ? metaRaw : pick(metaRaw, state.lang);
+
+    // 时效已经由右上角徽章统一表达：附加信息行若与徽章完全同义就不重复渲染，
+    // 例如白嫖卡原来的「有效期 · 长期有效」。文案不同则保留（如「按学年复核」）。
+    if (metaText && String(metaText).trim() === String(statusTag).trim()) metaText = '';
 
     // 头部右侧的来源署名（资源用 provider，其余组留空不显示）
     var credit = item.provider || '';
@@ -796,6 +829,10 @@
           footTags.map(function (tg) {
             return '<button type="button" class="pill-tag" data-tag="' + esc(tg) + '">' + esc(tg) + '</button>';
           }).join('') +
+          // 过期卡片追加一枚不可点击的「活动已结束」标识
+          (expired
+            ? '<span class="pill-tag is-expired-tag">' + esc(t('period.ended')) + '</span>'
+            : '') +
         '</div>' +
         '<div class="rc-foot-right">' +
           (badgeText ? '<span class="rc-badge">' + esc(badgeText) + '</span>' : '') +
@@ -851,24 +888,11 @@
     }
   }
 
-  /** 按三态标签统计：可薅（含长期有效）/ 失效 */
+  /** 顶部统计：可用（未过期，含长期有效）/ 失效（结束日期已过） */
   function updateStatusCounts(list) {
     var now = 0, off = 0;
     list.forEach(function (item) {
-      var s = getStatusTag(item);
-      if (s === '失效') off++;
-      else now++;
-    });
-    $$('[data-now-count]').forEach(function (n) { n.textContent = String(now); });
-    $$('[data-off-count]').forEach(function (n) { n.textContent = String(off); });
-  }
-
-  /** 按三态标签统计：可薅（含长期有效）/ 失效 */
-  function updateStatusCounts(list) {
-    var now = 0, off = 0;
-    list.forEach(function (item) {
-      var s = getStatusTag(item);
-      if (s === '失效') off++;
+      if (isExpired(item)) off++;
       else now++;
     });
     $$('[data-now-count]').forEach(function (n) { n.textContent = String(now); });
@@ -1512,10 +1536,10 @@
     var summaryEl = $('#detailSummary');
     if (summaryEl) summaryEl.textContent = pick(item.desc, state.lang) || '';
 
-    // 分类 / 状态
+    // 分类 / 时效
     var tags = tagArray(item);
-    var statusTag = getStatusTag(item);
-    var contentTags = tags.filter(function (x) { return STATUS_LABELS.indexOf(x) === -1; });
+    var statusTag = getPeriodLabel(item);
+    var contentTags = tags;
 
     var catEl = $('#detailCategory');
     if (catEl) catEl.textContent = contentTags[0] || group.crumb;
@@ -1523,7 +1547,11 @@
     var statusEl = $('#detailStatus');
     if (statusEl) {
       statusEl.textContent = statusTag;
-      statusEl.className = 'detail-status ' + (STATUS_CLASS_MAP[statusTag] || 'is-off');
+      statusEl.className = 'detail-status ' + periodClass(item);
+    }
+    if (isExpired(item)) {
+      var detailMain = document.getElementById('main');
+      if (detailMain) detailMain.classList.add('is-expired');
     }
 
     // 标签

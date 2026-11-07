@@ -20,7 +20,6 @@ requirements: 按 token 计费，需先充值；注册赠送额度有有效期�
 tags:
   - API 羊毛
   - 免费额度
-  - 长期有效
 detail:
   quota: 按 token 计费，需先充值；注册赠送额度有有效期，注意查看到期时间。
   limit: 按 token 计费，需先充值；注册赠送额度有有效期，注意查看到期时间。

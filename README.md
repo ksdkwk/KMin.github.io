@@ -82,10 +82,11 @@ badge:
   en: "Access"
 provider: "提供方名称"
 requirements: "使用要求，显示在红色框里"
+validFrom: "2026-11-08"   # 时效开始（可省略）
+# validTo: "2026-12-31"   # 时效结束（可省略 → ∞）
 tags:
   - "云服务器"
   - "免费额度"
-  - "长期有效"
 detail:
   quota: "额度说明"
   limit: "使用限制"
@@ -119,6 +120,8 @@ detail:
 | `provider` | 否 | 来源，显示为 `by xxx` |
 | `requirements` | 否 | 使用要求，红色框 |
 | `tags` | 是 | 标签数组，见下文 |
+| `validFrom` | 否 | 时效开始日期，如 `2026-11-08` |
+| `validTo` | 否 | 时效结束日期；省略即「∞」，两个都省略即「长期有效」 |
 | `detail` | 否 | 详情页数据表 |
 | `## 教程` | 否 | 正文里的教程段落 |
 
@@ -126,13 +129,19 @@ detail:
 
 ## 四、tags 标签规则
 
-`tags` 决定卡片出现在哪些筛选中。**每条必须有且仅有一个状态标签**：
+`tags` 决定卡片出现在哪些筛选中，**只写分类标签和自定义标签**。
 
-| 状态标签 | 含义 | 颜色 |
-| --- | --- | --- |
-| `长期有效` | 长期开放 | 绿 |
-| `现在可薅` | 活动进行中 | 橙 |
-| `失效` | 已结束 | 灰 |
+> ⚠️ 旧的 `长期有效` / `现在可薅` / `失效` 状态标签已废弃，
+> 时效改由 `validFrom` / `validTo` 自动生成：
+
+| 日期写法 | 卡片显示 |
+| --- | --- |
+| 都不写 | `长期有效` |
+| 只有 `validFrom` | `2026.11.8 -- ∞` |
+| 只有 `validTo` | `2026.11.10结束` |
+| 两个都写 | `2026.11.8 -- 2026.11.10` |
+
+结束日期已过的条目，卡片自动置灰并追加「活动已结束」标签。
 
 **分类标签**（决定顶部筛选按钮，必须与 `data/categories.json` 对应）：
 
@@ -145,11 +154,12 @@ detail:
 ### 示例
 
 ```yaml
+validFrom: "2026-11-08"   # 时效开始日期（可省略）
+# validTo: "2026-12-31"   # 时效结束日期（可省略 → ∞）
 tags:
   - "云服务器"        # 分类标签
   - "限时活动"        # 自定义标签
   - "学生认证"        # 自定义标签
-  - "现在可薅"        # 状态标签（唯一）
 ```
 
 ---
@@ -191,9 +201,12 @@ tags:
                             //  （resource: server/domain…；
                             //   baipiao: server/api/student；
                             //  charity: mirror/api/tool）
+  // 时效区间（三类共用同一套规则，构建期算好）
+  period: { from, to, shape },   // shape: long | fromOnly | toOnly | range
+  periodLabel: { zh, en },       // 卡片上直接显示的文案
+  expired,                       // 结束日期是否已过
   // 可选扩展槽位，由 group 决定卡片上显示哪一条：
   provider, requirements,   // 资源：来源署名 + 红框使用要求
-  expire,                   // 白嫖：有效期
   org,                      // 公益站：维护方
   detail, guide             // 详情页数据表与教程
 }
@@ -233,15 +246,14 @@ url: "https://code.visualstudio.com/"
 
 ### 白嫖 `content/baipiao/*.md`
 
-在资源字段基础上增加两个字段（与资源共用同一套卡片组件）：
+在资源字段基础上增加一个字段（与资源共用同一套卡片组件）：
 
 ```yaml
-expire:                # 卡片上「有效期」那一行
-  zh: "长期有效"
-  en: "Ongoing"
 categories:            # server / api / student，可写多个
   - api
 ```
+
+> 旧的 `expire` 自由文本字段已废弃，时效统一用 `validFrom` / `validTo`。
 
 ### 公益站 `content/charity/*.md`
 

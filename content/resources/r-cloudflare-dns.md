@@ -19,7 +19,6 @@ requirements: 需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF �
 tags:
   - 域名/TLS
   - 免费额度
-  - 长期有效
 detail:
   quota: 需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF 与自定义证书托管。
   limit: 需将域名的 NS 指向 Cloudflare；免费版不含高级 WAF 与自定义证书托管。

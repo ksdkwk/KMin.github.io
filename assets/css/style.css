@@ -2102,6 +2102,68 @@ a.rc-detail:hover svg { transform: translateX(2px); }
 .rc-head .rc-provider,
 .rc-head .rc-head-tags { flex: none; }
 
+/* ---------- ⑧ 时效标签与过期卡片 ---------- */
+
+/* 过期卡片：整体去饱和、降低对比，保留布局与交互（仍可点开详情） */
+.res-card.is-expired {
+  background: var(--bg-soft);
+  border-color: var(--line-soft);
+  box-shadow: none;
+  opacity: 0.72;
+  filter: grayscale(0.35);
+}
+.res-card.is-expired:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+  opacity: 0.85;
+}
+.res-card.is-expired .rc-logo {
+  background: var(--off-soft);
+  color: var(--off);
+  box-shadow: none;
+}
+.res-card.is-expired .rc-name { color: var(--ink-mute); }
+.res-card.is-expired .rc-sub,
+.res-card.is-expired .rc-summary { color: var(--ink-mute); }
+.res-card.is-expired .rc-site {
+  border-color: var(--line-soft);
+  background: transparent;
+}
+.res-card.is-expired .rc-site-label { background: var(--off); }
+.res-card.is-expired .rc-detail {
+  background: var(--off-soft);
+  color: var(--ink-mute);
+  box-shadow: none;
+}
+
+/* 时效徽章：长期有效 / 日期区间 / 长期区间共用同一枚胶囊 */
+/* 过期的「活动已结束」标签：不可点击，灰底虚边 */
+.pill-tag.is-expired-tag {
+  background: var(--off-soft);
+  border-color: var(--line-soft);
+  border-style: dashed;
+  color: var(--off);
+  cursor: default;
+  pointer-events: none;
+}
+.pill-tag.is-expired-tag:hover {
+  background: var(--off-soft);
+  border-color: var(--line-soft);
+  color: var(--off);
+  transform: none;
+}
+
+/* 日期区间文案用等宽字，左右冒号对齐不抖 */
+.status.is-ok,
+.status.is-off { font-variant-numeric: tabular-nums; }
+
+/* 详情页过期态 */
+#main.is-expired .detail-hero,
+#main.is-expired .detail-spec {
+  opacity: 0.72;
+  filter: grayscale(0.35);
+}
+
 /* ==========================================================================
    18. 详情页（对齐参考图：面包屑 → 概览 → 结构化数据 → 领取教程）
    ========================================================================== */

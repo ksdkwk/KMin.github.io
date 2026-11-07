@@ -21,7 +21,6 @@ org:
 category: mirror
 tags:
   - "公益镜像"
-  - "长期有效"
   - "容器镜像"
 detail:
   quota: "完全免费，由维护方自费提供。"

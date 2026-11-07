@@ -219,6 +219,70 @@ function detailFromFm(fm) {
   return out;
 }
 
+/* ---------- 4.0 时效区间（有效期）解析 ---------- */
+
+/**
+ * 时效区间的四段式模型：
+ *   from 有值 + to 无值 → 长期有效
+ *                       → 卡片显示「<from 格式化日期> -- ∞」
+ *   from 无值 + to 有值 → 卡片显示「<to 格式化日期>结束」
+ *   from 有值 + to 有值 → 卡片显示「<from> -- <to>」
+ *   from 无值 + to 无值 → 长期有效
+ *
+ * 日期一律规范成 YYYY.M.D（不补零），与需求示例「2026.11.8」一致。
+ */
+var STATUS_TAGS = ['长期有效', '现在可薅', '失效'];
+
+/** 把 2026-11-08 / 2026/11/8 / 2026.11.8 / 20261108 统一成 2026.11.8 */
+function normalizeDate(raw) {
+  if (raw == null || raw === '') return '';
+  if (raw instanceof Date) return formatDate(raw);
+  var s = String(raw).trim();
+  var m = s.match(/^(\d{4})[-./年]?(\d{1,2})[-./月]?(\d{1,2})日?$/);
+  if (!m) return '';
+  var y = parseInt(m[1], 10);
+  var mo = parseInt(m[2], 10);
+  var d = parseInt(m[3], 10);
+  if (mo < 1 || mo > 12 || d < 1 || d > 31) return '';
+  return y + '.' + mo + '.' + d;
+}
+
+function formatDate(dt) {
+  return dt.getFullYear() + '.' + (dt.getMonth() + 1) + '.' + dt.getDate();
+}
+
+/** 解析 front-matter 里的 validFrom / validTo；兼容旧字段 expireDate / startDate / endDate */
+function parsePeriod(fm) {
+  var from = normalizeDate(fm.validFrom != null ? fm.validFrom : (fm.startDate != null ? fm.startDate : fm.start));
+  var to = normalizeDate(fm.validTo != null ? fm.validTo : (fm.endDate != null ? fm.endDate : fm.end));
+  return { from: from, to: to };
+}
+
+/** 布局文案：'long' | 'fromOnly' | 'toOnly' | 'range' */
+function periodShape(period) {
+  if (period.from && period.to) return 'range';
+  if (period.from) return 'fromOnly';
+  if (period.to) return 'toOnly';
+  return 'long';
+}
+
+/** 卡片上展示的时效文字（构建期算好，前端不再重复推导） */
+function periodLabel(period, lang) {
+  var shape = periodShape(period);
+  if (shape === 'range') return period.from + ' -- ' + period.to;
+  if (shape === 'fromOnly') return period.from + ' -- ∞';
+  if (shape === 'toOnly') return period.to + (lang === 'en' ? ' ended' : '结束');
+  return lang === 'en' ? 'Long-term' : '长期有效';
+}
+
+/** 结束时间是否已过（只比到日期，当天算未结束） */
+function isExpired(period) {
+  if (!period.to) return false;
+  var parts = period.to.split('.');
+  var end = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 23, 59, 59, 999);
+  return Date.now() > end.getTime();
+}
+
 /* ---------- 4.1 统一卡片数据接口（资源 / 白嫖 / 公益站共用） ---------- */
 
 /**
@@ -309,6 +373,21 @@ function buildEntry(parsed, groupKey) {
   var tags = toArray(fm.tags);
   var categories = normalizeCategories(fm, tags, conf.catKey, conf.defaultCategory);
 
+  // 时效区间：front-matter 的 validFrom / validTo 优先；
+  // 老数据只有 tags 里的状态标签，做一次迁移映射，避免升级后全部变成「长期有效」
+  var period = parsePeriod(fm);
+  if (!period.from && !period.to) {
+    var legacy = tags.filter(function (t) { return STATUS_TAGS.indexOf(t) !== -1; });
+    if (legacy.indexOf('失效') !== -1) {
+      // 旧数据只写了「失效」没写日期：视为「到某个未记录的时间点结束」，
+      // 用一个明确的过期日期表达，保证样式和统计仍然正确
+      period.to = '2026.1.1';
+    }
+  }
+  var expired = isExpired(period);
+  // 状态标签从此由日期推导，不再手写在 tags 里
+  tags = tags.filter(function (t) { return STATUS_TAGS.indexOf(t) === -1; });
+
   var out = {
     id: fm.id,
     order: fm.order != null ? Number(fm.order) : null,
@@ -320,6 +399,10 @@ function buildEntry(parsed, groupKey) {
     url: fm.url || '',
     badge: bilingual(fm, 'badge'),
     tags: tags,
+    // ---- 时效区间（三类列表共用同一套规则） ----
+    period: { from: period.from, to: period.to, shape: periodShape(period) },
+    periodLabel: { zh: periodLabel(period, 'zh'), en: periodLabel(period, 'en') },
+    expired: expired,
     // categories 是权威字段（数组，支持一文多分类）；
     // category / pageCat 保留首项，兼容旧代码与旧缓存
     categories: categories,

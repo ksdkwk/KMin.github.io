@@ -23,9 +23,18 @@
     },
     "tags": [
       "云服务器",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],
@@ -89,9 +98,18 @@
     },
     "tags": [
       "云服务器",
-      "静态托管",
-      "长期有效"
+      "静态托管"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],
@@ -152,9 +170,18 @@
     "tags": [
       "云服务器",
       "限时活动",
-      "学生认证",
-      "现在可薅"
+      "学生认证"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],
@@ -214,9 +241,18 @@
     },
     "tags": [
       "API 羊毛",
-      "免费额度",
-      "现在可薅"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -272,9 +308,18 @@
     },
     "tags": [
       "API 羊毛",
-      "开发接口",
-      "长期有效"
+      "开发接口"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -330,9 +375,18 @@
     },
     "tags": [
       "API 羊毛",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -388,9 +442,18 @@
     },
     "tags": [
       "国内镜像源",
-      "公益镜像",
-      "长期有效"
+      "公益镜像"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -433,9 +496,18 @@
     },
     "tags": [
       "国内镜像源",
-      "公益镜像",
-      "长期有效"
+      "公益镜像"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -478,9 +550,18 @@
     },
     "tags": [
       "国内镜像源",
-      "公益镜像",
-      "失效"
+      "公益镜像"
     ],
+    "period": {
+      "from": "",
+      "to": "2026.1.1",
+      "shape": "toOnly"
+    },
+    "periodLabel": {
+      "zh": "2026.1.1结束",
+      "en": "2026.1.1 ended"
+    },
+    "expired": true,
     "categories": [
       "mirror"
     ],
@@ -523,9 +604,18 @@
     },
     "tags": [
       "域名/TLS",
-      "免费证书",
-      "长期有效"
+      "免费证书"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "domain"
     ],
@@ -581,9 +671,18 @@
     },
     "tags": [
       "域名/TLS",
-      "限时活动",
-      "现在可薅"
+      "限时活动"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "domain"
     ],
@@ -639,9 +738,18 @@
     },
     "tags": [
       "学生/学习资源",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "learn"
     ],
@@ -697,9 +805,18 @@
     },
     "tags": [
       "云服务器",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],
@@ -755,9 +872,18 @@
     },
     "tags": [
       "云服务器",
-      "免费额度",
-      "现在可薅"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],
@@ -813,9 +939,18 @@
     },
     "tags": [
       "API 羊毛",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -871,9 +1006,18 @@
     },
     "tags": [
       "API 羊毛",
-      "开发接口",
-      "长期有效"
+      "开发接口"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -929,9 +1073,18 @@
     },
     "tags": [
       "国内镜像源",
-      "公益镜像",
-      "长期有效"
+      "公益镜像"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -974,9 +1127,18 @@
     },
     "tags": [
       "国内镜像源",
-      "公益镜像",
-      "现在可薅"
+      "公益镜像"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -1019,9 +1181,18 @@
     },
     "tags": [
       "域名/TLS",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "domain"
     ],
@@ -1077,9 +1248,18 @@
     },
     "tags": [
       "学生/学习资源",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "learn"
     ],
@@ -1135,9 +1315,18 @@
     },
     "tags": [
       "学生/学习资源",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "learn"
     ],
@@ -1193,9 +1382,18 @@
     },
     "tags": [
       "Google 服务",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "google"
     ],
@@ -1251,9 +1449,18 @@
     },
     "tags": [
       "Google 服务",
-      "限时活动",
-      "现在可薅"
+      "限时活动"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "google"
     ],
@@ -1308,9 +1515,18 @@
       "en": "Capped"
     },
     "tags": [
-      "Google 服务",
-      "现在可薅"
+      "Google 服务"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "google"
     ],
@@ -1366,9 +1582,18 @@
     },
     "tags": [
       "Google 服务",
-      "免费额度",
-      "长期有效"
+      "免费额度"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "google"
     ],
@@ -1424,9 +1649,18 @@
     },
     "tags": [
       "云服务器",
-      "限时活动",
-      "现在可薅"
+      "限时活动"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],
@@ -1482,9 +1716,18 @@
     },
     "tags": [
       "云服务器",
-      "限时活动",
-      "长期有效"
+      "限时活动"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "server"
     ],

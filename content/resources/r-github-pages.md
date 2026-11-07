@@ -19,7 +19,6 @@ requirements: 仓库需为公开仓库；单站 1GB、月流量 100GB；不支�
 tags:
   - 云服务器
   - 静态托管
-  - 长期有效
 detail:
   quota: 公开仓库免费，单站容量 1GB，每月流量 100GB，每小时构建 10 次。
   limit: 只能托管静态文件，不支持服务端逻辑；私有仓库使用 Pages 需 GitHub Pro。

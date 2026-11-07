@@ -19,7 +19,6 @@ requirements: 替换 npm registry 即可；私有包请仍走官方源，避免�
 tags:
   - 国内镜像源
   - 公益镜像
-  - 长期有效
 detail:
   usage: npm 包的国内镜像源，替换 registry 地址即可加速依赖安装。
   limit: 仅镜像公开包；私有包发布仍应走官方源，避免发布失败。

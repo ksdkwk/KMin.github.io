@@ -20,7 +20,6 @@ requirements: 需注册并创建 API Key；:free 模型有每分钟与每日调�
 tags:
   - API 羊毛
   - 免费额度
-  - 现在可薅
 detail:
   quota: 需注册并创建 API Key；:free 模型有每分钟与每日调用上限，超额需充值。
   limit: 需注册并创建 API Key；:free 模型有每分钟与每日调用上限，超额需充值。

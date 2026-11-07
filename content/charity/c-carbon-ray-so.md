@@ -20,7 +20,6 @@ org:
 category: tool
 tags:
   - "公益工具"
-  - "长期有效"
   - "免注册"
 detail:
   quota: "完全免费，由维护方自费提供。"

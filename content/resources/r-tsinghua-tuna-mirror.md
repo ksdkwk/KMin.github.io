@@ -20,7 +20,6 @@ requirements: 公益服务，请勿用于压测或批量抓取；同步有延迟
 tags:
   - 国内镜像源
   - 公益镜像
-  - 长期有效
 detail:
   usage: 系统软件源（Ubuntu/Debian/CentOS 等）、PyPI、Docker、Anaconda 等多种上游的国内镜像。
   limit: 公益服务，请勿用于压测或批量抓取；同步有延迟，重要依赖建议同时配置多个上游。

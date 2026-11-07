@@ -23,9 +23,18 @@
     },
     "tags": [
       "公益镜像",
-      "长期有效",
       "教育网加速"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -84,9 +93,18 @@
     },
     "tags": [
       "公益镜像",
-      "长期有效",
       "容器镜像"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -145,9 +163,18 @@
     },
     "tags": [
       "公益镜像",
-      "长期有效",
       "全国直连"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "mirror"
     ],
@@ -206,9 +233,18 @@
     },
     "tags": [
       "公益 API",
-      "长期有效",
       "免注册"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -267,9 +303,18 @@
     },
     "tags": [
       "公益 API",
-      "长期有效",
       "免注册"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "api"
     ],
@@ -328,9 +373,18 @@
     },
     "tags": [
       "公益工具",
-      "长期有效",
       "免注册"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "tool"
     ],
@@ -389,9 +443,18 @@
     },
     "tags": [
       "公益工具",
-      "长期有效",
       "免注册"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "tool"
     ],
@@ -450,9 +513,18 @@
     },
     "tags": [
       "公益工具",
-      "长期有效",
       "免注册"
     ],
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
     "categories": [
       "tool"
     ],

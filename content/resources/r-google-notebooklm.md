@@ -18,7 +18,6 @@ provider: Google
 requirements: 免费额度按每日提问次数限制；上传文档有数量与体积上限。
 tags:
   - Google 服务
-  - 现在可薅
 detail:
   quota: 免费额度按每日提问次数限制；上传文档有数量与体积上限。
   limit: 免费额度按每日提问次数限制；上传文档有数量与体积上限。
