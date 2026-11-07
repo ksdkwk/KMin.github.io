@@ -1309,7 +1309,6 @@
       "免费额度"
     ],
     "region": [
-      "cn",
       "overseas"
     ],
     "period": {
@@ -1729,6 +1728,7 @@
       "新人权益"
     ],
     "region": [
+      "cn",
       "overseas"
     ],
     "period": {
@@ -2108,7 +2108,6 @@
     },
     "tags": [],
     "region": [
-      "cn",
       "overseas"
     ],
     "period": {
@@ -2401,7 +2400,8 @@
       "NAS"
     ],
     "region": [
-      "cn"
+      "cn",
+      "overseas"
     ],
     "period": {
       "from": "",

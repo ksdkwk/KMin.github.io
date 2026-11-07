@@ -16,7 +16,7 @@ badge:
   en: Free GPU
 provider: Google
 requirements: 需 Google 账号；免费 GPU 会话闲置约 90 分钟会被回收，单次最长 12 小时。
-region: overseas
+region: [overseas]
 tags:
   - Google 服务
   - 免费额度

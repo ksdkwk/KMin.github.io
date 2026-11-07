@@ -20,7 +20,7 @@ expire:
   en: "Ongoing"
 categories:
   - api
-region: cn
+region: [cn]
 tags:
   - "免费 API"
   - "需手机实名"

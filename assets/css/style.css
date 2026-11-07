@@ -1564,7 +1564,8 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
 }
 
 /* 顶级标签列：固定宽度 + 右侧竖线，视觉上跟二级标签分开。
-   固定 min-width 是为了让三行的二级标签左边缘对齐，不会参差不齐。 */
+   三行（全部 / 所有时间 / 全球）用同一套尺寸，保证边框大小完全一致、
+   二级标签左边缘也对齐。 */
 .chips-top {
   flex: 0 0 auto;
   display: flex;
@@ -1572,15 +1573,33 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
   margin-bottom: 0;
   padding-right: 14px;
   border-right: 1.5px dashed var(--line-soft);
-  min-width: 130px;
+  width: 148px;          /* 足够容纳「所有时间 36 ✓」，三行统一 */
   min-height: 36px;
   align-items: center;
 }
 
-.chips-top .chip { white-space: nowrap; }
+/* 顶级标签：占据整列宽度，文字左对齐、计数右对齐，三行边框尺寸完全一致 */
+.chips-top .chip-top {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  padding-left: 16px;
+  padding-right: 16px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
 
-/* 三行结构里的两组标签都由 grid / flex 负责排布，禁用旧规则的横向滚动 */
-.filter-bar .filter-line > .chips {
+/* 文字与数字之间用自动弹性间隔撑开，做到「前文字后数字」两端对齐 */
+.chips-top .chip-top .chip-count {
+  margin-left: auto;
+  padding-left: 10px;
+}
+
+/* 三行结构里的二级标签由 grid 负责排布，禁用旧规则的横向滚动。
+   顶级列 .chips-top 有自己的固定宽度，用 :not() 排除。 */
+.filter-bar .filter-line > .chips:not(.chips-top) {
   flex: none;
   overflow: visible;
   padding-bottom: 0;

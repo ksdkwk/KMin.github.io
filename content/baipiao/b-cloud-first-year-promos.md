@@ -20,7 +20,7 @@ expire:
   en: "Campaign-based"
 categories:
   - server
-region: cn
+region: [cn]
 tags:
   - "VPS/服务器"
   - "首年低价"

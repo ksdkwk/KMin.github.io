@@ -17,7 +17,7 @@ badge:
   en: Long-term
 provider: 清华大学 TUNA 协会
 requirements: 公益服务，请勿用于压测或批量抓取；同步有延迟，重要依赖建议配多个上游。
-region: cn
+region: [cn]
 tags:
   - 国内镜像源
   - 公益镜像

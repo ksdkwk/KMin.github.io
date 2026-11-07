@@ -13,7 +13,7 @@ badge:
   zh: "新人权益"
 provider: "AWS"
 requirements: "Free Plan 不是永久账号，6 个月到期或额度耗尽会关闭；EC2 对 2025-07-15 以后新账户主要消耗 Credits，并非永久免费的 VPS。要在到期后保留资源，需升级 Paid Plan；Always Free 超额部分会按量收费。"
-region: [overseas]
+region: [cn, overseas]
 detail:
   quota: "新账户注册即得 $100 AWS Credits，完成控制台指定的 5 项探索任务最多再得 $100；Free Plan 最长 6 个月或额度用完即结束。另有 30 多项 Always Free 服务提供长期月度免费用量，具体项目和额度随官方清单调整。"
   limit: "Free Plan 不是永久账号，6 个月到期或额度耗尽会关闭；EC2 对 2025-07-15 以后新账户主要消耗 Credits，并非永久免费的 VPS。要在到期后保留资源，需升级 Paid Plan；Always Free 超额部分会按量收费。"

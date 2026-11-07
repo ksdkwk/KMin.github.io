@@ -18,7 +18,7 @@ badge:
 provider: 社区维护
 requirements: 公共加速地址变动频繁，已在本文标注失效；请自行寻找可用代理并配置多个备用。
 validTo: "2026-01-01"
-region: cn
+region: [cn]
 tags:
   - 国内镜像源
   - 公益镜像

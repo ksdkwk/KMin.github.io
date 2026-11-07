@@ -16,7 +16,7 @@ badge:
   en: Free tier
 provider: Google
 requirements: 免费额度按每分钟与每日请求数限制；超出后需绑定结算账号启用付费。
-region: overseas
+region: [overseas]
 tags:
   - Google 服务
   - 免费额度

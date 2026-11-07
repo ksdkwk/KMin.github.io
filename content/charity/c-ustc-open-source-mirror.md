@@ -19,7 +19,7 @@ org:
   zh: "中国科学技术大学"
   en: "USTC"
 category: mirror
-region: cn
+region: [cn]
 tags:
   - "公益镜像"
   - "教育网加速"

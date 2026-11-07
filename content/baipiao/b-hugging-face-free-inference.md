@@ -20,7 +20,7 @@ expire:
   en: "Monthly reset"
 categories:
   - api
-region: overseas
+region: [overseas]
 tags:
   - "免费 API"
   - "每月刷新"

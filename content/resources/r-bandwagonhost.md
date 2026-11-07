@@ -17,7 +17,7 @@ badge:
   en: Stable
 provider: BandwagonHost
 requirements: 按年付更划算；不同套餐线路差异较大，购买前确认机房与线路。
-region: overseas
+region: [overseas]
 tags:
   - 云服务器
   - 限时活动

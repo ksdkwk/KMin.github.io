@@ -20,7 +20,7 @@ expire:
   en: "Changes often"
 categories:
   - server
-region: overseas
+region: [overseas]
 tags:
   - "VPS/服务器"
   - "首年低价"

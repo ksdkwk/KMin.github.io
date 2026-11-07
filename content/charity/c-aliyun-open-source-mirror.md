@@ -19,7 +19,7 @@ org:
   zh: "阿里云"
   en: "Alibaba Cloud"
 category: mirror
-region: cn
+region: [cn]
 tags:
   - "公益镜像"
   - "全国直连"

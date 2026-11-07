@@ -16,7 +16,7 @@ badge:
   en: Free
 provider: 社区（GitHub）
 requirements: 纯参考路线图，无需注册；内容由社区贡献，具体技术选型仍需自行判断。
-region: [cn, overseas]
+region: [overseas]
 tags:
   - 学生/学习资源
   - 免费额度

@@ -17,7 +17,7 @@ badge:
   en: Free
 provider: Google
 requirements: CDN 引入方式在部分地区访问较慢，建议自托管字体文件或换用镜像。
-region: overseas
+region: [overseas]
 tags:
   - API 羊毛
   - 免费额度

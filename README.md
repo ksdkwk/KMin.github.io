@@ -122,7 +122,7 @@ detail:
 | `tags` | 是 | 标签数组，见下文 |
 | `validFrom` | 否 | 时效开始日期，如 `2026-11-08` |
 | `validTo` | 否 | 时效结束日期；省略即「∞」，两个都省略即「长期有效」 |
-| `region` | 否 | 地区归属：`cn` / `overseas` / `[cn, overseas]`，省略按后者处理 |
+| `region` | 是 | 地区归属：`[cn]` / `[overseas]` / `[cn, overseas]`，按官网服务器所在地判定 |
 | `detail` | 否 | 详情页数据表 |
 | `## 教程` | 否 | 正文里的教程段落 |
 
@@ -174,13 +174,16 @@ detail:
 
 每组标签上的数字都是**在当前其它维度筛选结果内**的计数，会随选择实时变化。
 
-地区归属写在 Markdown 的 `region` 字段：
+地区归属写在 Markdown 的 `region` 字段，**每张卡片都必须有**：
 
 ```yaml
-region: cn            # 只在中国大陆
-region: overseas      # 只在港澳台及国外
-region: [cn, overseas]# 不限地区（全球通用）
+region: [cn]            # 服务器只在中国大陆
+region: [overseas]      # 服务器只在港澳台及国外
+region: [cn, overseas]  # 境内外都有服务器，或有中国官网
 ```
+
+判定依据是官网服务器所在地，不是访问速度。例如 AWS 有中国区 → `[cn, overseas]`；
+搬瓦工虽有 CN2 线路但机房在境外 → `[overseas]`；MDN 有中文站 → `[cn, overseas]`。
 
 > 工具页、笔记页的筛选仍是单选，也没有时间/地区筛选。
 

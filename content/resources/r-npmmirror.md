@@ -16,7 +16,7 @@ badge:
   en: In use
 provider: 阿里巴巴
 requirements: 替换 npm registry 即可；私有包请仍走官方源，避免发布失败。
-region: cn
+region: [cn]
 tags:
   - 国内镜像源
   - 公益镜像

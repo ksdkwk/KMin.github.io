@@ -13,7 +13,7 @@ badge:
   zh: "免费托管"
 provider: "Render"
 requirements: "免费 Web 服务闲置即休眠，下次请求要等几十秒冷启动，不适合要求随叫随到的服务；免费数据库有时限 / 容量限制；规格小，跑重负载会 OOM。"
-region: [cn, overseas]
+region: [overseas]
 detail:
   quota: "静态站点免费、带全球 CDN 与自动 HTTPS；免费 Web 服务实例 512M 内存、共享 CPU，闲置约 15 分钟后休眠、有请求再冷启动；免费实例时长按月份配额。免费 PostgreSQL / Redis 有额度但存在时限政策。具体配额与是否变动以官方 pricing 页为准。"
   limit: "免费 Web 服务闲置即休眠，下次请求要等几十秒冷启动，不适合要求随叫随到的服务；免费数据库有时限 / 容量限制；规格小，跑重负载会 OOM。"

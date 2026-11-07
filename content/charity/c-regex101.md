@@ -18,7 +18,7 @@ org:
   zh: "社区维护"
   en: "Community"
 category: tool
-region: overseas
+region: [overseas]
 tags:
   - "公益工具"
   - "免注册"

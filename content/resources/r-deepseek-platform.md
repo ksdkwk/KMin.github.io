@@ -17,7 +17,7 @@ badge:
   en: Low cost
 provider: DeepSeek
 requirements: 按 token 计费，需先充值；注册赠送额度有有效期，注意查看到期时间。
-region: cn
+region: [cn]
 tags:
   - API 羊毛
   - 免费额度
