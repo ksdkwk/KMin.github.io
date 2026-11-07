@@ -18,11 +18,14 @@ badge:
 expire:
   zh: "长期有效"
   en: "Ongoing"
-category: quota
+categories:
+  - server
+  - api
 tags:
-  - "免费额度"
-  - "现在可薅"
+  - "VPS/服务器"
+  - "免费 API"
   - "每月刷新"
+  - "现在可薅"
 detail:
   quota: "个人项目免费额度很够用，超过会暂停到下个月；商用需看清条款。"
   limit: "以官方活动页说明为准。"

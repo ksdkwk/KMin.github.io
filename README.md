@@ -187,8 +187,9 @@ tags:
   name, tag, desc, badge,   // 双语对象 { zh, en }
   logo, url,                // 卡片角标与官网直达链接
   tags: [],                 // 标签数组，第一个分类标签决定头部展示
-  category,                 // 分类 id（resource: server/domain…；
-                            //  baipiao: quota/api/event/lottery；
+  categories,               // 分类 id 数组，一篇可属于多个分类
+                            //  （resource: server/domain…；
+                            //   baipiao: server/api/student；
                             //  charity: mirror/api/tool）
   // 可选扩展槽位，由 group 决定卡片上显示哪一条：
   provider, requirements,   // 资源：来源署名 + 红框使用要求
@@ -203,8 +204,10 @@ tags:
 附加元信息）登记在 `LIST_GROUPS` / `GROUP_STATS` / `ENTRY_META` 三张配置表里，
 新增一类列表只要各加一项，不用再复制一遍渲染代码。
 
-> 资源卡片的 `category` 在构建期由 `tags` 里的分类中文名自动折算，
-> 白嫖/公益站沿用 Markdown 里的 `category` 字段；两类写法都兼容，前端只看 `category`。
+> `categories` 是权威字段；`category` / `pageCat` 保留为它的首项，兼容旧代码。
+> 资源卡片的分类在构建期由 `tags` 里的分类中文名自动折算，白嫖/公益站直接用
+> Markdown 里的 `categories`（或旧的 `category` 单值，会自动包成数组）。
+> **一篇可以同时属于多个分类**，例如 Vercel 免费额度既是 `server` 也是 `api`。
 
 ---
 
@@ -236,7 +239,8 @@ url: "https://code.visualstudio.com/"
 expire:                # 卡片上「有效期」那一行
   zh: "长期有效"
   en: "Ongoing"
-category: quota        # quota / api / event / lottery
+categories:            # server / api / student，可写多个
+  - api
 ```
 
 ### 公益站 `content/charity/*.md`

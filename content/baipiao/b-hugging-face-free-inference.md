@@ -18,11 +18,12 @@ badge:
 expire:
   zh: "每月刷新"
   en: "Monthly reset"
-category: api
+categories:
+  - api
 tags:
   - "免费 API"
-  - "现在可薅"
   - "每月刷新"
+  - "现在可薅"
 detail:
   quota: "每月少量免费推理额度，跑分类、向量、小模型够用；大模型基本不用想。"
   limit: "以官方活动页说明为准。"

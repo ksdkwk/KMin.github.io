@@ -59,10 +59,10 @@
       }
     },
     {
-      "id": "quota",
+      "id": "server",
       "label": {
-        "zh": "免费额度",
-        "en": "Free quota"
+        "zh": "VPS/服务器",
+        "en": "VPS & Servers"
       }
     },
     {
@@ -73,17 +73,10 @@
       }
     },
     {
-      "id": "event",
+      "id": "student",
       "label": {
-        "zh": "限时活动",
-        "en": "Limited events"
-      }
-    },
-    {
-      "id": "lottery",
-      "label": {
-        "zh": "抽奖福利",
-        "en": "Giveaways"
+        "zh": "学生权益",
+        "en": "Student perks"
       }
     }
   ],

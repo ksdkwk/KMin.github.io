@@ -63,8 +63,8 @@
       'nav.baipiao': '白嫖', 'nav.charity': '公益站',
       'nav.tools.all': '全部工具', 'nav.tools.dev': '开发', 'nav.tools.design': '设计',
       'nav.tools.productivity': '效率', 'nav.tools.system': '系统',
-      'nav.baipiao.all': '全部白嫖', 'nav.baipiao.quota': '免费额度', 'nav.baipiao.api': '免费 API',
-      'nav.baipiao.event': '限时活动', 'nav.baipiao.lottery': '抽奖福利',
+      'nav.baipiao.all': '全部白嫖', 'nav.baipiao.server': 'VPS/服务器', 'nav.baipiao.api': '免费 API',
+      'nav.baipiao.student': '学生权益',
       'ui.search': '搜索', 'ui.theme': '切换主题', 'ui.lang': '切换语言', 'ui.menu': '菜单', 'ui.top': '回到顶部',
       'common.viewAll': '查看全部',
       'common.count': '共 {n} 条',
@@ -150,7 +150,7 @@
       'notesPage.empty': '没有匹配的笔记。换个关键词试试。',
 
       'bpPage.title': '白嫖专区',
-      'bpPage.desc': '把还能领的免费额度、限时活动和抽奖福利集中放这里。每条都标了有效期口径，过期就下架，不占版面。',
+      'bpPage.desc': '低价或免费服务器、免费 API、学生权益集中放这里。每条都标了有效期口径，一条可以同时属于多个分类。',
       'bpPage.stat1': '在列', 'bpPage.stat2': '可领', 'bpPage.stat3': '已结束',
       'bpPage.filter': '在本页筛选白嫖项目…',
       'bpPage.empty': '没有匹配的项目。换个关键词，或切回「全部」。',
@@ -182,8 +182,8 @@
       'nav.baipiao': 'Freebies', 'nav.charity': 'Public goods',
       'nav.tools.all': 'All tools', 'nav.tools.dev': 'Development', 'nav.tools.design': 'Design',
       'nav.tools.productivity': 'Productivity', 'nav.tools.system': 'System',
-      'nav.baipiao.all': 'All freebies', 'nav.baipiao.quota': 'Free quota', 'nav.baipiao.api': 'Free API',
-      'nav.baipiao.event': 'Limited events', 'nav.baipiao.lottery': 'Giveaways',
+      'nav.baipiao.all': 'All freebies', 'nav.baipiao.server': 'VPS & Servers', 'nav.baipiao.api': 'Free API',
+      'nav.baipiao.student': 'Student perks',
       'ui.search': 'Search', 'ui.theme': 'Toggle theme', 'ui.lang': 'Switch language', 'ui.menu': 'Menu', 'ui.top': 'Back to top',
       'common.viewAll': 'View all',
       'common.count': '{n} items',
@@ -269,7 +269,7 @@
       'notesPage.empty': 'No matching notes. Try another keyword.',
 
       'bpPage.title': 'Freebie board',
-      'bpPage.desc': 'Free quotas, limited-time offers and giveaways that still work, collected in one place. Each entry states its validity, and expired ones get pulled.',
+      'bpPage.desc': 'Cheap or free servers, free APIs and student perks that still work, collected in one place. Each entry states its validity, and one entry can belong to several categories.',
       'bpPage.stat1': 'Listed', 'bpPage.stat2': 'Claimable', 'bpPage.stat3': 'Ended',
       'bpPage.filter': 'Filter freebies on this page…',
       'bpPage.empty': 'No matching entries. Try another keyword, or switch back to All.',
@@ -578,7 +578,9 @@
       var tags = tagArray(item);
 
       if (cat && cat !== 'all') {
-        var byCategory = item.category === cat;
+        // 一篇可以属于多个分类：先比 categories 数组，再退回单值 category
+        var cats = item.categories && item.categories.length ? item.categories : [item.category];
+        var byCategory = cats.indexOf(cat) !== -1;
         var byTag = catZh ? tags.indexOf(catZh) !== -1 : false;
         if (!byCategory && !byTag) return false;
       }
@@ -1007,9 +1009,11 @@
    * 只有工具仍用 category 表示「开发/设计」这类工具分组，规则一致。
    */
   function countByCategory(item, cat, groupKey) {
-    if (item.category) return item.category === cat.id;
+    // 一篇可以属于多个分类
+    var cats = item.categories && item.categories.length ? item.categories : [item.category];
+    if (cats.length && cats[0]) return cats.indexOf(cat.id) !== -1;
 
-    // 兼容没有 category 字段的老数据：退回按标签中文名匹配
+    // 兼容没有分类字段的老数据：退回按标签中文名匹配
     var labelZh = pick(cat.label, 'zh');
     return tagArray(item).indexOf(labelZh) !== -1;
   }

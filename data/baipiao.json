@@ -22,12 +22,15 @@
       "en": "Claim"
     },
     "tags": [
-      "免费额度",
-      "现在可薅",
-      "需手机实名"
+      "免费 API",
+      "需手机实名",
+      "现在可薅"
     ],
-    "category": "quota",
-    "pageCat": "quota",
+    "categories": [
+      "api"
+    ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "",
     "requirements": "",
     "expire": {
@@ -84,12 +87,17 @@
       "en": "Monthly reset"
     },
     "tags": [
-      "免费额度",
-      "现在可薅",
-      "需绑卡"
+      "免费 API",
+      "VPS/服务器",
+      "需绑卡",
+      "现在可薅"
     ],
-    "category": "quota",
-    "pageCat": "quota",
+    "categories": [
+      "api",
+      "server"
+    ],
+    "category": "api",
+    "pageCat": "api",
     "provider": "",
     "requirements": "",
     "expire": {
@@ -146,12 +154,17 @@
       "en": "Student ID"
     },
     "tags": [
-      "免费额度",
-      "长期有效",
-      "需学生认证"
+      "学生权益",
+      "免费 API",
+      "需学生认证",
+      "长期有效"
     ],
-    "category": "quota",
-    "pageCat": "quota",
+    "categories": [
+      "student",
+      "api"
+    ],
+    "category": "student",
+    "pageCat": "student",
     "provider": "",
     "requirements": "",
     "expire": {
@@ -209,8 +222,11 @@
     },
     "tags": [
       "免费 API",
-      "长期有效",
-      "有限速"
+      "有限速",
+      "长期有效"
+    ],
+    "categories": [
+      "api"
     ],
     "category": "api",
     "pageCat": "api",
@@ -267,8 +283,11 @@
     },
     "tags": [
       "免费 API",
-      "现在可薅",
-      "每月刷新"
+      "每月刷新",
+      "现在可薅"
+    ],
+    "categories": [
+      "api"
     ],
     "category": "api",
     "pageCat": "api",
@@ -324,12 +343,17 @@
       "en": "Free"
     },
     "tags": [
-      "免费额度",
-      "现在可薅",
-      "每月刷新"
+      "VPS/服务器",
+      "免费 API",
+      "每月刷新",
+      "现在可薅"
     ],
-    "category": "quota",
-    "pageCat": "quota",
+    "categories": [
+      "server",
+      "api"
+    ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "",
     "requirements": "",
     "expire": {
@@ -382,12 +406,15 @@
       "en": "Renewal"
     },
     "tags": [
-      "限时活动",
-      "长期有效",
-      "首年低价"
+      "VPS/服务器",
+      "首年低价",
+      "长期有效"
     ],
-    "category": "event",
-    "pageCat": "event",
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "",
     "requirements": "",
     "expire": {
@@ -440,12 +467,15 @@
       "en": "Year one only"
     },
     "tags": [
-      "限时活动",
-      "长期有效",
-      "首年低价"
+      "VPS/服务器",
+      "首年低价",
+      "长期有效"
     ],
-    "category": "event",
-    "pageCat": "event",
+    "categories": [
+      "server"
+    ],
+    "category": "server",
+    "pageCat": "server",
     "provider": "",
     "requirements": "",
     "expire": {
@@ -458,122 +488,6 @@
       "limit": "以官方活动页说明为准。",
       "avoid": "活动类信息时效性强，建议领取前先确认官方页面仍在有效期内。",
       "valid": "随时调整",
-      "scope": "本页信息整理自公开资料，仅供参考。"
-    },
-    "guide": [
-      {
-        "title": "访问官方页面",
-        "body": "通过卡片上的「官网入口」打开官方活动页。"
-      },
-      {
-        "title": "按页面指引操作",
-        "body": "通常需要注册账号并完成验证，按页面提示逐步操作。"
-      },
-      {
-        "title": "确认到账",
-        "body": "操作完成后在账户的额度/权益页面确认是否已到账。"
-      }
-    ]
-  },
-  {
-    "id": "b-api-tool-credits",
-    "order": 9,
-    "group": "baipiao",
-    "name": {
-      "zh": "接口调试工具送额度",
-      "en": "API tool credits"
-    },
-    "tag": {
-      "zh": "抽奖福利 · 官方活动",
-      "en": "Giveaway · Official event"
-    },
-    "desc": {
-      "zh": "部分 API 聚合平台会做注册送额度的活动，金额不大，够验证一次想法。",
-      "en": "Some API aggregators run signup-credit events. The amounts are small but enough to validate an idea."
-    },
-    "logo": "CR",
-    "url": "https://openrouter.ai/",
-    "badge": {
-      "zh": "看活动页",
-      "en": "See events"
-    },
-    "tags": [
-      "抽奖福利",
-      "长期有效",
-      "活动制"
-    ],
-    "category": "lottery",
-    "pageCat": "lottery",
-    "provider": "",
-    "requirements": "",
-    "expire": {
-      "zh": "活动制",
-      "en": "Campaign-based"
-    },
-    "org": null,
-    "detail": {
-      "quota": "部分 API 聚合平台会做注册送额度的活动，金额不大，够验证一次想法。",
-      "limit": "以官方活动页说明为准。",
-      "avoid": "活动类信息时效性强，建议领取前先确认官方页面仍在有效期内。",
-      "valid": "活动制",
-      "scope": "本页信息整理自公开资料，仅供参考。"
-    },
-    "guide": [
-      {
-        "title": "访问官方页面",
-        "body": "通过卡片上的「官网入口」打开官方活动页。"
-      },
-      {
-        "title": "按页面指引操作",
-        "body": "通常需要注册账号并完成验证，按页面提示逐步操作。"
-      },
-      {
-        "title": "确认到账",
-        "body": "操作完成后在账户的额度/权益页面确认是否已到账。"
-      }
-    ]
-  },
-  {
-    "id": "b-ai-beta-access",
-    "order": 10,
-    "group": "baipiao",
-    "name": {
-      "zh": "AI 平台内测资格",
-      "en": "AI beta access"
-    },
-    "tag": {
-      "zh": "抽奖福利 · 名额有限",
-      "en": "Giveaway · Limited spots"
-    },
-    "desc": {
-      "zh": "新模型上线前常放内测名额，官方 Discord 或社区会发邀请码，靠运气。",
-      "en": "Beta slots open before model launches; codes appear on official Discord or community channels. Luck-based."
-    },
-    "logo": "BT",
-    "url": "https://discord.com/",
-    "badge": {
-      "zh": "已结束",
-      "en": "Ended"
-    },
-    "tags": [
-      "抽奖福利",
-      "失效",
-      "名额有限"
-    ],
-    "category": "lottery",
-    "pageCat": "lottery",
-    "provider": "",
-    "requirements": "",
-    "expire": {
-      "zh": "已结束",
-      "en": "Ended"
-    },
-    "org": null,
-    "detail": {
-      "quota": "新模型上线前常放内测名额，官方 Discord 或社区会发邀请码，靠运气。",
-      "limit": "以官方活动页说明为准。",
-      "avoid": "活动类信息时效性强，建议领取前先确认官方页面仍在有效期内。",
-      "valid": "已结束",
       "scope": "本页信息整理自公开资料，仅供参考。"
     },
     "guide": [

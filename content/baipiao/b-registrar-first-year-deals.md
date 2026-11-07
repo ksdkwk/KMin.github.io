@@ -18,11 +18,12 @@ badge:
 expire:
   zh: "随时调整"
   en: "Changes often"
-category: event
+categories:
+  - server
 tags:
-  - "限时活动"
-  - "长期有效"
+  - "VPS/服务器"
   - "首年低价"
+  - "长期有效"
 detail:
   quota: "新顶级域名首年经常几块钱，续费几十上百。只做短期项目可以薅，长期站别图这个。"
   limit: "以官方活动页说明为准。"

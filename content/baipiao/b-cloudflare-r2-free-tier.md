@@ -18,11 +18,14 @@ badge:
 expire:
   zh: "长期有效"
   en: "Ongoing"
-category: quota
+categories:
+  - api
+  - server
 tags:
-  - "免费额度"
-  - "现在可薅"
+  - "免费 API"
+  - "VPS/服务器"
   - "需绑卡"
+  - "现在可薅"
 detail:
   quota: "每月 10GB 存储 + 每月 100 万次 A 类操作 + 1000 万次 B 类操作，出网流量全免。"
   limit: "需绑定支付方式（可用虚拟卡）；超出额度按量计费。"

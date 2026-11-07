@@ -18,11 +18,12 @@ badge:
 expire:
   zh: "长期有效"
   en: "Ongoing"
-category: quota
+categories:
+  - api
 tags:
-  - "免费额度"
-  - "现在可薅"
+  - "免费 API"
   - "需手机实名"
+  - "现在可薅"
 detail:
   quota: "注册赠送一批 token 额度，具体数额以注册时的活动页为准。"
   limit: "需完成手机号验证；赠送额度有有效期，过期作废。"

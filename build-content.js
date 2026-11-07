@@ -232,7 +232,7 @@ function detailFromFm(fm) {
  */
 var ENTRY_SCHEMA = {
   resources: { group: 'resource', catKey: 'resource', defaultCategory: '' },
-  baipiao:   { group: 'baipiao', catKey: 'baipiao', defaultCategory: 'quota' },
+  baipiao:   { group: 'baipiao', catKey: 'baipiao', defaultCategory: 'api' },
   charity:   { group: 'charity', catKey: 'charity', defaultCategory: 'mirror' }
 };
 
@@ -264,10 +264,42 @@ function categoryLabelIndex() {
  */
 function deriveCategory(tags, catKey) {
   var map = categoryLabelIndex()[catKey] || {};
+  var out = [];
   for (var i = 0; i < tags.length; i++) {
-    if (map[tags[i]]) return map[tags[i]];
+    if (map[tags[i]] && out.indexOf(map[tags[i]]) === -1) out.push(map[tags[i]]);
   }
-  return '';
+  return out;
+}
+
+/**
+ * 把 Markdown 里的分类写法统一成 id 数组。
+ * 支持三种写法，一篇可以同时属于多个分类：
+ *   category: server                      → ['server']
+ *   category: [server, api]               → ['server', 'api']
+ *   categories:                           → 同 category（新写法，语义更清楚）
+ *     - server
+ *     - api
+ * 也接受中文分类名，会按 categories.json 折算成 id。
+ */
+function normalizeCategories(fm, tags, catKey, fallback) {
+  var raw = fm.categories != null ? fm.categories : fm.category;
+  var list = toArray(raw);
+  var index = categoryLabelIndex()[catKey] || {};
+  var out = [];
+
+  list.forEach(function (v) {
+    var id = String(v).trim();
+    if (!id) return;
+    if (index[id]) id = index[id];           // 中文名 → id
+    if (out.indexOf(id) === -1) out.push(id);
+  });
+
+  if (!out.length) {
+    // 没有显式分类时，从 tags 里的分类标签反推（资源页一直是这么写的）
+    out = deriveCategory(tags, catKey);
+  }
+  if (!out.length && fallback) out.push(fallback);
+  return out;
 }
 
 /** 统一构建一个条目；groupKey 取 resources / baipiao / charity */
@@ -275,9 +307,7 @@ function buildEntry(parsed, groupKey) {
   var fm = parsed.fm;
   var conf = ENTRY_SCHEMA[groupKey] || {};
   var tags = toArray(fm.tags);
-  var category = fm.category
-    ? String(fm.category)
-    : (deriveCategory(tags, conf.catKey) || conf.defaultCategory || '');
+  var categories = normalizeCategories(fm, tags, conf.catKey, conf.defaultCategory);
 
   var out = {
     id: fm.id,
@@ -290,9 +320,11 @@ function buildEntry(parsed, groupKey) {
     url: fm.url || '',
     badge: bilingual(fm, 'badge'),
     tags: tags,
-    category: category,
-    // pageCat 是旧字段名，保留一份，避免老代码/老缓存读到 undefined
-    pageCat: category,
+    // categories 是权威字段（数组，支持一文多分类）；
+    // category / pageCat 保留首项，兼容旧代码与旧缓存
+    categories: categories,
+    category: categories[0] || '',
+    pageCat: categories[0] || '',
     // ---- 可选扩展槽位：没有的组就留空，前端按 group 决定是否渲染 ----
     provider: fm.provider || '',
     requirements: fm.requirements || '',

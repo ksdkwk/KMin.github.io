@@ -18,11 +18,12 @@ badge:
 expire:
   zh: "活动制"
   en: "Campaign-based"
-category: event
+categories:
+  - server
 tags:
-  - "限时活动"
-  - "长期有效"
+  - "VPS/服务器"
   - "首年低价"
+  - "长期有效"
 detail:
   quota: "阿里云、腾讯云常年有 99 元档的首年机器，续费会回原价，买之前先算三年总价。"
   limit: "以官方活动页说明为准。"

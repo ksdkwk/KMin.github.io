@@ -26,6 +26,9 @@
       "长期有效",
       "教育网加速"
     ],
+    "categories": [
+      "mirror"
+    ],
     "category": "mirror",
     "pageCat": "mirror",
     "provider": "",
@@ -83,6 +86,9 @@
       "公益镜像",
       "长期有效",
       "容器镜像"
+    ],
+    "categories": [
+      "mirror"
     ],
     "category": "mirror",
     "pageCat": "mirror",
@@ -142,6 +148,9 @@
       "长期有效",
       "全国直连"
     ],
+    "categories": [
+      "mirror"
+    ],
     "category": "mirror",
     "pageCat": "mirror",
     "provider": "",
@@ -199,6 +208,9 @@
       "公益 API",
       "长期有效",
       "免注册"
+    ],
+    "categories": [
+      "api"
     ],
     "category": "api",
     "pageCat": "api",
@@ -258,6 +270,9 @@
       "长期有效",
       "免注册"
     ],
+    "categories": [
+      "api"
+    ],
     "category": "api",
     "pageCat": "api",
     "provider": "",
@@ -315,6 +330,9 @@
       "公益工具",
       "长期有效",
       "免注册"
+    ],
+    "categories": [
+      "tool"
     ],
     "category": "tool",
     "pageCat": "tool",
@@ -374,6 +392,9 @@
       "长期有效",
       "免注册"
     ],
+    "categories": [
+      "tool"
+    ],
     "category": "tool",
     "pageCat": "tool",
     "provider": "",
@@ -431,6 +452,9 @@
       "公益工具",
       "长期有效",
       "免注册"
+    ],
+    "categories": [
+      "tool"
     ],
     "category": "tool",
     "pageCat": "tool",
