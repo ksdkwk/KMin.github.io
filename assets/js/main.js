@@ -62,7 +62,7 @@
       'nav.home': '首页', 'nav.resources': '资源', 'nav.tools': '工具', 'nav.notes': '笔记', 'nav.about': '关于',
       'nav.baipiao': '白嫖', 'nav.charity': '公益站',
       'nav.tools.all': '全部工具', 'nav.tools.dev': '开发', 'nav.tools.design': '设计',
-      'nav.tools.productivity': '效率', 'nav.tools.system': '系统',
+      'nav.tools.productivity': '效率', 'nav.tools.system': '系统软件', 'nav.tools.iso': '系统镜像',
       'nav.baipiao.all': '全部白嫖', 'nav.baipiao.server': 'VPS/服务器', 'nav.baipiao.api': '免费 API',
       'nav.baipiao.student': '学生权益',
       'ui.search': '搜索', 'ui.theme': '切换主题', 'ui.lang': '切换语言', 'ui.menu': '菜单', 'ui.top': '回到顶部',
@@ -186,7 +186,7 @@
       'nav.home': 'Home', 'nav.resources': 'Resources', 'nav.tools': 'Tools', 'nav.notes': 'Notes', 'nav.about': 'About',
       'nav.baipiao': 'Freebies', 'nav.charity': 'Public goods',
       'nav.tools.all': 'All tools', 'nav.tools.dev': 'Development', 'nav.tools.design': 'Design',
-      'nav.tools.productivity': 'Productivity', 'nav.tools.system': 'System',
+      'nav.tools.productivity': 'Productivity', 'nav.tools.system': 'System software', 'nav.tools.iso': 'OS images',
       'nav.baipiao.all': 'All freebies', 'nav.baipiao.server': 'VPS & Servers', 'nav.baipiao.api': 'Free API',
       'nav.baipiao.student': 'Student perks',
       'ui.search': 'Search', 'ui.theme': 'Toggle theme', 'ui.lang': 'Switch language', 'ui.menu': 'Menu', 'ui.top': 'Back to top',
@@ -321,8 +321,9 @@
     resourceRegion: [],
     baipiaoRegion: [],
     charityRegion: [],
-    // 工具 / 笔记：仍是单选
-    toolFilter: 'all',
+    // 工具：属性标签也改为多选（与资源/白嫖/公益站一致）
+    toolFilter: [],
+    // 笔记：仍是单选
     noteFilter: 'all',
     resourceQuery: '',
     toolQuery: '',
@@ -705,6 +706,13 @@
    * 新增一类列表时只要在这里加一行，再写个统计回调即可。
    */
   var LIST_GROUPS = {
+    tool: {
+      dataKey: 'tools', catKey: 'tool', labelKey: 'toolsPage',
+      filterKey: 'toolFilter', queryKey: 'toolQuery',
+      grid: '#toolGrid', count: '#toolCount', empty: '#toolEmpty',
+      search: '#toolSearch', topBox: '#toolTopFilters',
+      page: 'tools.html'
+    },
     resource: {
       dataKey: 'resources', catKey: 'resource', labelKey: 'resPage',
       filterKey: 'resourceFilter', periodKey: 'resourcePeriod', queryKey: 'resourceQuery',
@@ -1131,7 +1139,7 @@
     var configs = [
       // 第 4 项：'multi' 表示属性标签可多选，并额外渲染时间维度筛选
       ['#resourceFilters', 'resource', 'resourceFilter', 'multi'],
-      ['#toolFilters', 'tool', 'toolFilter', 'single'],
+      ['#toolFilters', 'tool', 'toolFilter', 'multi'],
       ['#baipiaoFilters', 'baipiao', 'baipiaoFilter', 'multi'],
       ['#charityFilters', 'charity', 'charityFilter', 'multi']
     ];
@@ -1197,8 +1205,9 @@
         else box.appendChild(btn);
       });
 
-      // 三类列表还有时间、地区两个维度，各自一行，同样拆顶级/二级
-      if (isMulti) {
+      // 资源/白嫖/公益站还有时间、地区两个维度，各自一行；
+      // 工具页只有属性标签一个维度，没有时效和地区概念
+      if (isMulti && cfg[1] !== 'tool') {
         renderPeriodChips(cfg[1]);
         renderRegionChips(cfg[1]);
       }

@@ -185,7 +185,8 @@ region: [cn, overseas]  # 境内外都有服务器，或有中国官网
 判定依据是官网服务器所在地，不是访问速度。例如 AWS 有中国区 → `[cn, overseas]`；
 搬瓦工虽有 CN2 线路但机房在境外 → `[overseas]`；MDN 有中文站 → `[cn, overseas]`。
 
-> 工具页、笔记页的筛选仍是单选，也没有时间/地区筛选。
+> 工具页的属性标签同样可多选（与资源/白嫖/公益站一致），但没有时间、地区两个维度。
+> 笔记页的筛选仍是单选。
 
 ### 示例
 
@@ -257,7 +258,7 @@ tags:
 > `categories` 是权威字段；`category` / `pageCat` 保留为它的首项，兼容旧代码。
 > 资源卡片的分类在构建期由 `tags` 里的分类中文名自动折算，白嫖/公益站直接用
 > Markdown 里的 `categories`（或旧的 `category` 单值，会自动包成数组）。
-> **一篇可以同时属于多个分类**，例如 Vercel 免费额度既是 `server` 也是 `api`。
+> **一篇可以同时属于多个分类**，例如 Cloudflare R2 若重新收录，可同时归到 `server` 和 `api`。
 
 ---
 
@@ -269,7 +270,7 @@ tags:
 ---
 name: "VS Code"
 icon: VS
-category: dev          # dev / design / productivity / system
+category: dev          # dev / design / productivity / system / iso
 desc:
   zh: "中文说明"
   en: "English desc"

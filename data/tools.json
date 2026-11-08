@@ -271,5 +271,245 @@
     },
     "free": true,
     "url": "https://hoppscotch.io/"
+  },
+  {
+    "name": "清华大学开源软件镜像站",
+    "icon": "TU",
+    "category": "iso",
+    "desc": {
+      "zh": "清华 TUNA 官方镜像，收录主流 Linux 发行版安装镜像与常用软件仓库，国内下载速度稳定。",
+      "en": "Official mirror of Tsinghua University, covering OS images and popular package repositories."
+    },
+    "tags": {
+      "zh": [
+        "Ubuntu",
+        "Kali",
+        "Debian",
+        "CentOS",
+        "Linux",
+        "Arch"
+      ],
+      "en": [
+        "Ubuntu",
+        "Kali",
+        "Debian",
+        "CentOS",
+        "Linux",
+        "Arch"
+      ]
+    },
+    "free": true,
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/"
+  },
+  {
+    "name": "官方Kali Linux",
+    "icon": "KL",
+    "category": "iso",
+    "desc": {
+      "zh": "Kali Linux 官方下载页，提供 Installer、Live、ARM、WSL、Docker 等全部版本镜像。",
+      "en": "Official Kali Linux download page — ISO images for every supported platform."
+    },
+    "tags": {
+      "zh": [
+        "Kali",
+        "Linux"
+      ],
+      "en": [
+        "Kali",
+        "Linux"
+      ]
+    },
+    "free": true,
+    "url": "https://www.kali.org/get-kali/#kali-platforms"
+  },
+  {
+    "name": "官方Ubuntu Linux",
+    "icon": "UB",
+    "category": "iso",
+    "desc": {
+      "zh": "Ubuntu 官方网站中文下载页，提供桌面版、服务器版与 WSL 镜像。",
+      "en": "Official Ubuntu download page with desktop, server and WSL images."
+    },
+    "tags": {
+      "zh": [
+        "Ubuntu",
+        "Linux"
+      ],
+      "en": [
+        "Ubuntu",
+        "Linux"
+      ]
+    },
+    "free": true,
+    "url": "https://cn.ubuntu.com/download"
+  },
+  {
+    "name": "HelloWindows.Net - 原版Windows系统下载仓储站",
+    "icon": "HW",
+    "category": "iso",
+    "desc": {
+      "zh": "收录了Windows各个版本包括各个版本的个人版，商业版，Windows7，Windows8，WindowsXP，Windows8.1，Windows10，Windows11，WindowsVista，此外还收录了多个版本的Office与WPS政务版/教育版",
+      "en": "Collects every edition of Windows (Home, Pro, 7/8/8.1/10/11/XP/Vista) plus multiple Office and WPS editions."
+    },
+    "tags": {
+      "zh": [
+        "Windows",
+        "Office",
+        "WPS"
+      ],
+      "en": [
+        "Windows",
+        "Office",
+        "WPS"
+      ]
+    },
+    "free": true,
+    "url": "https://hellowindows.net/"
+  },
+  {
+    "name": "Windows XP SP3 - MSDN - 山己几子木",
+    "icon": "XP",
+    "category": "iso",
+    "desc": {
+      "zh": "收录了Windows各个版本包括各个版本的个人版，商业版，Windows7，Windows8，WindowsXP，Windows8.1，Windows10，Windows11，此外还收录了多个版本的Office",
+      "en": "Archives Windows releases from XP to 11 plus several Office versions."
+    },
+    "tags": {
+      "zh": [
+        "Windows",
+        "Office"
+      ],
+      "en": [
+        "Windows",
+        "Office"
+      ]
+    },
+    "free": true,
+    "url": "https://msdn.sjjzm.com/winxp.html"
+  },
+  {
+    "name": "Anaconda 软件仓库 - MirrorZ Help",
+    "icon": "MZ",
+    "category": "system",
+    "desc": {
+      "zh": "MirrorZ 维护的镜像索引站，汇总 Anaconda、Debian、Docker CE、CRAN、Alpine 等数百个软件源。",
+      "en": "A large index of software mirrors: Anaconda, Debian, Docker CE, CRAN, Alpine and many more."
+    },
+    "tags": {
+      "zh": [
+        "镜像索引",
+        "Ubuntu",
+        "Debian",
+        "Docker",
+        "Alpine"
+      ],
+      "en": [
+        "Mirror index",
+        "Ubuntu",
+        "Debian",
+        "Docker",
+        "Alpine"
+      ]
+    },
+    "free": true,
+    "url": "https://help.mirrors.cernet.edu.cn/anaconda/"
+  },
+  {
+    "name": "NEXT, ITELLYOU",
+    "icon": "NI",
+    "category": "iso",
+    "desc": {
+      "zh": "收录了各个版本的Windows，Windows Server，UOS，CentOS，Ubuntu，macOS，ChromiumOS，BSD以及SQL Server",
+      "en": "Archives Windows Server, Windows, UOS, CentOS, Ubuntu, macOS, ChromiumOS, BSD and SQL Server images."
+    },
+    "tags": {
+      "zh": [
+        "Windows",
+        "UOS",
+        "CentOS",
+        "Ubuntu",
+        "Linux"
+      ],
+      "en": [
+        "Windows",
+        "UOS",
+        "CentOS",
+        "Ubuntu",
+        "Linux"
+      ]
+    },
+    "free": true,
+    "url": "https://next.itellyou.cn/"
+  },
+  {
+    "name": "MSDN系统库－致力于原版windows生态服务",
+    "icon": "MS",
+    "category": "iso",
+    "desc": {
+      "zh": "收录各个版本的Windows与Office",
+      "en": "Original Windows and Office images across every released version."
+    },
+    "tags": {
+      "zh": [
+        "Windows",
+        "Office"
+      ],
+      "en": [
+        "Windows",
+        "Office"
+      ]
+    },
+    "free": true,
+    "url": "https://www.xitongku.com/index.html"
+  },
+  {
+    "name": "软仓 | RuanCang.Net",
+    "icon": "RC",
+    "category": "system",
+    "desc": {
+      "zh": "国内软件下载站，覆盖 Adobe 全家桶、CAD 制图、三维建模、建筑 BIM、数据分析与工业设计等专业软件。",
+      "en": "Download index for Adobe, CAD, 3D modelling, BIM, audio/video and engineering software."
+    },
+    "tags": {
+      "zh": [
+        "Adobe",
+        "CAD制图",
+        "三维建模",
+        "图像设计",
+        "建筑BIM",
+        "视频音频",
+        "数据分析",
+        "机械工业",
+        "电子电路"
+      ],
+      "en": [
+        "Adobe",
+        "CAD制图",
+        "三维建模",
+        "图像设计",
+        "建筑BIM",
+        "视频音频",
+        "数据分析",
+        "机械工业",
+        "电子电路"
+      ]
+    },
+    "free": true,
+    "url": "https://www.ruancang.net/"
+  },
+  {
+    "name": "微软积分 Rewards每日任务本地自动化脚本",
+    "icon": "RW",
+    "category": "productivity",
+    "desc": {
+      "zh": "微软积分 Rewards每日任务本地自动化脚本",
+      "en": "A local automation script for the daily Microsoft Rewards tasks."
+    },
+    "tags": {
+      "zh": [],
+      "en": []
+    },
+    "free": true,
+    "url": "https://my.feishu.cn/"
   }
 ]

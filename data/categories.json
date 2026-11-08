@@ -156,8 +156,15 @@
     {
       "id": "system",
       "label": {
-        "zh": "系统",
-        "en": "System"
+        "zh": "系统软件",
+        "en": "System software"
+      }
+    },
+    {
+      "id": "iso",
+      "label": {
+        "zh": "系统镜像",
+        "en": "OS images"
       }
     }
   ],
