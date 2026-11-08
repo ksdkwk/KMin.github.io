@@ -291,9 +291,16 @@ detail:                  # 可选：填了才有详情页内容
 ---
 ```
 
-`category` 除了 `dev` / `design` / `productivity` / `system` / `iso` 五个分类，
-还有 7 个**标签型筛选**：`linux` `ubuntu` `kali` `debian` `centos` `windows` `office`。
+`category` 可选 `dev` / `design` / `productivity` / `system` / `iso` / `game` 六个分类，
+另有 7 个**标签型筛选**：`linux` `ubuntu` `kali` `debian` `centos` `windows` `office`。
 它们在 `tags` 里写对应名字即可自动关联（`office` 命中 Office 或 WPS 任意一个）。
+
+详情页需要在「访问官网」旁边多一个跳转按钮时，加一个 `links` 字段：
+
+```yaml
+links:
+  - "按钮文字 | https://链接地址"
+```
 
 卡片概要最多显示 3 行，超出截断；每张卡右下角有「详情」按钮。
 

@@ -63,6 +63,7 @@
       'nav.baipiao': '白嫖', 'nav.charity': '公益站',
       'nav.tools.all': '全部工具', 'nav.tools.dev': '开发', 'nav.tools.design': '设计',
       'nav.tools.productivity': '效率', 'nav.tools.system': '系统软件', 'nav.tools.iso': '系统镜像',
+    'nav.tools.game': '游戏',
       'nav.baipiao.all': '全部白嫖', 'nav.baipiao.server': 'VPS/服务器', 'nav.baipiao.api': '免费 API',
       'nav.baipiao.student': '学生权益',
       'ui.search': '搜索', 'ui.theme': '切换主题', 'ui.lang': '切换语言', 'ui.menu': '菜单', 'ui.top': '回到顶部',
@@ -190,6 +191,7 @@
       'nav.baipiao': 'Freebies', 'nav.charity': 'Public goods',
       'nav.tools.all': 'All tools', 'nav.tools.dev': 'Development', 'nav.tools.design': 'Design',
       'nav.tools.productivity': 'Productivity', 'nav.tools.system': 'System software', 'nav.tools.iso': 'OS images',
+    'nav.tools.game': 'Gaming',
       'nav.baipiao.all': 'All freebies', 'nav.baipiao.server': 'VPS & Servers', 'nav.baipiao.api': 'Free API',
       'nav.baipiao.student': 'Student perks',
       'ui.search': 'Search', 'ui.theme': 'Toggle theme', 'ui.lang': 'Switch language', 'ui.menu': 'Menu', 'ui.top': 'Back to top',
@@ -436,6 +438,8 @@
     applyStaticText();
     renderAll();
     renderSearch();
+    // 详情页不在 renderAll 的覆盖范围里，切语言要单独重渲染一次
+    if ($('#detailRoot')) renderDetailPage();
 
     if (persist) {
       try { localStorage.setItem('kmin-lang', state.lang); } catch (e) {}
@@ -1241,10 +1245,16 @@
       // 注意 count 必须用「分类总数 - 1（去掉全部）」，不能用 box 里现存 chip 数——
       // 收起后隐藏的 chip 会被算漏，导致按钮消失、无法再展开。
       var subCount = cats.filter(function (c) { return c.id !== 'all'; }).length;
-      if (isMulti && subCount > CHIPS_PER_ROW) {
+      // 首页那种扁平 .chips 不在 .filter-line 里，靠 flex-wrap 自然换行，
+      // 不能套用像素级折叠，否则窗口变窄时会裁掉本该显示的第二行。
+      var lineEl = box.closest('.filter-line');
+      if (isMulti && lineEl && subCount > CHIPS_PER_ROW) {
+        // 收起状态下如果有选中的标签被裁到第二行外，自动展开，
+        // 保证从卡片标签、?cat= 直达进来的选中项看得见。
+        if (hasHiddenActive(box)) state.expanded[cfg[1] + ':cat'] = true;
         applyCollapse(box, state.expanded[cfg[1] + ':cat'] !== false, false);
         appendExpandToggle(
-          box.closest('.filter-line'),
+          lineEl,
           box, subCount, cfg[1] + ':cat'
         );
       }
@@ -1254,6 +1264,12 @@
       if (isMulti && cfg[1] !== 'tool') {
         renderPeriodChips(cfg[1]);
         renderRegionChips(cfg[1]);
+      }
+
+      // 属性标签处于收起态时，同一筛选区的时间行、地区行一起收起，
+      // 视觉上只剩属性标签的第一行（其余维度展开后即可恢复）
+      if (isMulti && lineEl) {
+        syncSiblingLines(lineEl, state.expanded[cfg[1] + ':cat'] !== false, false);
       }
     });
 
@@ -1293,6 +1309,22 @@
     }
   }
 
+  /** 判断二级标签列里有没有「已选中但排在第二行及以后」的标签 */
+  function hasHiddenActive(box) {
+    if (!box) return false;
+    var chips = [].slice.call(box.querySelectorAll('.chip'));
+    if (chips.length < 2) return false;
+    // 量位置前先放开高度，量完立刻还原（调用方紧接着会重新套用折叠态）
+    var prev = box.style.maxHeight;
+    box.style.maxHeight = 'none';
+    var firstTop = chips[0].offsetTop;
+    var hit = chips.some(function (c) {
+      return c.offsetTop !== firstTop && c.classList.contains('is-active');
+    });
+    box.style.maxHeight = prev;
+    return hit;
+  }
+
   /** 重新应用一次折叠状态（用于「选中了隐藏标签后要让它可见」） */
   function refreshCollapse(key) {
     var groupKey = key.split(':')[0];               // resource / tool / baipiao / charity
@@ -1300,8 +1332,12 @@
     if (!g) return;
     var box = $(g.filterKey === 'toolFilter' ? '#toolFilters' : '#' + groupKey + 'Filters');
     if (!box) return;
+    var line = box.closest('.filter-line');
+    if (!line) return;   // 首页扁平 chips 不走折叠
     // 只是补一次可见性，不播动画
-    applyCollapse(box, state.expanded[key] !== false, false);
+    var expanded = state.expanded[key] !== false;
+    applyCollapse(box, expanded, false);
+    syncSiblingLines(line, expanded, false);
   }
 
   /**
@@ -1321,7 +1357,22 @@
     box.style.maxHeight = 'none';
     var fullH = box.scrollHeight;
     var chips = box.querySelectorAll('.chip');
-    var rowH = chips.length ? chips[0].offsetHeight : 0;
+
+    // 单行高度 = 第一行标签的底边到容器顶部的距离（含容器自身的 padding）。
+    // 不能用「第一个标签的 offsetHeight」：容器有 padding-top、第一行里也可能
+    // 混着略高的标签，只按第一个量会少裁几个像素，窄屏下会把整行都裁没。
+    var rowH = 0;
+    if (chips.length) {
+      var boxTop = box.getBoundingClientRect().top;
+      var firstRowTop = chips[0].getBoundingClientRect().top;
+      [].slice.call(chips).forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        // 只有和最上面的标签处在同一行的才算第一行
+        if (Math.abs(r.top - firstRowTop) > 1) return;
+        rowH = Math.max(rowH, r.bottom - boxTop);
+      });
+      rowH = Math.ceil(rowH);
+    }
 
     var target = expanded ? fullH : rowH;
     var wasAnimating = animate !== false;
@@ -1358,6 +1409,65 @@
    */
   var CHIPS_PER_ROW = 6;
 
+  /**
+   * 属性标签收起时，把同一筛选区里的其它维度行（时间 / 地区）一起收起。
+   *
+   * 为什么需要它：三个维度是三条 .filter-line，各自独立；
+   * 只裁属性标签那一列的话，时间行和地区行会原样留在下面，
+   * 「收起」看起来就像没生效。这里统一按属性标签的折叠态联动。
+   *
+   * 工具页没有时间、地区维度，传进来的行没有兄弟行，等于空操作。
+   */
+  function syncSiblingLines(lineEl, expanded, animate) {
+    if (!lineEl || !lineEl.parentNode) return;
+    var row = lineEl.parentNode;
+    var lines = [].slice.call(row.children).filter(function (n) {
+      return n.classList && n.classList.contains('filter-line');
+    });
+    lines.forEach(function (line) {
+      if (line === lineEl) return;
+      setLineCollapsed(line, !expanded, animate);
+    });
+  }
+
+  /** 整行折叠：高度过渡到 0，同时用负 margin 抵消 .filter-row 的 gap */
+  function setLineCollapsed(line, collapsed, animate) {
+    if (!line) return;
+    var was = line.classList.contains('is-line-collapsed');
+    if (!collapsed) {
+      // 展开：先解除高度限制，量出自然高度再过渡回去
+      line.style.maxHeight = 'none';
+      line.classList.remove('is-line-collapsed');
+      if (!was || !animate) {
+        // 已是展开态或首帧渲染：直接放开高度，不做动画
+        return;
+      }
+      var full = line.scrollHeight;
+      line.style.maxHeight = '0px';
+      void line.offsetHeight;
+      line.style.maxHeight = full + 'px';
+      // 动画结束后必须把像素高度清掉，回到自然高度：
+      // 否则窗口变宽、行内容变矮时，这一行会被残留的 max-height 卡住裁掉。
+      clearTimeout(line.__collapseTimer);
+      line.__collapseTimer = setTimeout(function () {
+        if (line.classList.contains('is-line-collapsed')) return;
+        line.style.maxHeight = 'none';
+      }, 340);
+      return;
+    }
+
+    line.style.maxHeight = 'none';
+    var target = line.scrollHeight;
+    line.style.maxHeight = target + 'px';
+    line.classList.add('is-line-collapsed');
+    if (!animate) {
+      line.style.maxHeight = '0px';
+      return;
+    }
+    void line.offsetHeight;
+    line.style.maxHeight = '0px';
+  }
+
   function appendExpandToggle(lineEl, box, total, key) {
     if (!lineEl || !box) return;
     // 重渲染时先移除上一轮的按钮，避免叠加多个
@@ -1386,6 +1496,8 @@
 
       // 就地更新：只 toggle 标签可见性和按钮自身，不整轮重渲染
       applyCollapse(box, nowExpanded, true);
+      // 同一筛选区里的时间行 / 地区行跟着属性标签一起展开或收起
+      syncSiblingLines(lineEl, nowExpanded, true);
       btn.setAttribute('aria-expanded', String(nowExpanded));
       btn.innerHTML =
         '<span>' + esc(nowExpanded ? t('filter.collapse') : t('filter.expand')) + '</span>' +
@@ -1451,6 +1563,20 @@
       if (isTop && topBox) topBox.appendChild(btn);
       else box.appendChild(btn);
     });
+  }
+
+  /**
+   * 详情页顶部那行分类文字。
+   * 资源/白嫖/公益站走 categories 数组，工具只有一个 category 单值，
+   * 两者最终都要翻成当前语言的显示名。
+   */
+  function detailCategoryText(item, group) {
+    if (group === 'tool') {
+      var cats = (DATA.categories && DATA.categories.tool) || [];
+      var hit = cats.filter(function (c) { return c.id === item.category; })[0];
+      return hit ? pick(hit.label, state.lang) : '';
+    }
+    return categoryLabels(item, groupKeyOf(item)).join(' · ');
   }
 
   /** 分组键：详情页用它找到对应的分类表 */
@@ -2014,11 +2140,16 @@
     // 分类 / 时效
     var tags = tagArray(item);
     var statusTag = getPeriodLabel(item);
-    var contentTags = tags;
+    // 详情页标签按当前语言展示：工具的 tags 是双语对象，
+    // 直接把 zh 与 en 合在一起会出现「效率 游戏 Productivity Gaming」这样的重复。
+    var contentTags = (item.tags && !Array.isArray(item.tags))
+      ? ((pick(item.tags, state.lang) || []).map(String))
+      : tags;
 
     // 分类优先用 categories 的中文名（tags[0] 可能是个自定义标签，如 cloudflare）
+    // 工具条目的分类字段是单值 category（dev / game…），这里统一翻成显示名
     var catEl = $('#detailCategory');
-    if (catEl) catEl.textContent = categoryLabels(item, groupKeyOf(item)).join(' · ') || group.crumb;
+    if (catEl) catEl.textContent = detailCategoryText(item, found.group) || group.crumb;
 
     var statusEl = $('#detailStatus');
     if (statusEl) {
@@ -2065,13 +2196,16 @@
     var guideTitleEl = $('#guideTitle');
     var guide = item.guide || [];
 
-    // 判断标题措辞：能"领取"的用领取教程，纯工具/下载源用使用方式
+    // 判断标题措辞：能"领取"的用领取教程，纯工具/下载源用使用方式。
+    // 这里必须用 tagArray 归一：工具的 tags 是 {zh:[], en:[]} 双语对象，
+    // 直接 indexOf 会抛「(...).indexOf is not a function」，整段渲染中断。
     if (guideTitleEl && guide.length) {
-      var isMirror = (item.tags || []).indexOf('国内镜像源') !== -1;
-      var isDownloadTool = (item.tags || []).some(function (tg) {
+      var guideTags = tagArray(item);
+      var isDownloadTool = guideTags.some(function (tg) {
         return tg === '国内镜像源' || tg === '公益镜像' || tg === '静态托管';
       });
-      if (isMirror || isDownloadTool) {
+      var isTool = found.group === 'tool';
+      if (isDownloadTool || isTool) {
         guideTitleEl.textContent = t('detail.guideUse');
       } else {
         guideTitleEl.textContent = t('detail.guideClaim');
@@ -2079,6 +2213,8 @@
     }
 
     if (guideList && guideSection) {
+      // 详情页可能被重渲染（如切换语言），这里显式复位显隐状态
+      guideSection.hidden = false;
       if (guide.length) {
         guideList.innerHTML = guide.map(function (step, i) {
           var title = typeof step === 'string' ? '' : pick(step.title, state.lang);
@@ -2104,6 +2240,28 @@
     }
     var back = $('#detailBack');
     if (back) back.setAttribute('href', group.page);
+
+    // 附加外链按钮（front-matter 里写了 links 才出现）
+    var actions = $('#detailActions');
+    if (actions) {
+      [].slice.call(actions.querySelectorAll('.detail-extra-link')).forEach(function (old) {
+        old.parentNode.removeChild(old);
+      });
+      var extra = item.links || [];
+      var anchor = back || actions.firstChild;
+      extra.forEach(function (link) {
+        var a = document.createElement('a');
+        a.className = 'btn btn-ghost detail-extra-link';
+        a.href = link.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.innerHTML = '<span>' + esc(link.label) + '</span>' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>';
+        // 放在「返回列表」之前，保持主次顺序
+        actions.insertBefore(a, anchor);
+      });
+    }
   }
 
   /* ---------- 9. 启动 ---------- */
@@ -2168,6 +2326,25 @@
         window.__KMIN_INIT_ERRORS = window.__KMIN_INIT_ERRORS || [];
         window.__KMIN_INIT_ERRORS.push({ step: s[0], message: String(err && err.message || err) });
       }
+    });
+
+    // 折叠高度是按像素算出来的，窗口尺寸一变（列宽、行高跟着变）就得重算，
+    // 否则「收起」留出的那一行高度会和实际标签行对不上。
+    if (!isDetail) bindCollapseResize();
+  }
+
+  /** 视口尺寸变化后重算各筛选区的折叠高度（防抖，不播动画） */
+  function bindCollapseResize() {
+    var timer = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        // 以「当前页面上真实存在的展开/收起按钮」为准逐个重算，
+        // 不依赖状态表里有没有写过值（默认展开时状态表是空的）。
+        $$('.chips-toggle[data-toggle]').forEach(function (btn) {
+          refreshCollapse(btn.getAttribute('data-toggle'));
+        });
+      }, 160);
     });
   }
 

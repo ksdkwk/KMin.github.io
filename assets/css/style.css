@@ -1592,6 +1592,18 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
   align-items: flex-start;
   gap: 12px;
   min-width: 0;
+  /* 「收起」时同一筛选区里的时间行、地区行跟着属性行一起收起 */
+  transition: max-height 0.32s var(--ease), opacity 0.24s var(--ease),
+              margin-top 0.32s var(--ease);
+}
+
+/* 整行收起：高度收到 0，用负的 margin-top 抵消 .filter-row 的 10px gap */
+.filter-line.is-line-collapsed {
+  /* 只在折叠态裁切，展开态保持 visible，免得把标签右下角的硬阴影切掉 */
+  overflow: hidden;
+  opacity: 0;
+  margin-top: -10px;
+  pointer-events: none;
 }
 
 /* 顶级标签列：固定宽度 + 右侧竖线，视觉上跟二级标签分开。
@@ -1630,7 +1642,9 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
 
 /* 三行结构里的二级标签由 grid 负责排布，禁用旧规则的横向滚动。
    顶级列 .chips-top 有自己的固定宽度，用 :not() 排除。 */
-.filter-bar .filter-line > .chips:not(.chips-top) {
+/* 注意：这里必须排除 .chips-sub，否则「overflow: visible」会盖掉
+   .chips-sub 的 overflow: hidden，收起时被裁掉的那几行会溢出显示出来。 */
+.filter-bar .filter-line > .chips:not(.chips-top):not(.chips-sub) {
   flex: none;
   overflow: visible;
   padding-bottom: 0;
@@ -1766,14 +1780,18 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
     padding-bottom: 8px;
     width: 100%;
   }
-  .chips-sub {
+  /* 选择器要和上面的 .filter-bar .filter-line > .chips-sub 同等特异性，
+     否则 6 列栅格会盖掉这里的 3 列，窄屏下第 6 个之后的标签直接被裁掉。 */
+  .filter-bar .filter-line > .chips-sub {
     grid-template-columns: repeat(3, minmax(auto, max-content));
     padding-top: 8px;
   }
 }
 
 @media (max-width: 520px) {
-  .chips-sub { grid-template-columns: repeat(2, minmax(auto, max-content)); }
+  .filter-bar .filter-line > .chips-sub {
+    grid-template-columns: repeat(2, minmax(auto, max-content));
+  }
 }
 
 .result-count {

@@ -459,6 +459,10 @@ function buildEntry(parsed, groupKey) {
   var d = detailFromFm(fm);
   if (d) out.detail = d;
   out.guide = extractGuide(parsed);
+  // 附加外链按钮：front-matter 里写 links，每条 "按钮文字 | 链接"。
+  // 没有就完全不写这个键，避免给全部条目塞一个空数组、把 diff 撑大。
+  var links = parseLinks(fm.links);
+  if (links.length) out.links = links;
   return out;
 }
 
@@ -504,7 +508,35 @@ function buildTool(parsed) {
   out.periodLabel = { zh: periodLabel(period, 'zh'), en: periodLabel(period, 'en') };
   out.expired = isExpired(period);
   out.guide = extractGuide(parsed);
+  var toolLinks = parseLinks(fm.links);
+  if (toolLinks.length) out.links = toolLinks;
   return out;
+}
+
+/**
+ * 解析 links 字段：支持两种写法
+ *   links:
+ *     - "怀沙大佬的小黑盒 | https://example.com/"
+ *   links:
+ *     - label: 怀沙大佬的小黑盒
+ *       url: https://example.com/
+ */
+function parseLinks(raw) {
+  if (!raw) return [];
+  var list = Array.isArray(raw) ? raw : [raw];
+  var out = [];
+  list.forEach(function (item) {
+    if (item && typeof item === 'object' && !Array.isArray(item)) {
+      if (item.url) out.push({ label: item.label || item.url, url: String(item.url) });
+      return;
+    }
+    var s = String(item).trim();
+    if (!s) return;
+    var i = s.lastIndexOf('|');
+    if (i === -1) { out.push({ label: s, url: s }); return; }
+    out.push({ label: s.slice(0, i).trim(), url: s.slice(i + 1).trim() });
+  });
+  return out.filter(function (l) { return l.url; });
 }
 
 /** 把 tags 统一成 { zh: [...], en: [...] } 结构 */

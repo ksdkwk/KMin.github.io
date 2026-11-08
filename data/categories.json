@@ -215,6 +215,13 @@
         "zh": "Office/WPS",
         "en": "Office/WPS"
       }
+    },
+    {
+      "id": "game",
+      "label": {
+        "zh": "游戏",
+        "en": "Gaming"
+      }
     }
   ],
   "regions": [
