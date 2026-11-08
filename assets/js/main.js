@@ -106,6 +106,7 @@
       'search.type.baipiao': '白嫖', 'search.type.charity': '公益',
       'period.ended': '活动已结束',
       'period.filter.all': '所有时间', 'period.filter.active': '长期有效', 'period.filter.expired': '已失效',
+      'filter.expand': '展开全部', 'filter.collapse': '收起',
       'unit.entry': '条', 'unit.tool': '个',
 
       'detail.guide': '使用说明',
@@ -118,6 +119,8 @@
       'detail.notFound': '没有找到这个条目',
       'detail.notFoundDesc': '链接可能已经失效，或者这条内容已被移除。',
       'detail.quota': '额度',
+      'detail.items': '收录内容',
+      'detail.more': '补充',
       'detail.usage': '用途',
       'detail.limit': '限制',
       'detail.avoid': '避坑',
@@ -230,6 +233,7 @@
       'search.type.baipiao': 'Freebie', 'search.type.charity': 'Public',
       'period.ended': 'Ended',
       'period.filter.all': 'All dates', 'period.filter.active': 'Active', 'period.filter.expired': 'Expired',
+      'filter.expand': 'Show all', 'filter.collapse': 'Collapse',
       'unit.entry': 'entries', 'unit.tool': 'tools',
 
       'detail.guide': 'How to use',
@@ -242,6 +246,8 @@
       'detail.notFound': 'Entry not found',
       'detail.notFoundDesc': 'The link may be broken, or this entry has been removed.',
       'detail.quota': 'Quota',
+      'detail.items': 'Included',
+      'detail.more': 'More',
       'detail.usage': 'What it is for',
       'detail.limit': 'Limits',
       'detail.avoid': 'Watch out',
@@ -321,6 +327,8 @@
     resourceRegion: [],
     baipiaoRegion: [],
     charityRegion: [],
+    // 各维度的标签展开状态（默认展开；仅当标签超过一行时才出现切换按钮）
+    expanded: {},
     // 工具：属性标签也改为多选（与资源/白嫖/公益站一致）
     toolFilter: [],
     // 笔记：仍是单选
@@ -658,6 +666,10 @@
         var itemCats = item.categories && item.categories.length ? item.categories : [item.category];
         var hit = picked.some(function (id) {
           if (itemCats.indexOf(id) !== -1) return true;
+          // 「Office/WPS」合并标签：命中 Office 或 WPS 任意一个都算
+          if (id === 'office') {
+            return tags.indexOf('Office') !== -1 || tags.indexOf('WPS') !== -1;
+          }
           var labelZh = labelMap ? labelMap[id] : null;
           return labelZh ? tags.indexOf(labelZh) !== -1 : false;
         });
@@ -997,7 +1009,8 @@
     if (!grid) return;
 
     var all = DATA.tools || [];
-    var list = filterList(all, state.toolFilter, state.toolQuery);
+    // 必须传 labelMap，否则 Linux / Windows / Office 这类「标签型筛选」匹配不到
+    var list = filterList(all, state.toolFilter, state.toolQuery, catLabelMap('tool'));
     var shown = applyLimit(list, '#toolGrid');
 
     grid.innerHTML = '';
@@ -1027,9 +1040,19 @@
           '<p class="tool-desc">' + esc(pick(item.desc, state.lang)) + '</p>' +
           '<div class="tool-tags">' + tags + '</div>' +
         '</div>' +
-        '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(item.name) + '">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
-        '</a>';
+        '<div class="tool-actions">' +
+          '<a class="res-go" href="' + esc(item.url || '#') + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(item.name) + '" title="' +
+            esc(siteHost(item.url)) + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+          '</a>' +
+          // 详情按钮：跳转 detail.html?id=xxx，与白嫖/公益站卡片一致
+          (item.id
+            ? '<a class="rc-detail tool-detail" href="detail.html?id=' + encodeURIComponent(item.id) + '">' +
+                '<span>' + esc(t('resPage.detail')) + '</span>' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+              '</a>'
+            : '') +
+        '</div>';
       grid.appendChild(node);
     });
 
@@ -1128,11 +1151,18 @@
   function countByCategory(item, cat, groupKey) {
     // 一篇可以属于多个分类
     var cats = item.categories && item.categories.length ? item.categories : [item.category];
-    if (cats.length && cats[0]) return cats.indexOf(cat.id) !== -1;
+    if (cats.length && cats[0] && cats.indexOf(cat.id) !== -1) return true;
 
-    // 兼容没有分类字段的老数据：退回按标签中文名匹配
+    // 工具的分类之外的「标签类筛选」（Linux / Windows / Office/WPS 等）：
+    // 分类没命中时，再按标签名匹配一次，让这些标签也能筛出卡片
     var labelZh = pick(cat.label, 'zh');
-    return tagArray(item).indexOf(labelZh) !== -1;
+    var tags = tagArray(item);
+
+    // 「Office/WPS」是个合并标签：命中 Office 或 WPS 任意一个都算
+    if (cat.id === 'office') {
+      return tags.indexOf('Office') !== -1 || tags.indexOf('WPS') !== -1;
+    }
+    return tags.indexOf(labelZh) !== -1;
   }
 
   function renderFilters() {
@@ -1198,12 +1228,26 @@
           else if (cfg[1] === 'tool') renderTools();
           else if (cfg[1] === 'baipiao') renderBaipiao();
           else if (cfg[1] === 'charity') renderCharity();
+          // 收起状态下新选中的标签要立刻可见
+          refreshCollapse(cfg[1] + ':cat');
         });
 
         // 顶级标签进顶级列，其余进二级列
         if (isTop && topBox) topBox.appendChild(btn);
         else box.appendChild(btn);
       });
+
+      // 属性标签：标签数超过一行时，在行末加展开/收起按钮。
+      // 注意 count 必须用「分类总数 - 1（去掉全部）」，不能用 box 里现存 chip 数——
+      // 收起后隐藏的 chip 会被算漏，导致按钮消失、无法再展开。
+      var subCount = cats.filter(function (c) { return c.id !== 'all'; }).length;
+      if (isMulti && subCount > CHIPS_PER_ROW) {
+        applyCollapse(box, state.expanded[cfg[1] + ':cat'] !== false);
+        appendExpandToggle(
+          box.closest('.filter-line'),
+          box, subCount, cfg[1] + ':cat'
+        );
+      }
 
       // 资源/白嫖/公益站还有时间、地区两个维度，各自一行；
       // 工具页只有属性标签一个维度，没有时效和地区概念
@@ -1247,6 +1291,81 @@
         noteBox.appendChild(b);
       });
     }
+  }
+
+  /** 重新应用一次折叠状态（用于「选中了隐藏标签后要让它可见」） */
+  function refreshCollapse(key) {
+    var groupKey = key.split(':')[0];               // resource / tool / baipiao / charity
+    var g = LIST_GROUPS[groupKey];
+    if (!g) return;
+    var box = $(g.filterKey === 'toolFilter' ? '#toolFilters' : '#' + groupKey + 'Filters');
+    if (!box) return;
+    applyCollapse(box, state.expanded[key] !== false);
+  }
+
+  /**
+   * 收起时只显示第一行（前 6 个），但已选中的标签必须保持可见，
+   * 否则用户选了第 7 个之后收起，会看不到自己选了什么。
+   */
+  function applyCollapse(box, expanded) {
+    if (!box) return;
+    box.classList.toggle('is-collapsed', !expanded);
+    var chips = [].slice.call(box.querySelectorAll('.chip'));
+    chips.forEach(function (c, i) {
+      var keep = expanded || i < CHIPS_PER_ROW || c.classList.contains('is-active');
+      c.classList.toggle('is-hidden', !keep);
+    });
+  }
+
+  /**
+   * 给一组二级标签追加「展开 / 收起」按钮。
+   *
+   * 规则：
+   *   - 默认展开；只有标签数量超过一行（6 个）时才显示按钮
+   *   - 按钮放在每个顶级标签行的最右侧（即二级标签列末尾之后）
+   *   - 收起时只显示第一行（6 个），且已选中的标签必须保持可见
+   *
+   * key 用来在 state.expanded 里记展开状态，各维度互不影响。
+   */
+  var CHIPS_PER_ROW = 6;
+
+  function appendExpandToggle(lineEl, box, total, key) {
+    if (!lineEl || !box) return;
+    // 重渲染时先移除上一轮的按钮，避免叠加多个
+    [].slice.call(lineEl.querySelectorAll(':scope > .chips-toggle')).forEach(function (old) {
+      old.parentNode.removeChild(old);
+    });
+    // 只有超过一行才需要这个按钮
+    if (total <= CHIPS_PER_ROW) return;
+
+    var expanded = state.expanded[key] !== false; // 默认展开
+    var btn = el('button', 'chips-toggle');
+    btn.type = 'button';
+    btn.setAttribute('data-toggle', key);
+    btn.setAttribute('aria-expanded', String(expanded));
+    btn.innerHTML =
+      '<span>' + esc(expanded ? t('filter.collapse') : t('filter.expand')) + '</span>' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="' + (expanded ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6') + '"/></svg>';
+
+    on(btn, 'click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var nowExpanded = !(state.expanded[key] !== false);
+      state.expanded[key] = nowExpanded;
+
+      // 就地更新：只 toggle 标签可见性和按钮自身，不整轮重渲染
+      applyCollapse(box, nowExpanded);
+      btn.setAttribute('aria-expanded', String(nowExpanded));
+      btn.innerHTML =
+        '<span>' + esc(nowExpanded ? t('filter.collapse') : t('filter.expand')) + '</span>' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="' + (nowExpanded ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6') + '"/></svg>';
+    });
+
+    lineEl.appendChild(btn);
   }
 
   /** 多选模式下切换某个属性标签：已选则取消，全空视同「全部」 */
@@ -1897,13 +2016,17 @@
       // 镜像源等工具类没有"额度"概念，用"用途"替代
       var rows = [
         d.usage ? ['detail.usage', d.usage] : ['detail.quota', d.quota],
+        ['detail.items', d.items],
         ['detail.limit', d.limit],
         ['detail.avoid', d.avoid],
+        ['detail.more', d.more],
         ['detail.valid', d.valid],
         ['detail.scope', d.scope]
       ];
       specList.innerHTML = rows.filter(function (r) { return r[1]; }).map(function (r) {
-        return '<div class="spec-row"><dt>' + esc(t(r[0])) + '</dt><dd>' + esc(r[1]) + '</dd></div>';
+        // 文本里的换行要保留（如软仓的九类软件清单，每类单独一行）
+        var body = esc(r[1]).replace(/\r?\n/g, '<br>');
+        return '<div class="spec-row"><dt>' + esc(t(r[0])) + '</dt><dd>' + body + '</dd></div>';
       }).join('');
     }
 

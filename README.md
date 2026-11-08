@@ -269,8 +269,9 @@ tags:
 ```yaml
 ---
 name: "VS Code"
+id: t-vs-code            # 详情页地址用；省略时自动取文件名
 icon: VS
-category: dev          # dev / design / productivity / system / iso
+category: dev            # 分类 + 标签型筛选，见下
 desc:
   zh: "中文说明"
   en: "English desc"
@@ -279,8 +280,20 @@ tags:
   en: ["Free", "Cross-platform"]
 free: true
 url: "https://code.visualstudio.com/"
+detail:                  # 可选：填了才有详情页内容
+  usage: "用来做什么"
+  items: "收录了什么"
+  limit: "限制"
+  avoid: "避坑"
+  more:  "补充"
 ---
 ```
+
+`category` 除了 `dev` / `design` / `productivity` / `system` / `iso` 五个分类，
+还有 7 个**标签型筛选**：`linux` `ubuntu` `kali` `debian` `centos` `windows` `office`。
+它们在 `tags` 里写对应名字即可自动关联（`office` 命中 Office 或 WPS 任意一个）。
+
+卡片概要最多显示 3 行，超出截断；每张卡右下角有「详情」按钮。
 
 ### 白嫖 `content/baipiao/*.md`
 

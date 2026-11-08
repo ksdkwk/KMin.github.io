@@ -1,5 +1,6 @@
 ---
 name: "微软积分 Rewards每日任务本地自动化脚本"
+id: t-ms-rewards-script
 icon: "RW"
 category: productivity
 desc:
@@ -10,4 +11,7 @@ tags:
   en: []
 free: true
 url: "https://my.feishu.cn/"
+detail:
+  usage: "微软积分 Rewards 每日任务的本地自动化脚本。"
+
 ---

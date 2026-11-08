@@ -213,7 +213,7 @@ function parseGuideSteps(text) {
 function detailFromFm(fm) {
   if (!fm.detail) return undefined;
   var out = {};
-  ['quota', 'usage', 'limit', 'avoid', 'valid', 'scope'].forEach(function (k) {
+  ['quota', 'usage', 'items', 'limit', 'avoid', 'more', 'valid', 'scope'].forEach(function (k) {
     if (fm.detail[k] != null) out[k] = fm.detail[k];
   });
   return out;
@@ -483,7 +483,9 @@ function buildCharity(parsed) { return buildEntry(parsed, 'charity'); }
 
 function buildTool(parsed) {
   var fm = parsed.fm;
-  return {
+  var out = {
+    // 工具也需要 id 才能打开详情页；没写就用文件名（去掉序号前缀）
+    id: fm.id || parsed.file.replace(/.md$/i, '').replace(/^[0-9]+-/, 't-'),
     name: fm.name,
     icon: fm.icon || '',
     category: fm.category || 'dev',
@@ -492,6 +494,17 @@ function buildTool(parsed) {
     free: fm.free !== false,
     url: fm.url || ''
   };
+  // ---- 详情页字段（与资源/白嫖/公益站共用同一套 detail 结构）----
+  var d = detailFromFm(fm);
+  if (d) out.detail = d;
+  if (fm.usage) out.usage = fm.usage;
+  if (fm.provider) out.provider = fm.provider;
+  var period = parsePeriod(fm);
+  out.period = { from: period.from, to: period.to, shape: periodShape(period) };
+  out.periodLabel = { zh: periodLabel(period, 'zh'), en: periodLabel(period, 'en') };
+  out.expired = isExpired(period);
+  out.guide = extractGuide(parsed);
+  return out;
 }
 
 /** 把 tags 统一成 { zh: [...], en: [...] } 结构 */

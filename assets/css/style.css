@@ -815,8 +815,39 @@ html[data-theme="dark"] .res-go:hover { color: var(--accent); }
   font-size: 16px;
   font-weight: 800;
 }
-.tool-desc { font-size: 13.5px; line-height: 1.7; color: var(--ink-soft); margin-top: 4px; }
+/* 概要信息：固定最多 3 行，超出用省略号截断；不足 3 行原样显示 */
+.tool-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;      /* 最多三行 */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: calc(1.7em * 3); /* 兜底：不支持 line-clamp 的浏览器至少限制高度 */
+}
 .tool-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+/* 工具卡片右侧操作区：官网图标 + 详情按钮，纵向排列 */
+.tool-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  flex: none;
+  align-self: stretch;
+}
+
+/* 工具卡里的详情按钮比资源卡小一号，避免在窄卡里显得笨重 */
+.tool-detail {
+  padding: 6px 14px;
+  font-size: 12.5px;
+  box-shadow: none;
+}
+.tool-detail svg { width: 13px; height: 13px; }
 .tag {
   padding: 2.5px 9px;
   border: 1px solid var(--line-soft);
@@ -1622,6 +1653,43 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
 .chips-sub .chip {
   white-space: nowrap;
   justify-content: center;
+}
+
+/* 收起时被隐藏的标签 */
+.chips-sub .chip.is-hidden { display: none; }
+
+/* 展开 / 收起按钮：跟在二级标签列末尾，与标签同高但视觉更轻 */
+.chips-toggle {
+  flex: none;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  /* 跟第一行标签同高、同基线，紧贴在上方标签行末尾 */
+  height: 34px;
+  margin-left: 10px;
+  padding: 0 13px;
+  border: 1.5px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.16s var(--ease), border-color 0.16s var(--ease),
+              background-color 0.16s var(--ease);
+}
+.chips-toggle svg { width: 13px; height: 13px; flex: none; }
+.chips-toggle:hover {
+  border-color: var(--line);
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+.chips-toggle:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 2px;
 }
 
 /* 顶级标签：加粗描边，跟二级标签区分开 */

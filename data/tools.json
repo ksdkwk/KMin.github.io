@@ -1,5 +1,6 @@
 [
   {
+    "id": "t-vs-code",
     "name": "VS Code",
     "icon": "VS",
     "category": "dev",
@@ -18,9 +19,21 @@
       ]
     },
     "free": true,
-    "url": "https://code.visualstudio.com/"
+    "url": "https://code.visualstudio.com/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-git",
     "name": "Git",
     "icon": "GT",
     "category": "dev",
@@ -39,9 +52,21 @@
       ]
     },
     "free": true,
-    "url": "https://git-scm.com/"
+    "url": "https://git-scm.com/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-figma",
     "name": "Figma",
     "icon": "FG",
     "category": "design",
@@ -60,9 +85,21 @@
       ]
     },
     "free": true,
-    "url": "https://www.figma.com/"
+    "url": "https://www.figma.com/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-utools",
     "name": "uTools",
     "icon": "UT",
     "category": "productivity",
@@ -81,9 +118,21 @@
       ]
     },
     "free": true,
-    "url": "https://u.tools/"
+    "url": "https://u.tools/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-obsidian",
     "name": "Obsidian",
     "icon": "OB",
     "category": "productivity",
@@ -102,9 +151,21 @@
       ]
     },
     "free": true,
-    "url": "https://obsidian.md/"
+    "url": "https://obsidian.md/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-powertoys",
     "name": "PowerToys",
     "icon": "PT",
     "category": "system",
@@ -123,9 +184,21 @@
       ]
     },
     "free": true,
-    "url": "https://github.com/microsoft/PowerToys"
+    "url": "https://github.com/microsoft/PowerToys",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-windows-terminal",
     "name": "Windows Terminal",
     "icon": "WT",
     "category": "system",
@@ -144,9 +217,21 @@
       ]
     },
     "free": true,
-    "url": "https://github.com/microsoft/terminal"
+    "url": "https://github.com/microsoft/terminal",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-7-zip",
     "name": "7-Zip",
     "icon": "7Z",
     "category": "system",
@@ -165,9 +250,21 @@
       ]
     },
     "free": true,
-    "url": "https://www.7-zip.org/"
+    "url": "https://www.7-zip.org/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-fira-code-jetbrains-mono",
     "name": "Fira Code / JetBrains Mono",
     "icon": "FC",
     "category": "design",
@@ -186,9 +283,21 @@
       ]
     },
     "free": true,
-    "url": "https://github.com/tonsky/FiraCode"
+    "url": "https://github.com/tonsky/FiraCode",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-excalidraw",
     "name": "Excalidraw",
     "icon": "EX",
     "category": "design",
@@ -207,9 +316,21 @@
       ]
     },
     "free": true,
-    "url": "https://excalidraw.com/"
+    "url": "https://excalidraw.com/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-everything",
     "name": "Everything",
     "icon": "EV",
     "category": "productivity",
@@ -228,9 +349,21 @@
       ]
     },
     "free": true,
-    "url": "https://www.voidtools.com/"
+    "url": "https://www.voidtools.com/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-docker-desktop",
     "name": "Docker Desktop",
     "icon": "DK",
     "category": "dev",
@@ -249,9 +382,21 @@
       ]
     },
     "free": true,
-    "url": "https://www.docker.com/products/docker-desktop/"
+    "url": "https://www.docker.com/products/docker-desktop/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-postman-hoppscotch",
     "name": "Postman / Hoppscotch",
     "icon": "PM",
     "category": "dev",
@@ -270,9 +415,21 @@
       ]
     },
     "free": true,
-    "url": "https://hoppscotch.io/"
+    "url": "https://hoppscotch.io/",
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-tsinghua-mirror",
     "name": "清华大学开源软件镜像站",
     "icon": "TU",
     "category": "iso",
@@ -299,9 +456,26 @@
       ]
     },
     "free": true,
-    "url": "https://mirrors.tuna.tsinghua.edu.cn/"
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/",
+    "detail": {
+      "usage": "清华 TUNA 官方镜像站，提供主流 Linux 发行版安装镜像与常用软件仓库的国内加速下载。",
+      "items": "操作系统资源：优麒麟、Alpine、Anthon、Arch Linux、Arch Linux ARM、Armbian、Artix Linux、BlackArch、CentOS、Debian、EndeavourOS、Fedora、Kali、KaOS、LineageOS、Linux Mint、NetBSD、NixOS。",
+      "limit": "应用软件：Atom、auth-thu、cmder、Conda、DBeaver CE、Deno、Docker、Eclipse IDE、Elvish Shell、F-Droid、FreeCAD、Git、IINA、Julia、KiCad、LibreOffice。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-kali-official",
     "name": "官方Kali Linux",
     "icon": "KL",
     "category": "iso",
@@ -320,9 +494,24 @@
       ]
     },
     "free": true,
-    "url": "https://www.kali.org/get-kali/#kali-platforms"
+    "url": "https://www.kali.org/get-kali/#kali-platforms",
+    "detail": {
+      "usage": "Kali Linux 官方下载页，提供 Installer、Live、ARM、WSL、Docker 等全部版本镜像。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-ubuntu-official",
     "name": "官方Ubuntu Linux",
     "icon": "UB",
     "category": "iso",
@@ -341,9 +530,24 @@
       ]
     },
     "free": true,
-    "url": "https://cn.ubuntu.com/download"
+    "url": "https://cn.ubuntu.com/download",
+    "detail": {
+      "usage": "Ubuntu 官方网站中文下载页，提供桌面版、服务器版与 WSL 镜像。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-hellowindows",
     "name": "HelloWindows.Net - 原版Windows系统下载仓储站",
     "icon": "HW",
     "category": "iso",
@@ -364,9 +568,25 @@
       ]
     },
     "free": true,
-    "url": "https://hellowindows.net/"
+    "url": "https://hellowindows.net/",
+    "detail": {
+      "quota": "此外还收录了多个版本的 Office 与 WPS 政务版 / 教育版。",
+      "usage": "收录了 Windows 各个版本，包括个人版、商业版、Windows 7 / 8 / 8.1 / 10 / 11 / XP / Vista。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-msdn-sjjzm",
     "name": "Windows XP SP3 - MSDN - 山己几子木",
     "icon": "XP",
     "category": "iso",
@@ -385,9 +605,25 @@
       ]
     },
     "free": true,
-    "url": "https://msdn.sjjzm.com/winxp.html"
+    "url": "https://msdn.sjjzm.com/winxp.html",
+    "detail": {
+      "quota": "覆盖个人版、商业版、Windows 7 / 8 / 8.1 / 10 / 11 / XP，并收录多个版本的 Office。",
+      "usage": "MSDN 镜像站（山己几子木），收录 Windows 各版本的安装镜像。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-mirrorz-help",
     "name": "Anaconda 软件仓库 - MirrorZ Help",
     "icon": "MZ",
     "category": "system",
@@ -412,9 +648,25 @@
       ]
     },
     "free": true,
-    "url": "https://help.mirrors.cernet.edu.cn/anaconda/"
+    "url": "https://help.mirrors.cernet.edu.cn/anaconda/",
+    "detail": {
+      "usage": "MirrorZ 维护的镜像索引站，汇总各大发行版与软件源的镜像地址。",
+      "items": "收录：Adobe 字体、Adoptium、AlmaLinux、Alpine、Anaconda、安同 OS、AOSP、Arch Linux、Arch4edu、Armbian、CentOS、Ceph、Chef、Clojars、CocoaPods、CRAN、Rust crates.io、CPAN、CTAN、Cygwin、Dart Pub、Debian、Deb Multimedia、Docker CE、Eclipse、Elastic Stack、ELPA、ELRepo、Entware、EPEL、Erlang Solutions、F-Droid、Fedora 等。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-next-itellyou",
     "name": "NEXT, ITELLYOU",
     "icon": "NI",
     "category": "iso",
@@ -439,9 +691,24 @@
       ]
     },
     "free": true,
-    "url": "https://next.itellyou.cn/"
+    "url": "https://next.itellyou.cn/",
+    "detail": {
+      "usage": "收录各个版本的 Windows、Windows Server、UOS、CentOS、Ubuntu、macOS、ChromiumOS、BSD 以及 SQL Server。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-msdn-xitongku",
     "name": "MSDN系统库－致力于原版windows生态服务",
     "icon": "MS",
     "category": "iso",
@@ -460,9 +727,24 @@
       ]
     },
     "free": true,
-    "url": "https://www.xitongku.com/index.html"
+    "url": "https://www.xitongku.com/index.html",
+    "detail": {
+      "usage": "收录各个版本的 Windows 与 Office 原版镜像。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-ruancang",
     "name": "软仓 | RuanCang.Net",
     "icon": "RC",
     "category": "system",
@@ -495,9 +777,26 @@
       ]
     },
     "free": true,
-    "url": "https://www.ruancang.net/"
+    "url": "https://www.ruancang.net/",
+    "detail": {
+      "usage": "国内专业软件下载站，覆盖九大类工程与设计软件。",
+      "items": "Adobe：Acrobat、Animate、Character Animator、Illustrator、Lightroom、Photoshop Elements、Adobe 大师版、Audition、Dimension、InCopy、Media Encoder、Prelude、After Effects、Bridge、Dreamweaver、InDesign、Photoshop、Premiere、Premiere Elements。",
+      "more": "CAD 制图：AutoCAD、CAD Architecture / Electrical / MEP / Map 3D / Mechanical / Plant 3D、CAD 精简版、CAXA 系列、天正 T20。\n三维建模：3ds Max、Artlantis、Cinema 4D、CorelCAD、Lumion、Maya、Rhinoceros、SketchUp、V-Ray 系列、Blender。\n图像设计：ACDSee、Capture One、Corel Painter、PaintTool SAI、SketchBook。\n建筑 BIM：Civil 3D、Fuzor、Navisworks、Revit、Tekla Structures、Vectorworks。\n视频音频：Cubase、DaVinci Resolve、Edius Pro、Nuendo。\n数据分析：Amos、Cytoscape、Eviews、Lingo、Maple、MATLAB、Mathematica、Minitab、Mplus、NCSS、Origin、SPSS、Stata、Tableau。\n机械工业：CATIA、Creo、Inventor、Mastercam、PowerMill、Pro/E、Solid Edge、SolidWorks、UG NX。\n电子电路：Altium Designer、EPLAN、Multisim、Proteus。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   },
   {
+    "id": "t-ms-rewards-script",
     "name": "微软积分 Rewards每日任务本地自动化脚本",
     "icon": "RW",
     "category": "productivity",
@@ -510,6 +809,58 @@
       "en": []
     },
     "free": true,
-    "url": "https://my.feishu.cn/"
+    "url": "https://my.feishu.cn/",
+    "detail": {
+      "usage": "微软积分 Rewards 每日任务的本地自动化脚本。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
+  },
+  {
+    "id": "t-ventoy",
+    "name": "Ventoy",
+    "icon": "VE",
+    "category": "iso",
+    "desc": {
+      "zh": "无需格式化 U 盘，直接拷贝 ISO/IMG 等镜像即可启动，支持 Windows/Linux/PE 等绝大多数系统，一键制作启动盘。",
+      "en": "No reformatting needed — just copy ISO/IMG images onto the USB drive and boot. Supports Windows, Linux, PE and most other systems."
+    },
+    "tags": {
+      "zh": [
+        "Ventoy",
+        "系统镜像"
+      ],
+      "en": [
+        "Ventoy",
+        "OS image"
+      ]
+    },
+    "free": true,
+    "url": "https://www.ventoy.net/cn/index.html",
+    "detail": {
+      "usage": "多合一启动盘制作工具，把多个 ISO 镜像放进 U 盘即可启动，无需反复格式化。",
+      "items": "支持 Windows、Linux、PE 等绝大多数可引导镜像。",
+      "more": "教程内容暂缺。"
+    },
+    "period": {
+      "from": "",
+      "to": "",
+      "shape": "long"
+    },
+    "periodLabel": {
+      "zh": "长期有效",
+      "en": "Long-term"
+    },
+    "expired": false,
+    "guide": []
   }
 ]

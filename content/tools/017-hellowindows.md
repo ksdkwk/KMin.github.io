@@ -1,5 +1,6 @@
 ---
 name: "HelloWindows.Net - 原版Windows系统下载仓储站"
+id: t-hellowindows
 icon: "HW"
 category: iso
 desc:
@@ -10,4 +11,8 @@ tags:
   en: ["Windows", "Office", "WPS"]
 free: true
 url: "https://hellowindows.net/"
+detail:
+  usage: "收录了 Windows 各个版本，包括个人版、商业版、Windows 7 / 8 / 8.1 / 10 / 11 / XP / Vista。"
+  quota: "此外还收录了多个版本的 Office 与 WPS 政务版 / 教育版。"
+
 ---

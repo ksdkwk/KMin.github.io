@@ -1,5 +1,6 @@
 ---
 name: "MSDN系统库－致力于原版windows生态服务"
+id: t-msdn-xitongku
 icon: "MS"
 category: iso
 desc:
@@ -10,4 +11,7 @@ tags:
   en: ["Windows", "Office"]
 free: true
 url: "https://www.xitongku.com/index.html"
+detail:
+  usage: "收录各个版本的 Windows 与 Office 原版镜像。"
+
 ---

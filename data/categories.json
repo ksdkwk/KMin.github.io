@@ -166,6 +166,55 @@
         "zh": "系统镜像",
         "en": "OS images"
       }
+    },
+    {
+      "id": "linux",
+      "label": {
+        "zh": "Linux",
+        "en": "Linux"
+      }
+    },
+    {
+      "id": "ubuntu",
+      "label": {
+        "zh": "Ubuntu",
+        "en": "Ubuntu"
+      }
+    },
+    {
+      "id": "kali",
+      "label": {
+        "zh": "Kali",
+        "en": "Kali"
+      }
+    },
+    {
+      "id": "debian",
+      "label": {
+        "zh": "Debian",
+        "en": "Debian"
+      }
+    },
+    {
+      "id": "centos",
+      "label": {
+        "zh": "CentOS",
+        "en": "CentOS"
+      }
+    },
+    {
+      "id": "windows",
+      "label": {
+        "zh": "Windows",
+        "en": "Windows"
+      }
+    },
+    {
+      "id": "office",
+      "label": {
+        "zh": "Office/WPS",
+        "en": "Office/WPS"
+      }
     }
   ],
   "regions": [
