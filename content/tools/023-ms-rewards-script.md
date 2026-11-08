@@ -10,7 +10,7 @@ tags:
   zh: []
   en: []
 free: true
-url: "https://my.feishu.cn/"
+url: "https://www.kdocs.cn/l/cv6w4QJtGEfn"
 detail:
   usage: "微软积分 Rewards 每日任务的本地自动化脚本。"
 

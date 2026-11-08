@@ -1655,8 +1655,14 @@ html[data-theme="dark"] .more-link:hover { color: var(--accent); }
   justify-content: center;
 }
 
-/* 收起时被隐藏的标签 */
-.chips-sub .chip.is-hidden { display: none; }
+/* 收起 / 展开通过裁剪二级标签列的高度实现：
+   标签本身始终占据原来的网格位置，宽高与坐标在两种状态下完全一致，
+   不会出现「点了按钮标签就缩小、挪位」的跳动。 */
+.filter-bar .filter-line > .chips-sub {
+  overflow: hidden;
+  transition: max-height 0.32s var(--ease);
+  will-change: max-height;
+}
 
 /* 展开 / 收起按钮：跟在二级标签列末尾，与标签同高但视觉更轻 */
 .chips-toggle {

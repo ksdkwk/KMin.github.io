@@ -1242,7 +1242,7 @@
       // 收起后隐藏的 chip 会被算漏，导致按钮消失、无法再展开。
       var subCount = cats.filter(function (c) { return c.id !== 'all'; }).length;
       if (isMulti && subCount > CHIPS_PER_ROW) {
-        applyCollapse(box, state.expanded[cfg[1] + ':cat'] !== false);
+        applyCollapse(box, state.expanded[cfg[1] + ':cat'] !== false, false);
         appendExpandToggle(
           box.closest('.filter-line'),
           box, subCount, cfg[1] + ':cat'
@@ -1300,21 +1300,50 @@
     if (!g) return;
     var box = $(g.filterKey === 'toolFilter' ? '#toolFilters' : '#' + groupKey + 'Filters');
     if (!box) return;
-    applyCollapse(box, state.expanded[key] !== false);
+    // 只是补一次可见性，不播动画
+    applyCollapse(box, state.expanded[key] !== false, false);
   }
 
   /**
-   * 收起时只显示第一行（前 6 个），但已选中的标签必须保持可见，
-   * 否则用户选了第 7 个之后收起，会看不到自己选了什么。
+   * 展开 / 收起只靠「裁剪容器高度」实现，不动标签本身。
+   *
+   * 早先用 display:none 隐藏多余标签，会让 grid 重新计算列宽，
+   * 导致保留下来的标签尺寸和位置都变了。改成 max-height 裁剪后，
+   * 网格布局完全不变，标签的宽高与坐标在两种状态下完全一致，
+   * 同时还能用 max-height 过渡做成平滑的展开 / 收起动画。
+   *
+   * animate=false 用于首次渲染：直接落到目标高度，不播放动画。
    */
-  function applyCollapse(box, expanded) {
+  function applyCollapse(box, expanded, animate) {
     if (!box) return;
+
+    // 先解除高度限制，量出完整高度和单行高度
+    box.style.maxHeight = 'none';
+    var fullH = box.scrollHeight;
+    var chips = box.querySelectorAll('.chip');
+    var rowH = chips.length ? chips[0].offsetHeight : 0;
+
+    var target = expanded ? fullH : rowH;
+    var wasAnimating = animate !== false;
+
     box.classList.toggle('is-collapsed', !expanded);
-    var chips = [].slice.call(box.querySelectorAll('.chip'));
-    chips.forEach(function (c, i) {
-      var keep = expanded || i < CHIPS_PER_ROW || c.classList.contains('is-active');
-      c.classList.toggle('is-hidden', !keep);
-    });
+
+    if (!wasAnimating) {
+      box.style.transition = 'none';
+      box.style.maxHeight = target + 'px';
+      // 强制回流后再恢复过渡，避免首次渲染播放动画
+      void box.offsetHeight;
+      box.style.transition = '';
+      return;
+    }
+
+    // 从当前实际高度过渡到目标高度
+    var current = box.getBoundingClientRect().height;
+    box.style.transition = 'none';
+    box.style.maxHeight = current + 'px';
+    void box.offsetHeight;
+    box.style.transition = '';
+    box.style.maxHeight = target + 'px';
   }
 
   /**
@@ -1356,7 +1385,7 @@
       state.expanded[key] = nowExpanded;
 
       // 就地更新：只 toggle 标签可见性和按钮自身，不整轮重渲染
-      applyCollapse(box, nowExpanded);
+      applyCollapse(box, nowExpanded, true);
       btn.setAttribute('aria-expanded', String(nowExpanded));
       btn.innerHTML =
         '<span>' + esc(nowExpanded ? t('filter.collapse') : t('filter.expand')) + '</span>' +
